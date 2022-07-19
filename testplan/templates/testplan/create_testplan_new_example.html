@@ -1,0 +1,75 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block contents %}        
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+    <form method="POST" action="" class="needs-validation">
+        {% csrf_token %}
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+    <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+        <span class="fs-4">[TC{{testcase.id}}]<a href="/">{{testcase.project.name}}</a>/<a href="/">{{testcase.name}}</a></span>
+    </header>
+    <main>
+
+        <!-- <hr class="col-3 col-md-2 mb-5"> -->
+        <p>
+            <h5>議題詳情</h5>
+            <button class="fa-solid fa-sort-down" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+            aria-label="議題詳情" style="border: 0; transform: rotate(-90deg);transition:0.5s" id="dropdown_btn"></button> 
+        </p>
+        <div class="row g-5 collapse" id="collapseExample">
+            <div class="col-md-6" >
+                <p>類型:Testcase</p>
+                <p>標籤:
+                    {% for tag in tag_list %}
+                        {{tag.name}}
+                    {% endfor %}
+                </p>
+                <p>TC-progress</p>
+                <p>TC-template</p>
+                <p>TC-status</p>
+
+                <ul class="icon-list ps-0">
+                <li class="d-flex align-items-start mb-1"><a href="https://github.com/twbs/bootstrap-npm-starter" rel="noopener" target="_blank">Bootstrap npm starter</a></li>
+                <li class="text-muted d-flex align-items-start mb-1">Bootstrap Parcel starter (coming soon!)</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h2>Guides</h2>
+                <p>Read more detailed instructions and documentation on using or contributing to Bootstrap.</p>
+                <ul class="icon-list ps-0">
+                    <li class="d-flex align-items-start mb-1"><a href="/docs/5.2/getting-started/introduction/">Bootstrap quick start guide</a></li>
+                    <li class="d-flex align-items-start mb-1"><a href="/docs/5.2/getting-started/webpack/">Bootstrap Webpack guide</a></li>
+                    <li class="d-flex align-items-start mb-1"><a href="/docs/5.2/getting-started/parcel/">Bootstrap Parcel guide</a></li>
+                    <li class="d-flex align-items-start mb-1"><a href="/docs/5.2/getting-started/contribute/">Contributing to Bootstrap</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <footer class="pt-5 my-5 text-muted border-top">
+        
+    </footer>
+    </div>
+    
+    
+    </form>
+    
+    <script src="{% static 'testcase/js/createtestcase.js' %}"></script>
+    <script>
+        bool = false
+        var dropdown_btn = document.getElementById('dropdown_btn');
+        dropdown_btn.addEventListener('click',function(e){
+            bool = !bool
+            console.log(bool)
+            if (bool == true){
+                dropdown_btn.style.transform = "rotate(0deg)";
+            }else{
+                dropdown_btn.style.transform = "rotate(-90deg)";
+            }
+        })
+        
+        
+    </script>
+{% endblock %}

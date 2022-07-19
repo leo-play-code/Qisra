@@ -1,0 +1,72 @@
+var dropdown_btn = document.getElementById('dropdown_btn');
+dropdown_btn.addEventListener('click',function(e){
+    if (dropdown_btn.style.transform == "rotate(-90deg)"){
+        dropdown_btn.style.transform = "rotate(0deg)";
+    }else{
+        dropdown_btn.style.transform = "rotate(-90deg)";
+    }
+})
+var dropdown_btn2 = document.getElementById('dropdown_btn2');
+dropdown_btn2.addEventListener('click',function(e){
+    if (dropdown_btn2.style.transform == "rotate(-90deg)"){
+        dropdown_btn2.style.transform = "rotate(0deg)";
+    }else{
+        dropdown_btn2.style.transform = "rotate(-90deg)";
+    }
+})
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+CKEDITOR.editorConfig = function( config ) {
+    config.toolbar = [
+        ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+        ['Bold','Italic','Underline','Strike','-'],
+        ['Image'],
+        ['Styles','Format','Font','FontSize'],
+
+        ['TextColor','BGColor'],
+        ['Undo','Redo'],
+    ];
+    config.width = 670;
+    config.height = 180;
+};
+
+// EDIT ALL
+var edit_all_btn = document.getElementById('edit_all')
+edit_all_btn.addEventListener('click',function(e){
+    e.preventDefault()
+    var EditButton = document.getElementById('edit_teststep')
+    var Edit_info_btn = document.getElementById('edit_info')
+    var Save_info_btn = document.getElementById('save_info')
+    var SaveButton = document.getElementById('save_teststep')
+    dropdown_three_dot.classList.add('hidden')
+    try{
+        EditButton.classList.remove("hidden");
+    }catch{
+        SaveButton.classList.remove('hidden')
+        var teststep_tr_list_edit = document.getElementById('teststep_tr_list_editmode')
+        teststep_tr_list_edit.setAttribute('class','')
+        var teststep_tr_list_save = document.getElementById('teststep_tr_list_savemode')
+        teststep_tr_list_save.setAttribute('class','hidden')
+    }
+    try{
+        Edit_info_btn.classList.remove('hidden');
+    }catch{
+        Save_info_btn.classList.remove('hidden')
+        save_info_div.setAttribute('class','hidden')
+        edit_info_div.setAttribute('class','')
+    }
+    cancel_btn.classList.remove('hidden')
+})

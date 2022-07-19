@@ -1,0 +1,121 @@
+{% extends "main/base.html" %}
+{% load i18n %}
+{% load static %}
+
+
+
+{% block title %}
+TC-{{ object.pk }}: {{ object.summary }}
+{% endblock %}
+{% block body_class %}
+    
+{% endblock %}
+
+
+{% block contents %}
+<style>
+    .center{
+        text-align: center;
+      }
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 0.25rem;
+    }
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0,0,0,.03);
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .vertical-center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+</style>
+
+
+<form action="{% url 'import_excel' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if status == 'save_excel' %}
+    <div class="form-group">
+        <div class="col-md-4 col-lg-4"></div>
+        <div class="col-md-3 col-lg-3">
+            <label for="id_file"> 
+                選擇檔案:{{form.file}}
+            </label>
+            <input type="submit" name="check_excel" id="check_excel">
+        </div>
+    </div>    
+    {% elif status == 'save_sheet' %}
+            <div class="col-md-6 col-lg-6">
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    選擇要上傳的sheet
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for sheet in sheet_list %}
+                        <li class="list-group-item"><input type="submit" name ="get_sheetname" value="{{sheet}}" id="{{sheet}}"></li>
+                    {% endfor %}
+                </ul>
+            </div>
+    {% elif status == 'save_title' %}
+        <div class="container">    
+            {% for title in title_list %}
+                {{title.2}}
+            {% endfor %}
+            <table class="table">
+                <thead>
+                    <th>編號</th>
+                    <th>驗 證 項 目</th>
+                    <th>驗 證 條 件</th>
+                    <th>備註</th>
+                    <th>編修歷史</th>
+                </thead>
+                <tbody>
+                    {% for title_title in title_list_title %}
+                        <td><select name="{{title_title.1}}">
+                            {% for title in title_list %}
+                                {% if title_title.2 == title.1 %}
+                                    <option value="{{title}}" selected>{{title.1}}</option>   
+                                {% else %}
+                                    <option value="{{title}}" >{{title.1}}</option>   
+                                {% endif %}                                 
+                            {% endfor %}
+                        </select></td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <hr>
+        <input type="submit" value="save_data" name="save_data" class="mt-4 mb-4 btn btn-primary center">
+        </div>
+    {% endif %}
+    {% if allow_bool == True %}
+    <input type="submit" name ="delete_all_tag" value="delete_all_tag">
+    {% endif %}
+    <input type="hidden" name="file_path" id="file_path" value="{{file_path}}">
+    <input type="hidden" name="sheetname" value="{{sheetname}}">
+    <input type="hidden" name="count_header" value="{{count_header}}">
+    <input type="hidden" name="testcase_name" value="{{testcase_name}}">
+</form>
+<script>
+    
+</script>
+
+
+{% endblock %}

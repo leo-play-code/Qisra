@@ -1,0 +1,236 @@
+{% load static %}
+
+<style>
+    .search_all_project_h3{
+        color: #FC5D4F;
+    }
+    .search_all_testplan_h3{
+        color: #FCB84F;
+    }
+    .search_all_testcase_h3{
+        color: #A34FFC;
+    }
+    .search_all_testrun_h3{
+        color: #4F71FC;
+    }
+</style>
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="search_toggleLabel">搜尋事件</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <span class="modal-body" >
+        
+        
+        <div>
+            <div class="row g-1"> 
+                <div class="col-1 label-shift-y"><label for="search_all_type" class="form-label">搜尋類別</label></div>
+                <div class="col-4">
+                    <select class="form-select" id="search_all_type" required="required" style="width:230px ;">
+                        {% for type in search_type %}
+                            <option value="{{type}}">{{type}}</option>
+                        {% endfor %}
+                    </select>  
+                </div>
+                    
+            </div>
+            <hr class="my-4">
+            <div class="row g-1"> 
+                <div class="col-1 label-shift-y"><label for="search_all_name" class="form-label search_target_name">搜尋名稱</label></div>
+                <div class="col-2"><input type="text" class="form-control search_target_name" style="width: 220px;" id="search_all_name" placeholder="搜尋名稱"></div>
+                <div class="col-1 label-shift-y"><label for="search_all_creator" class="form-label search_target_creator">搜尋建立者</label></div>
+                <div class="col-2">
+                    <select class="form-select search_target_creator" id="search_all_creator" style="width:230px;">
+                        <option value="None">--select--</option>
+                        {% for user in user_list %}
+                            <option value="{{user}}">{{user}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-1 label-shift-y"><label for="search_all_start_date" class="form-label search_target_start_date">搜尋開始日</label></div>
+                <div class="col-2">
+                    <input type="date" class="label-shift-y search_target_start_date" id="search_all_start_date" name="search_all_start_date">
+                </div>
+                <div class="col-1 label-shift-y"><label for="search_all_testplan_project" class="form-label search_target_project">搜尋project</label></div>
+                <div class="col-1">
+                    <select class="form-select search_target_project" id="search_all_testplan_project">
+                        <option value="None">--select--</option>
+                        {% for project in project_object %}
+                            <option value="{{project.name}}">{{project.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-1 label-shift-y"><label for="search_all_tag" class="form-label search_target_tag">搜尋標籤</label></div>
+                <div class="col-2">
+                    <div class="search_target_tag">
+                        <select class="selectpicker search_target_tag" multiple data-live-search="true" name="search_all_tag" id="search_all_tag">   
+                            {% for tag in tag_object %}
+                                <option value="{{tag}}">{{tag}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-1 label-shift-y"><label for="search_all_assign" class="form-label search_target_assign">搜尋負責人</label></div>
+                <div class="col-2">
+                    <select class="form-select search_target_assign" id="search_all_assign" style="width:230px;">
+                        <option value="None">--select--</option>
+                        {% for user in user_list %}
+                            <option value="{{user}}">{{user}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-1 label-shift-y"><label for="search_all_end_date" class="form-label search_target_end_date">搜尋結束日</label></div>
+                <div class="col-2">
+                    <input type="date" class="label-shift-y search_target_end_date" id="search_all_end_date" name="search_all_end_date">
+                </div>
+                <div class="col-1 label-shift-y"><label for="search_all_activate" class="form-label search_target_activate">搜尋Activate</label></div>
+                <div class="col-1">
+                    <div class="form-check form-switch search_target_activate">
+                        <input class="form-check-input label-shift-y" type="checkbox" id="search_all_activate" checked>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-1 label-shift-y"><label for="search_all_stage" class="form-label search_target_stage">搜尋Stage</label></div>
+                <div class="col-10">
+                    <div class="search_target_stage">
+                        <select class="selectpicker" multiple data-live-search="true" name="search_all_stage" id="search_all_stage">   
+                            {% for stage in Stage_list %}
+                                <option value="{{stage}}">{{stage}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <a type="button" class="btn" style="float:left;transform: translateY(-4px)" id="search_all_reset"><img src='/static/images/icons8-reset-30.png' ></a>
+                    <button style="float:right ;" class="btn btn-md btn-success" id="Search_allkind" name="Search_allkind">Search</button>
+                </div>
+            </div>
+            <input type="hidden" id="search_all_testplan" value="{{testplan_html}}">
+            <input type="hidden" id="search_all_project" value="{{project_html}}">
+            <input type="hidden" id="search_all_testcase" value="{{testcase_html}}">
+            <hr class="my-4">
+            <div class="form-group tableFixHead" style="overflow:scroll;height:500px;overflow-x: hidden;width:100%;">
+                <table class="table table-hover table_border search_all_project_table" id="search_all_project_table">
+                    <h3 class="search_all_project_h3 search_all_project_table">Project</h3>
+                    <thead>
+                        <tr class="header">
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Creator</th>
+                            <th>Assign</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Create Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search_all_project_body">
+                        {% for project in project_object %}
+                        <tr class="search_all_project_tr" id="project-{{project.id}}">
+                            <input type="hidden" id="search_all_check_project_name" value="{{project.name}}">
+                            <td id="search_all_project_name"><a class="search_link" href="#" target="_blank">{{project.name}}</a></td>
+                            <td id="search_all_project_tag">
+                                {% for tag in project.tag.all %}
+                                    <span id="each_project_tag">{{tag}}</span>
+                                {% endfor %}
+                            </td>
+                            <td id="search_all_project_creator">{{project.creator}}</td>
+                            {% if project.assign != None %}
+                                <td id="search_all_project_assign">{{project.assign}}</td>
+                            {% else %}
+                                <td id="search_all_project_assign"></td>
+                            {% endif %}
+                            {% if project.start_date != None %}
+                                <td id="search_all_project_start_date">{{project.start_date|date:"Y-m-d"}}</td>
+                            {% else %}
+                                <td id="search_all_project_start_date"></td>
+                            {% endif %}
+                            {% if project.end_date != None %}
+                                <td id="search_all_project_end_date">{{project.end_date|date:"Y-m-d"}}</td>
+                            {% else %}
+                                <td id="search_all_project_end_date"></td>
+                            {% endif %}
+                            <td id="search_all_project_create_date">{{project.create_date|date:"Y-m-d"}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table table-hover table_border search_all_testplan_table" id="search_all_testplan_table">
+                    <h3 class="search_all_testplan_h3 search_all_testplan_table">Testplan</h3>
+                    <thead>
+                        <tr class="header">
+                            <th>Project</th>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Creator</th>
+                            <th>Assign</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Stage</th>
+                            <th>Activate</th>
+                            <th>Create Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search_all_testplan_body">
+                        {% for testplan in testplan_object %}
+                        <tr class="search_all_testplan_tr" id="{{testplan.id}}">
+                            <td id="search_all_testplan_project">{{testplan.project.name}}</td>
+                            <td id="search_all_testplan_name"><a class="search_link" href="#" target="_blank" id="search_all_check_testplan_name">{{testplan.name}}</a></td>
+                            <td id="search_all_testplan_tag">
+                                {% for tag in testplan.tag.all %}
+                                    <span id="each_testplan_tag">{{tag}}</span>
+                                {% endfor %}
+                            </td>
+                            <td id="search_all_testplan_creator">{{testplan.creator}}</td>
+                            {% if testplan.assign != None %}
+                                <td id="search_all_testplan_assign">{{testplan.assign}}</td>
+                            {% else %}
+                                <td id="search_all_testplan_assign"></td>
+                            {% endif %}
+                            {% if testplan.start_date != None %}
+                                <td id="search_all_testplan_start_date">{{testplan.start_date|date:"Y-m-d"}}</td>
+                            {% else %}
+                                <td id="search_all_testplan_start_date"></td>
+                            {% endif %}
+                            {% if testplan.end_date != None %}
+                                <td id="search_all_testplan_end_date">{{testplan.end_date|date:"Y-m-d"}}</td>
+                            {% else %}
+                                <td id="search_all_testplan_end_date"></td>
+                            {% endif %}
+                            <td id="search_all_testplan_stage">{{testplan.stage}}</td>
+                            <td id="search_all_testplan_activate">{{testplan.is_activate}}</td>
+                            <td id="search_all_testplan_create_date">{{testplan.create_date|date:"Y-m-d"}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table table-hover table_border search_all_testcase_table" id="search_all_testcase_table">
+                    <h3 class="search_all_testcase_h3 search_all_testcase_table">Testcase</h3>
+                    <thead>
+                        <tr class="header">
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Create Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search_all_testcase_body">
+                        {% for testcase in testcase_object %}
+                        <tr class="search_all_testcase_tr" id="{{testcase.id}}">
+                            <td id="search_all_testcase_name"><a class="search_link"  href="{% url 'teststep' testcase.id %}" target="_blank" id="search_all_check_testcase_name">{{testcase.name}}</a></td>
+                            <td id="search_all_testcase_tag">
+                                {% for tag in testcase.tag.all %}
+                                    <span id="each_testcase_tag">{{tag}}</span>
+                                {% endfor %}
+                            </td>
+                            <td id="search_all_testcase_create_date">{{testcase.date_created|date:"Y-m-d"}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+    </span>
+    <div class="modal-footer">
+        
+    </div>
+</div>

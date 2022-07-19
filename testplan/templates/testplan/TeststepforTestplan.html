@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+<!-- {% load comments %}
+{% load extra_filters %} -->
+
+{% block title %}TC-{{ testcase.id }}: {{ testcase.name }}{% endblock %}
+{% block body_class %}cards-pf{% endblock %}
+{% block contents %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+    .fail {
+        color: #D74324;
+    }
+    .pass{
+        color:#6ea204;
+    }
+    .incomplete{
+        color:#f2af00;
+    }
+    .block{
+        color: black;
+    }
+    .omitted{
+        color:#737373;
+    }
+</style>
+<form action="" method="POST">
+    {% csrf_token %}
+    <h1 id="testcasename_replace">Testrun-{{ testcase.id }}:<span> {{ testcase.name }}</span> 
+    </h1>
+    <hr>
+    <div id="show-Tag"> 
+        <h2 id="Tag_h2">Tags :
+            {% for tag in tag_list %}
+                <button type="button" class="btn btn-info">{{tag}} </button>
+            {% endfor %} 
+        </h2>
+    </div>
+    <div>
+        <div>
+            <h1>Teststeps ({{count}})</h1>
+        </div>
+        <div class="col-md-11" id="edit-save-div">
+            {% if edit_clone_btn_cansee == True %}
+                <button type="submit" class="btn btn-warning" id="edit" name="edit" value="edit">更新結果</button>
+            {% endif %}
+        </div>
+        <div class="col-md-1">
+            <div class="fail"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>  Failed    {{status_list.0}}</div>
+            <div class="incomplete"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>  Incomplete      {{status_list.1}}</div>
+            <div class="pass"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>  Passed    {{status_list.2}}</div>
+            <div class="block"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>  Blocked  {{status_list.3}}</div>
+            <div class="omitted"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>  Omitted    {{status_list.4}}</div>
+        </div>
+    </div>
+
+
+    {{form_teststep_list.media}}
+    <table class="table table-striped table-bordered table-hover" id="resultsTable">
+        <thead>
+            <tr>
+                <th style="width:50px">編號</th>
+                <th style="width:300px">驗證項目</th>
+                <th style="width:500px">驗證條件</th>
+                <th style="width:300px">實際結果</th>
+                <th style="width:80px">Status</th>
+                <!-- <th style="width:200px">Comment</th> -->
+                <th style="width:150px">備註</th>
+                <th style="width:150px">編修歷史</th>
+            </tr>
+        </thead>
+
+        <tbody id="teststep_tr_list_editmode" class="teststep_tr_list_editmode hidden">
+            {% for item in form_teststep_list%}
+                <tr id="teststep_tr_list_exists-{{teststepform.number.value}}" class="teststep_tr_list_sample">
+                    <td style="width:50px" id="edit_number">{{item.number.value}}</td>
+                    <td style="width:200px" id="edit_description" >{{item.description.value}}</td>
+                    <td style="width:300px" id="edit_condition">{{item.condition.value|safe|linebreaks}}</td>
+                    <td style="width:300px" id="edit_actual_outcome">{{item.actual_outcome|safe|linebreaks}}</td>
+                    <td style="width:100px" id="edit_status">
+                        {% for temp in status %}
+                            
+                            {% if temp == 'Failed' %}
+                            <label class="fail">
+                                {% if temp == item.status.value %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}} checked>
+                                {% else %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}}>
+                                {% endif %}
+                            {{temp}}
+                            </label>
+                            {% elif temp == 'Incomplete' %}
+                            <label class="incomplete">
+                                {% if temp == item.status.value %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}} checked>
+                                {% else %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}}>
+                                {% endif %}
+                                {{temp}}
+                            </label>
+
+                            {% elif temp == 'Passed' %}
+                            <label class="pass">
+                                {% if temp == item.status.value %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}} checked>
+                                {% else %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}}>
+                                {% endif %}
+                            {{temp}}
+                            </label>
+                            {% elif temp == 'Blocked' %}
+                            <label class="block">
+                                {% if temp == item.status.value %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}} checked>
+                                {% else %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}}>
+                                {% endif %}
+                                {{temp}}
+                            </label>
+                    
+                            {% elif temp == 'Omitted' %}
+                            <label class="omitted">
+                                {% if temp == item.status.value %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}} checked>
+                                {% else %}
+                                    <input type="radio" id="teststepfortestplan_set-{{item.number.value}}-status" name="teststepfortestplan_set-{{item.number.value}}-status" value={{temp}}>
+                            
+                                {% endif %}
+                                {{temp}}
+                            </label>
+                            {% endif %}
+                        <br>
+                        {% endfor%}
+                    </td>
+                    <!-- <td style="width:200px" id="edit_comment">{{item.comment|safe|linebreaks}}</td> -->
+                    <td style="width:100px" id="edit_remark">{{item.remark.value|safe|linebreaks}}</td>
+                    <td style="width:100px" id="edit_modify_history">{{item.modify_history.value}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tbody id="teststep_tr_list_savemode">
+            {% for item in teststep %}
+                <tr>
+                    <td>{{item.number|safe}}</td>
+                    <td>
+                        {{item.description|safe|linebreaks}}
+                    </td>
+                    <td>
+                        {{item.condition|safe|linebreaks }}
+                    </td>
+                    <td>{{item.actual_outcome|safe|linebreaks}}</td>
+                    {% if item.status == 'Failed'%}
+                        <td class="fail"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>&nbsp;&nbsp;{{item.status}}</td>
+                    {% elif item.status == 'Incomplete' %}
+                        <td class="incomplete"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>&nbsp;{{item.status}}</td>
+                    {% elif item.status == 'Passed' %}
+                        <td class="pass"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>&nbsp;{{item.status}}</td>
+                    {% elif item.status == 'Blocked' %}
+                        <td class="block"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>&nbsp;{{item.status}}</td>
+                    {% elif item.status == 'Omitted' %}
+                        <td class="omitted"><i class="fa fa-circle fa-circle-severity" aria-hidden="true"></i>&nbsp;{{item.status}}</td>
+                    {% endif %}
+                    <!-- <td>{{item.comment|safe|linebreaks}}</td> -->
+                    <td>{{item.remark|safe|linebreaks}}</td>
+                    <td>{{item.modfiy_history|safe|linebreaks}}</td>
+                </tr>
+            {% endfor %}
+        </tbody> 
+</table>
+        <div class="col-md-4 hidden" id="edit-save-div2">
+            <button type="submit" id="Createteststep" class="btn btn-info" name="Createteststep" value="createteststep">Create Teststep</button>
+        </div>
+</form>
+
+
+
+
+
+<script src="{% static 'bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'bootstrap-switch/dist/js/bootstrap-switch.min.js' %}"></script>
+<script src="{% static 'js/jsonrpc.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="//cdn.ckeditor.com/4.5.5/standard/ckeditor.js"></script>     
+<script src="{% static 'testplans/js/teststepfortestplan.js' %}"></script>     
+
+{% endblock %}

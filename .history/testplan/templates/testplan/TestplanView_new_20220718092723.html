@@ -1,0 +1,302 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
+{% block contents %}       
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        .fail {
+            background-color: #D74324!important;
+        }
+        .pass{
+            background:#6ea204!important;
+        }
+        .incomplete{
+            background:#f2af00!important;
+        }
+        .block{
+            background: black!important;
+        }
+        .omitted{
+            background:#737373!important;
+        }
+        .progress-bar {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #007bff;
+            transition: width .6s ease;
+        }
+        .hidden{
+            display: none;
+        }
+        .show_teststep{
+            display: block;
+        }
+        .table_border_teststep .shift_teststep{
+            padding-right: 500px;
+            padding-left: 200px;
+        }
+    
+    
+        .table_border_teststep table,tr,td{
+            border:1px solid #dddddd;
+            border-collapse:collapse;
+        }
+        .tbl-header{
+            width:calc(100% - 17px);
+            width:-webkit-calc(100% - 17px);
+            width:-moz-calc(100% - 17px);
+        }
+    
+        .tableFixHead          { overflow: auto; height: 100px; }
+        .tableFixHead thead th { position: sticky; top: 0; z-index: 1; background-color: #E7E9EB; }
+    
+        .table_border_teststep table  { border-collapse: collapse; width: 100%; }
+        .table_border_teststep th, td { padding: 8px 16px; }
+        .table_border_teststep th     { background:#eee; }
+        .table_border_teststep tr:nth-child(even) {
+            background-color: #eaeef1;
+        }
+        .table_border_teststep{
+            border: 1rem solid;
+            border-color: #E7E9EB;
+        }
+        .table_border_description{
+            border: 0.1rem solid;
+            border-color: black;
+        }
+        .teststepview_table{
+            overflow:scroll;
+            height:1000px;
+        }
+        .border_content_teststep{
+            border: thick double #dddddd;
+        }
+    </style>
+    <form method="POST" action="" class="needs-validation">
+        {% csrf_token %}
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+    <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+        <span class="fs-4" >[TP{{testplan.id}}] <a href="#" class="search_link" style="color: blue;" id="testplan-project">{{testplan.project.name}}</a>/<span id="testplan_title">{{testplan.name}}</span></span>
+        <div class="dropdown text-end" id="dropdown_three_dot">
+            <a href="#" class="btn" data-bs-toggle="dropdown" id="dropdownedit" aria-expanded="false"><img src='/static/images/three-dots-vertical.svg'></a></li>
+            <ul class="dropdown-menu text-small" aria-labelledby="dropdownedit">
+                <li><a class="dropdown-item btn" id="edit_all" ><img src='/static/images/tools.svg'> EDIT</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <div id="clone_div">
+                    <li><button class="dropdown-item btn" type="submit" id="clone" name="clone"><img src='/static/images/clipboard-plus-fill.svg'> CLONE</button></li>
+                    <li><hr class="dropdown-divider"></li>
+                </div>
+                
+                <li><button class="dropdown-item btn" type="submit" id="delete_testplan" name="delete_testplan"><img src='/static/images/trash3-fill.svg'> DELETE</button></li>
+            </ul>
+        </div>
+        <span style="padding-left:30px ;"><button class="btn btn-warning hidden" id="cancel_edit">cancel</button></span> 
+    </header>
+    <main>
+        <p>
+            <h5>議題詳情
+                <span style="padding-left: 30px;" class="" id="edit-save-div-info">
+                    <button type="submit" class="btn btn-danger hidden" id="edit_info" name="edit_info">Edit</button>
+                </span>
+            </h5>
+            <button class="fa-solid fa-sort-down" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"
+            aria-label="議題詳情" style="border: 0; transform: rotate(0deg);transition:0.5s" id="dropdown_btn"></button> 
+        </p>
+        <div class="row g-5 collapse show" id="collapseExample">
+            {{testplanform.media}}
+            <div class="col-md-6" >
+                <div id="info_savemode_left" class="info_savemode">
+                    <p id="save_name">名稱: {{testplan.name}}</p>
+                    <p id="save_class">類型: Testplan</p>
+                    <p id="save_creator">創建者: {{testplan.creator}}</p>
+                    <p id="save_create_date">建立日: {{testplan.create_date|date:"Y-m-d"}}</p>
+                    <p id="save_tag">標籤:
+                        {% for tag in tag_list %}
+                            {{tag}}
+                        {% endfor %}
+                    </p>
+                    <p>
+                        描述:
+                        <div class="border_content_teststep" id="save_context">
+                            {{testplan.text|safe|linebreaks}}
+                        </div>
+                    </p>
+                </div>
+                <div id="info_editmode_left" class="info_editmode hidden">
+                    <p id="edit_name">名稱:
+                        <input style="width:300px ;" type="text" id="id_testplanname" name="id_testplanname" class="form-control"  value="{{testplan.name}}" required>
+                    </p>
+                    <p id="edit_class">類型: Testplan</p>
+                    <p id="edit_creator">創建者: {{testplan.creator}}</p>
+                    <p id="edit_tag">
+                        標籤:
+                        <select class="selectpicker" multiple data-live-search="true" name="id_tag" id="id_tag">   
+                            {% for tag in tag_object %}
+                                {% if tag.name in tag_list %}
+                                <option selected="selected" value="{{tag.name}}">{{tag}}</option>
+                                {% else %}
+                                <option value="{{tag.name}}">{{tag}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <a class="btn" data-bs-toggle="modal" href="#tag_toggle" role="button"><img src='/static/images/journal-plus.svg'></a>
+                        
+                    </p>
+                    <p id="edit_context">描述:
+                        <div class="">
+                            <textarea class="ckeditor" cols="80" name="content" id="context">{{testplan.text|safe}}</textarea>
+                        </div>
+                    </p>
+                </div>
+                <div class="border-bottom"></div>  
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4" >
+                <div id="info_savemode_right" class="info_savemode">
+                    <p id="save_stage">Stage: {{testplan.stage}}</p>
+                    {% if testplan.assign != None %}
+                        <p id="save_assign">負責人: {{testplan.assign.username}}</p>
+                    {% else %}
+                        <p id="save_assign">負責人: </p>
+                    {% endif %}
+                    
+                    <p id="save_start_date">開始日: {{testplan.start_date|date:"Y-m-d"}}</p>
+                    <p id="save_end_date">結束日: {{testplan.end_date|date:"Y-m-d"}}</p>
+                    
+                    <p id="save_activate">Activate: {{testplan.is_activate}}</p>
+                </div>
+                <div id="info_editmode_right" class="info_editmode hidden">
+                    <p id="edit_stage">Stage:
+                        <select class="form-select" id="edit_stage_select" style="width: 300px;">
+                            {% for stage in Stage_list %}
+                                {% if testplan.stage == stage %}
+                                    <option value="{{stage}}" selected="selected">{{stage}}</option>
+                                {% else %}
+                                    <option value="{{stage}}">{{stage}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    
+                    <p id="edit_assign">負責人: 
+                        <select class="form-select" id="edit_assign_select" style="width: 300px;">
+                            <option value="None">--select--</option>
+                            {% for user in user_list %}
+                                {% if testplan.assign.username == user %}
+                                    <option value="{{user}}" selected="selected">{{user}}</option>
+                                {% else %}
+                                    <option value="{{user}}">{{user}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <p id="edit_start_date">開始日: 
+                        <input type="date" id="edit_start_date_input" 
+                                    name="edit_start_date_input" value="{{testplan.start_date|date:'Y-m-d'}}" > 
+                    </p>
+                    <p id="edit_end_date">結束日: 
+                        <input type="date" id="edit_end_date_input" 
+                                    name="edit_end_date_input" value="{{testplan.end_date|date:'Y-m-d'}}" > 
+                    </p>
+                    <p id="edit_activate">Activate: 
+                        <span class="form-check form-switch">
+                            {% if testplan.is_activate == False %}
+                                <input class="form-check-input label-shift-y" type="checkbox" id="edit_activate_input">
+                            {% else %}
+                                <input class="form-check-input label-shift-y" type="checkbox" id="edit_activate_input" checked>
+                            {% endif %}
+                        </span>
+                    </p>
+                </div>
+            </div>
+    </main>
+    <main>
+        <p>
+            <h5>Testrun ({{count}})
+                <span style="padding-left: 20px;" class="" id="edit-save-div-next-level">
+                    <button type="submit" class="btn btn-danger hidden" id="edit_next_level" name="edit_next_level">Edit</button>
+                </span>
+                <a type="button" class="btn" style="float:right" id="fullscreen"><img src='/static/images/fullscreen.svg'></a>
+                <a type="button" class="btn hidden" style="float:right" id="smallscreen"><img src='/static/images/fullscreen-exit.svg'></a>
+            </h5>
+            <button class="fa-solid fa-sort-down" type="button" data-bs-toggle="collapse" data-bs-target="#Teststep" aria-expanded="true" aria-controls="Teststep"
+            aria-label="Teststep" style="border: 0; transform: rotate(0deg);transition:0.5s" id="dropdown_btn2"></button> 
+            
+        </p>
+        <div class="row g-5 collapse show" id="Teststep">
+            <div class="form-group  tableFixHead  teststepview_table" id="teststepview_table">
+                <table class="table table-hover table_border_teststep">
+                    <thead>
+                        <tr class="header">
+                            <th>名稱</th>
+                            <th>標籤</th>
+                            <th style="width:300px">進度
+                                <div class="progress mb-3">
+                                    <div class="progress-bar pass" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Passed</div>
+                                    <div class="progress-bar fail" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Failed</div>
+                                    <div class="progress-bar block" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Blocked</div>
+                                    <div class="progress-bar omitted" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Omitted</div>
+                                    <div class="progress-bar incomplete" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Incomplete</div>
+                                </div></th>
+                            <th>上次更新</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teststep_tr_list_editmode" class="hidden teststep_tr_list_editmode">
+                        
+                    </tbody>
+                    <tbody id="teststep_tr_list_savemode">
+                        {% for item,value in testrun_dict.items %}
+                        <tr id="teststep_show" class="gradient_teststep_list">
+                            <td id="name"><a href="#" target="_blank">{{item.name}}</a></td>
+                            <td id="tag">
+                                {% for tag in item.tag.all %}
+                                    <span id="each_tag">{{tag}}</span>
+                                {% endfor %}
+                            </td>
+                            <td id="progress">
+                                <div class="progress mb-3">
+                                    <div class="progress-bar pass" role="progressbar" style="width: {% widthratio value.1 value.5 1 %}%" aria-valuenow="{{ value.1 }}" aria-valuemin="0" aria-valuemax="{{value.5}}">{{value.1}}</div>
+                                    <div class="progress-bar fail" role="progressbar" style="width: {% widthratio value.2 value.5 1 %}%" aria-valuenow="{{value.2}}" aria-valuemin="0" aria-valuemax="{{value.5}}">{{value.2}}</div>
+                                    <div class="progress-bar block" role="progressbar" style="width: {% widthratio value.3 value.5 1 %}%" aria-valuenow="{{value.3}}" aria-valuemin="0" aria-valuemax="{{value.5}}">{{value.3}}</div>
+                                    <div class="progress-bar omitted" role="progressbar" style="width: {% widthratio value.4 value.5 1 %}%" aria-valuenow="{{value.4}}" aria-valuemin="0" aria-valuemax="{{value.5}}">{{value.4}}</div>
+                                    <div class="progress-bar incomplete" role="progressbar" style="width: {% widthratio value.0 value.5 1 %}%" aria-valuenow="{{value.0}}" aria-valuemin="0" aria-valuemax="{{value.5}}">{{value.0}}</div>
+                                </div>
+                            </td>
+                            <td id="lasttime"></td>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                </table>
+                
+                <div class="col-md-4 col-lg-4">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="pt-5 my-5 text-muted border-top">
+    </footer>
+    </div>
+    
+    <div class="modal fade" id="tag_toggle" aria-hidden="true" aria-labelledby="tag_toggleLabel" tabindex="-1">
+        {% include "testcase/tag_modal.html" %}
+    </div>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static 'testplan/js/testplan_view.js' %}"></script>
+
+
+    
+{% endblock %}

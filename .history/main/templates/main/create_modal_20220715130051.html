@@ -1,0 +1,237 @@
+<!-- 此為modal 用於創建 -->
+{% load static %}
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<link rel="stylesheet" href="{% static 'main/css/create_modal.css' %}">
+<style>
+    .tbl-header{
+        width:calc(100% - 17px);
+        width:-webkit-calc(100% - 17px);
+        width:-moz-calc(100% - 17px);
+    }
+    .testcase_border{
+        border: 0.1rem solid;
+        border-color: black;
+    }
+
+    .tableFixHead          { overflow: auto; height: 100px; }
+    .tableFixHead thead th { position: sticky; top: 0; z-index: 1; background-color: #E7E9EB; }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content contentbody">
+        <!-- Header --> 
+        <form method="POST" action="" class="needs-validation">
+            {% csrf_token %}
+        
+        <div class="modal-header border-bottom-0">
+            <h4 class="mb-3 label-shift-y">建立新事件:</h4>
+            <button id="close_modal_create" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            
+            <!-- Body -->
+            <body class="bg-light">
+    
+                <div class="container">
+                  <main>
+                    <div class="row g-5">
+                        <div>
+                            <div class="row g-1">
+                                <div class="col-12 g-1">
+                                    <p style="color:#9fa5b5">All fields marked with asterisk(<span style="color: red;">*</span>) are required</p>
+                                </div>
+                                <div class="col-2"></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_type" class="form-label">類別<span style="color: red;">*</span></label></div>
+                                <div class="col-6">
+                                    <select class="form-select" id="issue_type" required="required">
+                                        {% for type in MENU_ITEMS %}
+                                            <option value="{{type}}">{{type}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-3"></div>
+
+                                <div class="col-2 testplan-css"></div>
+                                <div class="col-1 label-shift-y testplan-css" ><label for="issue_project" class="form-label">專案<span style="color: red;">*</span></label></div>
+                                <div class="col-6">
+                                    <select class="form-select testplan-css" id="issue_project" required="required">
+                                        {% for project in project_object %}
+                                            <option value="{{project.id}}">{{project.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-3 testplan-css"></div>
+
+                                <hr class="my-4">
+                            
+                                <div class="col-2"></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_summary" class="form-label">摘要<span style="color: red;">*</span></label></div>
+                                <div class="col-6">
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="issue_summary" placeholder="Summary" required="">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="invalid-shift hidden" id="invalid-summary" style="color:red ">
+                                        Summary is required.
+                                    </div>
+                                </div>
+
+
+                                <div class="col-2 testplan-css"></div>
+                                <div class="col-1 label-shift-y testplan-css" ><label class="form-label">Stage</label></div>
+                                <div class="col-9 label-shift-y testplan-css">
+                                    {% for stage in Stage_list %}
+                                        <div class="form-check testplan-css" >
+                                            <input id="{{stage}}" name="StageMethod" type="radio" class="form-check-input" checked="" required="">
+                                            <label class="form-check-label" for="{{stage}}">{{stage}}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+
+                                <div class="col-2"></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_uploader" class="form-label">報告人</label></div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="issue_uploader"  value="{{current_user}}" disabled >
+                                </div>
+                                <div class="col-3"></div>
+
+
+
+                                {{ modal_descriptionForm.media }}
+                                <div class="col-2"></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_description" class="form-label">描述</label></div>
+                                <div class="col-6">
+                                    
+                                    <div class="input-group has-validation">
+                                    
+                                        <div style=" width: 30% ;">
+                                            {{ modal_descriptionForm.description }}
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Summary is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3"></div>
+
+
+                                <div class="col-2"></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_tag" class="form-label">標籤</label></div>
+                                <div class="col-6">
+                                    <select class="selectpicker" multiple data-live-search="true" name="issue_tag" id="issue_tag">   
+                                        {% for tag in tag_object %}
+                                            <option value="{{tag.id}}">{{tag}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-3"></div>
+
+                                <div class="col-2"></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_principal" class="form-label">負責人</label></div>
+                                <div class="col-6">
+                                    <select class="form-select" id="issue_principal">
+                                        <option value="None">--select--</option>
+                                        {% for user in user_list %}
+                                            <option value="{{user}}">{{user}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-3"></div>
+
+                                <div class="col-2 "></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_starttime" class="form-label">開始日<span class="testplan-css" style="color: red;">*</span></label></div>
+                                <div class="col-4 ">
+                                    <input type="date" id="issue_starttime" class="label-shift-y"
+                                    name="issue_starttime"> 
+                                </div>
+                                <div class="col-5 ">
+                                    <div id="invalid-starttime" style="color:red" class="hidden">
+                                        Start time is required.
+                                    </div>
+                                </div>
+
+                                <div class="col-2 "></div>
+                                <div class="col-1 label-shift-y" ><label for="issue_stoptime" class="form-label">結束日<span class="testplan-css" style="color: red;">*</span></label></div>
+                                <div class="col-4 ">
+                                    <input type="date" id="issue_stoptime" class="label-shift-y"
+                                    name="issue_stoptime">
+                                </div>    
+                                <div class="col-5 ">
+                                    <div id="invalid-stoptime" style="color:red" class="hidden"> 
+                                        End time is required.
+                                    </div>
+                                </div>
+                                
+                    
+                                <div class="col-2 testplan-css"></div>
+                                <div class="col-1 label-shift-y testplan-css" >
+                                    <label for="issue_testcase" class="form-label">插入</label>
+                                </div>
+
+                                
+                                <div class="col-9 testplan-css">
+                                    <div class="row g-1"> 
+                                        <div class="col-1"></div>
+                                        <div class="col-2 label-shift-y"><label for="search_testcasename" class="form-label">搜尋名稱</label></div>
+                                        <div class="col-9"><input type="text" class="form-control" style="width: 220px;" id="search_testcasename" placeholder="搜尋名稱"></div>
+                                        <div class="col-1"></div>
+                                        <div class="col-2 label-shift-y"><label for="search_tag" class="form-label">搜尋標籤</label></div>
+                                        <div class="col-5">
+                                            <select class="selectpicker" multiple data-live-search="true" name="search_tag" id="search_tag">   
+                                                {% for tag in tag_object %}
+                                                    <option value="{{tag}}">{{tag}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <button class="btn btn-md btn-success" id="Search_testcase" name="Search_testcase">Search</button>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <input type="hidden" name="testcase_html" id="testcase_html" value="{{testcase_html}}">
+                                    <div class="form-group shift_teststep tableFixHead" style="overflow:scroll;height:300px;overflow-x: hidden;width:500px;">
+                                    <table class="table table-hover table_border">
+                                        <thead>
+                                            <tr class="header">
+                                                <th style="width:5px"><input type="checkbox" name="selectall_testcase" id="selectall_testcase" value="all"></th>
+                                                <th>Name</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody id="search_testcase_tbody">
+                                            {% for testcase in testcase_object %}
+                                            <tr class="tag_tr" id="{{testcase.id}}">
+                                                <td><input type="checkbox" name="checktestcase" id="checktestcase" value="{{testcase.name}}"></td>
+                                                <td id="name"><a class="search_link" href="{% url 'teststep' testcase.id %}" target="_blank">{{testcase.name}}</a></td>
+                                                <td id="tag" class="hidden">
+                                                    {% for tag in testcase.tag.all %}
+                                                        <span id="each_tag">{{tag}}</span>
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                    
+                                </div>
+                            <div class="col-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                  </main>
+                </div>
+            </body>
+            <!-- Footer -->
+            <div class="modal-footer">
+                <input type="submit" id="save" name="save" class="btn btn-primary btn-sm" value="建立">
+            </div>
+        </form>
+       
+    </div>
+</div>
+
+
+

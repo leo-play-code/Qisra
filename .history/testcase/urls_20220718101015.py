@@ -1,0 +1,10 @@
+from django.contrib import admin
+from django.urls import re_path,path
+from . import views
+
+urlpatterns = [
+
+    re_path(r"^search_test1/$", views.TestCaseSearchView_template, name="testcases-search-test"),
+    re_path(r"^new_test1/$", views.TestcaseNew_test, name="testcases-create-test"),
+    re_path(r"^(?P<pk>\d+)/teststep/$", views.TestStepView, name="teststep"),
+]

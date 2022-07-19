@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Search test cases" %}{% endblock %}
+
+{% block contents %}
+<style>
+    .mr-n2 {
+        margin-right: -.75em !important;
+    }
+    .progress {
+        display: -ms-flexbox;
+        display: flex;
+        height: 1rem;
+        overflow: hidden;
+        font-size: .75rem;
+        background-color: #e9ecef;
+        border-radius: 0.25rem;
+    }
+</style>
+<div class="container-fluid container-cards-pf">
+    <form class="form-horizontal" method="GET">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="col-md-1 col-lg-1" for="id_name">{% trans "Name" %}</label>
+            <div class="col-md-3 col-lg-3">
+                <input id="id_name" type="text" class="form-control" placeholder="{% trans 'Test case name' %}"
+                name ='id_name' >
+            </div>
+            <label class="col-md-1 col-lg-1" for="id_tag" >{% trans "Tags" %}</label>
+
+
+            <div class="col-md-1 col-lg-1" id="tag_option">
+                <input type="radio" id="and" name="option" value="and" checked >
+                <label for="and">且</label>
+                <input type="radio" id="or" name="option" value="or">
+                <label for="or">或</label>
+            </div>
+
+
+            <div class="col-md-2 col-lg-2">
+                <select id="id_tag" name="tag" class="form-control selectpicker">
+                    {% for tag in Tag_object %}
+                        <option value="{{ tag.pk }}" >
+                            {{ tag.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <input type="hidden" name="tag_list" value="{{tag_list_html}}">   
+                <hr>    
+            </div>
+            <input type="hidden" id="testcase_object" name="testcase_object" value="{{testcase}}">
+            <input type="hidden" id="testcase_html" name="testcase_html" value="{{testcase_html}}">
+            <div class="col-md-2 col-lg-2">
+                <input type="submit" value="+" id="add_tag" name="add_tag"  class="mt-4 mb-4 btn btn-success">
+            </div>
+            <input id="tag_list_text" type="hidden" name="tag_list_text" value="{{tag_list_text}}">
+            
+            
+            
+        </div>
+        <div class="col-md-4 col-lg-4">
+        </div>
+        <label class="col-md-1 col-lg-1" for="select_tags" >{% trans "Selected Tags:" %}</label>
+        <div class="col-md-3 col-lg-3" id="id_tag_selected"></div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-1 col-lg-1">
+                <button id="btn_search"  name ="btn_search" type="submit" class="btn btn-default btn-lg">{% trans "Search" %}</button>
+            </div>
+        </div>
+    </form>
+    
+    {% if edit_clone_btn_cansee == True %}
+    <input type="submit" name="delete" value="delete" id="delete" class="btn btn-danger">
+    <div class="panel panel-default" style="margin-top: 2em">
+        <!-- Table HTML -->
+        <table class="table table-striped table-bordered table-hover" id="resultsTable">
+            <thead>
+                <tr>
+                    <th class="js-select-checkbox"><input id="check-all" type="checkbox"></th>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Tags" %}</th>
+                    <th>{% trans "Create Date" %}</th>
+                </tr>
+            </thead>
+            <tbody id="testcase_tbody">
+                {% for item in data %}
+                <tr>
+                    <th><input type="checkbox" name="checkdelete" value="{{item.id}}" ></th>
+                    <td><a href="{% url 'teststep' item.id %}" target="_blank">{{item.name}}</a></td>
+                    <td style="color: rgb(255, 0, 221);">
+                        {% for data in item.tag.all %}
+                        <button type="button" class="btn btn-info">{{data.name}} </button>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{item.date_created}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include 'include/pagination.html' %}
+    </div>
+    {% else %}
+    <div class="panel panel-default" style="margin-top: 2em">
+        <!-- Table HTML -->
+        <table class="table table-striped table-bordered table-hover" id="resultsTable">
+            <thead>
+                <tr>
+                    <!-- <th class="js-select-checkbox"><input id="check-all" type="checkbox"></th> -->
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Tags" %}</th>
+                    <th>{% trans "Create Date" %}</th>
+                </tr>
+            </thead>
+            <tbody id="testcase_tbody">
+                {% for item in data %}
+                <tr>
+                    <td><a href="{% url 'teststep' item.id %}" target="_blank">{{item.name}}</a></td>
+                    <td style="color: rgb(255, 0, 221);">
+                        {% for data in item.tag.all %}
+                        <button type="button" class="btn btn-info">{{data.name}} </button>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{item.date_created}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include 'include/pagination.html' %}
+    </div>
+    {% endif %}
+    
+</div>
+
+<!-- JavaScript that is used in this page -->
+<script src="{% static 'bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'moment/min/moment-with-locales.min.js' %}"></script>
+<script src="{% static 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+
+<script src="{% static 'js/jsonrpc.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/pagination.js' %}"></script>
+<script src="{% static 'testcases/js/new_search.js' %}"></script>
+
+{% endblock %}
+
+

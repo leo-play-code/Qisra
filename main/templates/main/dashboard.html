@@ -1,0 +1,168 @@
+{% extends "main/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+
+{% block contents %}
+<div class="container-fluid container-cards-pf">
+    <style>
+        .fail {
+            background-color: #D74324!important;
+        }
+        .pass{
+            background:#6ea204!important;
+        }
+        .incomplete{
+            background:#f2af00!important;
+        }
+        .block{
+            background: black!important;
+        }
+        .omitted{
+            background:#737373!important;
+        }
+        .progress-bar {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #007bff;
+            transition: width .6s ease;
+        }
+    </style>
+    <div class="panel panel-default col-sm-12 col-md-5 col-lg-5" style="padding:0; margin-right:1%">
+        <div class="panel-heading"><strong>{% trans "Test Plan executions" %}</strong></div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Assign" %}</th>
+                    <th>{% trans "Stage" %}</th>
+                    <th style="width:200px">{% trans "Status" %}
+                        <div class="progress mb-3">
+                            <div class="progress-bar pass" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Finished</div>
+                            <div class="progress-bar incomplete" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Incomplete</div>
+                    </div></th>
+                    <th>{% trans "Creator"%}</th>
+                    <th>{% trans "Start Date" %}</th>
+                    <th>{% trans "End Date" %}</th>
+                    <th>{% trans "Create Date" %}</th>
+                    {% if creator_bool == True %}
+                        <th>{% trans "activate" %}</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for testplan,value in tester_status_dict.items %}
+                <tr>
+                    <td><a href="{% url 'testplan_view' testplan.id %}">{{testplan.name}}</a></td>
+                    <td>{{testplan.assign}}</td>
+                    <td>{{testplan.stage}}</td>
+                    <td>
+                        <div class="progress mb-3">
+                            <div class="progress-bar pass" role="progressbar" style="width: {% widthratio value.0 value.2 1 %}%" aria-valuenow="{{ value.0 }}" aria-valuemin="0" aria-valuemax="{{value.2}}">{{value.0}}</div>
+                            <div class="progress-bar incomplete" role="progressbar" style="width: {% widthratio value.1 value.2 1 %}%" aria-valuenow="{{value.1}}" aria-valuemin="0" aria-valuemax="{{value.2}}">{{value.1}}</div>
+                        </div>
+                    </td>
+                    <td>{{testplan.creator}}</td>
+                    <td>{{testplan.start_date}}</td>
+                    <td>{{testplan.end_date}}</td>
+                    <td>{{testplan.create_date}}</td>
+                    {% if creator_bool == True %}
+                        {% if testplan.is_activate == True %}
+                            <td style="color:green ;">{{testplan.is_activate}}</td>
+                        {% else %}
+                            <td style="color:red ;">{{testplan.is_activate}}</td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="panel-footer">
+            {% if test_plans_tester_count %}
+{% blocktrans with total_count=test_plans_tester_count count=last_15_test_runs|length %}{{ total_count }}  Testplan(s) assigned to you need to be executed.
+{% endblocktrans %}
+
+                <a href="{% url "plans_search_test" %}?default_tester={{ user.username|iriencode }}">
+                    {% trans "SEE ALL" %}
+                </a>
+            {% else %}
+                {% trans "There are no TestRun(s) assigned to you" %}
+            {% endif %}
+        </div>
+    </div> <!-- /panel -->
+{% if creator_bool == True %}
+    <div class="panel panel-default col-sm-12 col-md-6 col-lg-6" style="padding:0">
+        <div class="panel-heading">
+            <strong>{% trans "Your Test plans" %}</strong>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Assign" %}</th>
+                    <th>{% trans "Stage" %}</th>
+                    <th style="width:200px">{% trans "Status" %}
+                        <div class="progress mb-3">
+                            <div class="progress-bar pass" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Finished</div>
+                            <div class="progress-bar incomplete" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Incomplete</div>
+                    </div></th>
+                    <th>{% trans "Creator"%}</th>
+                    <th>{% trans "Start Date" %}</th>
+                    <th>{% trans "End Date" %}</th>
+                    <th>{% trans "Create Date" %}</th>
+                    {% if creator_bool == True %}
+                        <th>{% trans "activate" %}</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for testplan,value in creator_status_dict.items %}
+                <tr>
+                    <td><a href="{% url 'testplan_view' testplan.id %}">{{testplan.name}}</a></td>
+                    <td>{{testplan.assign}}</td>
+                    <td>{{testplan.stage}}</td>
+                    <td>
+                        <div class="progress mb-3">
+                            <div class="progress-bar pass" role="progressbar" style="width: {% widthratio value.0 value.2 1 %}%" aria-valuenow="{{ value.0 }}" aria-valuemin="0" aria-valuemax="{{value.2}}">{{value.0}}</div>
+                            <div class="progress-bar incomplete" role="progressbar" style="width: {% widthratio value.1 value.2 1 %}%" aria-valuenow="{{value.1}}" aria-valuemin="0" aria-valuemax="{{value.2}}">{{value.1}}</div>
+                        </div>
+                    </td>
+                    <td>{{testplan.creator}}</td>
+                    <td>{{testplan.start_date}}</td>
+                    <td>{{testplan.end_date}}</td>
+                    <td>{{testplan.create_date}}</td>
+                    {% if creator_bool == True %}
+                        {% if testplan.is_activate == True %}
+                            <td style="color:green ;">{{testplan.is_activate}}</td>
+                        {% else %}
+                            <td style="color:red ;">{{testplan.is_activate}}</td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="panel-footer">
+            {% if test_plans_count %}
+{% blocktrans with total_count=test_plans_count count=last_15_test_plans|length %}You manage {{ total_count }} TestPlan(s).
+Here are the latest {{ testplan_all_count }}.{% endblocktrans %}
+
+                <a href="{% url 'plans_search_test' %}?author__username__startswith={{ user.username }}">
+                    {% trans "SEE ALL" %}
+                </a>
+            {% else %}
+                {% trans "There are no TestPlan(s) that belong to you" %}
+            {% endif %}
+        </div>
+    </div> <!-- /panel -->
+{% endif %}
+</div><!-- /container -->
+{% endblock %}
