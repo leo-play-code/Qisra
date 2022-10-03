@@ -1,0 +1,61 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="reset_password_toggle_label" style="color:#1266f1">重設密碼</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <span class="modal-body" >
+            <div class="verify_email_mode">
+                <div class="row">
+                    <div class="col-8">
+                        <input style="width:300px ;" type="text" id="reset_email" name="reset_email" class="form-control" placeholder="驗證的Email" >
+                    </div>
+                    <div class="col-4" style="float:left;">
+                        <button type="button" class="btn btn-sm btn-warning" id="reset_email_btn" >獲取驗證碼</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="reset_email_error" style="color:#1266f1; font-size: 12px;" class="hidden"></div> 
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-8">
+                        <input style="width:300px ;" type="text" id="reset_email_code" name="reset_email_code" class="form-control hidden" placeholder="驗證碼" maxlength="6">
+                    </div>
+                    <div class="hidden" id="save_reset_email"></div>
+                </div>
+                <div class="row">
+                    <div id="reset_email_code_error" style="color: #1266f1; font-size: 12px;" class="hidden">&nbsp;&nbsp;驗證碼錯誤</div>
+                </div>
+            </div>
+
+            <div class="reset_password_mode hidden">
+                <div class="row">
+                    <div class="col-8">
+                        <input style="width:300px ;" type="password" id="reset_new_password" class="form-control" placeholder="New password" >
+                    </div> 
+                </div>
+                <br>
+                <div class="row">
+                    <div>
+                        <input style="width:300px ;" type="password" id="reset_new_password_repeat" class="form-control" placeholder="Confirm password"> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="error_password_not_same" style="color: #1266f1; font-size: 12px;" class="hidden">&nbsp;&nbsp;密碼不一致</div> 
+                </div>
+            </div>
+            
+            
+        </span>
+        <div class="modal-footer">
+            <div class="verify_email_mode">
+                <button type="button" class="btn btn-sm btn-success" id="accurate_verify_code" >確認</button>
+            </div>
+            <div class="reset_password_mode hidden">
+                <button type="button" class="btn btn-sm btn-success" id="reset_password_btn" >確認更新密碼</button>
+            </div> 
+            <img src='/static/images/reset_passwod.svg' id="loading_reset_password" class="hidden">
+        </div>
+    </div>
+</div>

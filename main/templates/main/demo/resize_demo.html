@@ -1,0 +1,51 @@
+{% load static %}
+
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'colresizable/samples/colResizable/css/main.css' %}" />  
+<style>
+    .resize_scroll{
+        overflow:scroll;
+        max-width:100%;
+        position:relative;
+    }
+
+    
+</style>
+
+<script src="{% static 'colresizable/colResizable-1.6.js' %}"></script>
+<script type="text/javascript">
+    
+$(function(){	
+    $("#overflow").colResizable({
+        liveDrag:true, 
+        gripInnerHtml:"<div class='grip'></div>", 
+        draggingClass:"dragging", 
+        resizeMode:'overflow'
+    }); 
+});	
+</script>
+<div class="center" >
+    <div class="resize_scroll">
+        <table id="overflow" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>header</th><th>header</th><th>header</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="left">cell</td><td>cell</td><td class="right">cell</td>
+                </tr>
+                <tr>
+                    <td class="left">cell</td><td>cell</td><td class="right">cell</td>
+                </tr>
+                <tr>
+                    <td class="left bottom">cell</td><td class="bottom">cell</td><td class="bottom right">cell</td>
+                </tr>		
+            </tbody>
+            															
+        </table>
+    </div>
+</div>	

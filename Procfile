@@ -1,0 +1,1 @@
+web: gunicorn Qisra.wsgi --log-file -

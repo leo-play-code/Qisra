@@ -1,0 +1,226 @@
+{{testcaseform.media}}
+<div class="col-md-3" >
+    <div id="info_savemode" class="info_savemode">
+        <div class="info_border">
+            <h1><span>項目名稱</span></h1>
+            <div class="info_show_left">
+                <p id="save_name">名稱: {{testrun.name}}</p>
+                <p id="save_issue_name">鏈值: {{testrun}}</p>
+            </div>
+        </div>
+        <br>
+        <div class="info_border" style="height: 300px;">
+            <h1><span>項目屬性</span></h1>
+            <div class="info_show_left">
+                <p id="save_class">類型: Testrun</p>
+                <p id="save_tag">標籤:
+                    {% if tag_list|length == 0 %}
+                        <span>無</span>
+                    {% else %}
+                        {% for tag in tag_list %}
+                        <span style="color:#5DADE2;">{{tag}}</span>
+                    {% endfor %}
+                    {% endif %}
+                </p>
+                {% if testrun.testcase %}
+                    <p id="save_testcase">Template: <a href="{% url 'teststep' testrun.testcase.id %}">TEM-{{testrun.testcase.id}}</a></p>
+                {% else %}
+                    <p id="save_testcase">Template: <span style="color: red;">已刪除</span></p>
+                {% endif %}
+                <p id="save_teststep_count">Number of Step: {{teststep_list|length}}</p>
+                <p id="save_testcase_status">狀態: 
+                    {% if testrun.status == 'Ongoing' %}
+                    <button type="button" class="btn btn-sm btn-primary" style="--bs-btn-disabled-opacity:1" disabled >進行中</button>
+                    {% elif testrun.status == 'Passed' %}
+                    <button type="button" class="btn btn-sm btn-success" style="--bs-btn-disabled-opacity:1" disabled >PASS</button>
+                    {% elif testrun.status == 'Failed' %}
+                    <button type="button" class="btn btn-sm btn-danger" style="--bs-btn-disabled-opacity:1" disabled >FAIL</button>
+                    {% elif testrun.status == 'Incomplete' %}
+                    <button type="button" class="btn btn-sm btn-secondary" style="--bs-btn-disabled-opacity:1" disabled >未開始</button>
+                    {% endif %}
+                </p>
+                <div id="save_testrun_progress">
+                    <div class="row">
+                        <div class="col-2">
+                            進度:
+                        </div>
+                        <div class="col-9">
+                            <div class="progress mb-3" style="transform: translateY(4px);">
+                                <div class="progress-bar pass" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Passed</div>
+                                <div class="progress-bar fail" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Failed</div>
+                                <div class="progress-bar block" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Blocked</div>
+                                <div class="progress-bar omitted" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Omitted</div>
+                                <div class="progress-bar incomplete" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Incomplete</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                        </div>
+                        <div class="col-10">
+                            <div id="progress_id">
+                                <div class="progress mb-3" style="float:left; width:80%;transform: translateY(4px)">
+                                    <div class="progress-bar pass" role="progressbar" style="width: {% widthratio temp_value_list.1 temp_value_list.5 1 %}%" aria-valuenow="{{ temp_value_list.1 }}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.1}}</div>
+                                    <div class="progress-bar fail" role="progressbar" style="width: {% widthratio temp_value_list.2 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.2}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.2}}</div>
+                                    <div class="progress-bar block" role="progressbar" style="width: {% widthratio temp_value_list.3 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.3}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.3}}</div>
+                                    <div class="progress-bar omitted" role="progressbar" style="width: {% widthratio temp_value_list.4 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.4}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.4}}</div>
+                                    <div class="progress-bar incomplete" role="progressbar" style="width: {% widthratio temp_value_list.0 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.0}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.0}}</div>
+                                </div>
+                                <div style="float:right; width:20%">
+                                    <span>&nbsp&nbsp&nbsp{% widthratio temp_value_list.6 temp_value_list.5 1 %}%</span>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="info_editmode" class="hidden info_editmode">
+        <div class="info_border">
+            <h1><span>項目名稱</span></h1>
+            <div class="info_show_left">
+                <p>名稱: {{testrun.name}}</p>
+                <p id="edit_issue_name">鏈值: {{testrun}}</p>
+            </div>
+        </div>
+        <br>
+        <div class="info_border" style="height: 300px;">
+            <h1><span>項目屬性</span></h1>
+            <div class="info_show_left">
+                <p id="edit_class">類型: Testrun</p>
+                <p>標籤:
+                    {% if tag_list|length == 0 %}
+                        <span>無</span>
+                    {% else %}
+                        {% for tag in tag_list %}
+                        <span style="color:#5DADE2;">{{tag}}</span>
+                    {% endfor %}
+                    {% endif %}
+                </p>
+                {% if testrun.testcase %}
+                    <p id="edit_testcase">Template: <a href="{% url 'teststep' testrun.testcase.id %}">TEM-{{testrun.testcase.id}}</a></p>
+                {% else %}
+                    <p id="edit_testcase">Template: <span style="color: red;">已刪除</span></p>
+                {% endif %}
+                <p>Number of Step: {{teststep_list|length}}</p>
+                <p>狀態: 
+                    {% if testrun.status == 'Ongoing' %}
+                    <button type="button" class="btn btn-sm btn-primary" style="--bs-btn-disabled-opacity:1" disabled >進行中</button>
+                    {% elif testrun.status == 'Passed' %}
+                    <button type="button" class="btn btn-sm btn-success" style="--bs-btn-disabled-opacity:1" disabled >PASS</button>
+                    {% elif testrun.status == 'Failed' %}
+                    <button type="button" class="btn btn-sm btn-danger" style="--bs-btn-disabled-opacity:1" disabled >FAIL</button>
+                    {% elif testrun.status == 'Incomplete' %}
+                    <button type="button" class="btn btn-sm btn-secondary" style="--bs-btn-disabled-opacity:1" disabled >未開始</button>
+                    {% endif %}
+                </p>
+                <div>
+                    <div class="row">
+                        <div class="col-2">
+                            進度:
+                        </div>
+                        <div class="col-9">
+                            <div class="progress mb-3" style="transform: translateY(4px);">
+                                <div class="progress-bar pass" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Passed</div>
+                                <div class="progress-bar fail" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Failed</div>
+                                <div class="progress-bar block" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Blocked</div>
+                                <div class="progress-bar omitted" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Omitted</div>
+                                <div class="progress-bar incomplete" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Incomplete</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                        </div>
+                        <div class="col-10">
+                            <div id="progress_id">
+                                <div class="progress mb-3" style="float:left; width:80%;transform: translateY(4px)">
+                                    <div class="progress-bar pass" role="progressbar" style="width: {% widthratio temp_value_list.1 temp_value_list.5 1 %}%" aria-valuenow="{{ temp_value_list.1 }}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.1}}</div>
+                                    <div class="progress-bar fail" role="progressbar" style="width: {% widthratio temp_value_list.2 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.2}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.2}}</div>
+                                    <div class="progress-bar block" role="progressbar" style="width: {% widthratio temp_value_list.3 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.3}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.3}}</div>
+                                    <div class="progress-bar omitted" role="progressbar" style="width: {% widthratio temp_value_list.4 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.4}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.4}}</div>
+                                    <div class="progress-bar incomplete" role="progressbar" style="width: {% widthratio temp_value_list.0 temp_value_list.5 1 %}%" aria-valuenow="{{temp_value_list.0}}" aria-valuemin="0" aria-valuemax="{{temp_value_list.5}}">{{temp_value_list.0}}</div>
+                                </div>
+                                <div style="float:right; width:20%">
+                                    <span>&nbsp&nbsp&nbsp{% widthratio temp_value_list.6 temp_value_list.5 1 %}%</span>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div> 
+</div>
+<div class="col-md-2" id="first_box_info_2"></div>
+<div class="col-md-3">
+    <div class="info_savemode">
+        <div class="info_border " >
+            <h1><span>人員名單</span></h1>
+            <div class="info_show_left">
+                <p id="save_assign">負責人: 
+                    {% if testrun.assign.all|length != 0 %}
+                        {% for item in testrun.assign.all %}
+                            {{item.username}}
+                        {% endfor %}
+                    {% else %}
+                        未指派
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="info_border">
+            <h1><span>日期</span></h1>
+            <div class="info_show_left">
+                <p id="save_create_date">建立日: {{testrun.date_created|date:"Y-m-d"}}</p>
+                {% if testrun.testplan %}
+                    <p id="save_start_date">開始日: {{testrun.testplan.start_date|date:"Y-m-d"}}</p>
+                    <p id="save_end_date">結束日: {{testrun.testplan.end_date|date:"Y-m-d"}}</p>
+                {% else %}
+                    <p id="save_start_date">開始日: {{testrun.testplans.testplan_group.start_date|date:"Y-m-d"}}</p>
+                    <p id="save_end_date">結束日: {{testrun.testplans.testplan_group.end_date|date:"Y-m-d"}}</p>
+                {% endif %}
+                <p id="save_last_edit_time">上次更新: {{testrun.date_modify|date:"Y-m-d H:i:s"}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="info_editmode hidden">
+        <div class="info_border " >
+            <h1><span>人員名單</span></h1>
+            <div class="info_show_left">
+                <p id="edit_assign" style="color: blue;">負責人: 
+                    <select class="selectpicker" multiple data-live-search="true" id="edit_assign_select">   
+                        <!-- <option value="None">--select--</option> -->
+                        {% for user in user_list %}
+                            {% if user in assign_list %}
+                                <option value="{{user}}" selected="selected">{{user}}</option>
+                            {% else %}
+                                <option value="{{user}}">{{user}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="info_border">
+            <h1><span>日期</span></h1>
+            <div class="info_show_left">
+                <p >建立日: {{testrun.date_created|date:"Y-m-d"}}</p>
+                {% if testrun.testplan %}
+                    <p >開始日: {{testrun.testplan.start_date|date:"Y-m-d"}}</p>
+                    <p >結束日: {{testrun.testplan.end_date|date:"Y-m-d"}}</p>
+                {% else %}
+                    <p >開始日: {{testrun.testplans.testplan_group.start_date|date:"Y-m-d"}}</p>
+                    <p >結束日: {{testrun.testplans.testplan_group.end_date|date:"Y-m-d"}}</p>
+                {% endif %}
+                <p >上次更新: {{testrun.date_modify|date:"Y-m-d H:i:s"}}</p>
+            </div>
+        </div>
+
+       
+    </div>
+</div>

@@ -1,0 +1,81 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'testplan/css/div_table.css' %}" />  
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="teststep_file_showlabel_{{item.id}}"><span style="color: #27AE60;">第{{item.number}}題</span>  檔案下載</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <span class="modal-body" >
+            <h5 style="color:#FF5733">參考用的檔案</h5>
+            <div class="form-group " style="overflow:scroll;height:300px;overflow-x: hidden;width:100%;">
+                <div class="divTable div_table" id="teststep_file_referance_{{item.id}}">
+                    <div class="divTableHeading">
+                        <div class="divTableRow">
+                            <div class="divTableHead">檔案名稱</div>
+                        </div>
+                    </div>
+                    <div class="divTableBody teststep_uploadfile_table_body">
+                        {% for item in teststep_file.0 %}
+                        <div class="divTableRow">
+                            <div  class="divTableCell" style="Vertical-align:middle;"><a class="toast_download_show" href="/media/{{item.file}}" onclick="downloadSuccess(this)">{{item.filename}}</a></div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <h5 style="color:#FF5733">回傳的檔案</h5>
+            <div class="form-group " style="overflow:scroll;height:300px;overflow-x: hidden;width:100%;">
+                <div class="divTable div_table" id="teststep_file_return_{{item.id}}">
+                    <div class="divTableHeading">
+                        <div class="divTableRow">
+                            <div class="divTableHead">檔案名稱</div>
+                            <div class="status_show_position divTableHead">上傳者</div>
+                            <div class="status_show_position divTableHead">上傳時間</div>
+                            {% if testrun.testplan %}
+                                {% if testrun.testplan.status == '2' %}
+                                    {% if current_user.username in assign_list or creator_bool == True %}
+                                        <div class="status_show_position divTableHead">刪除</div>                           
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                {% if testrun.testplans.testplan_group.status == '2' %}
+                                    {% if current_user.username in assign_list or creator_bool == True %}
+                                        <div class="status_show_position divTableHead">刪除</div>                           
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="divTableBody teststep_uploadfile_table_body" >
+                        {% for item in teststep_file.1 %}
+                        <div class="divTableRow">
+                            <div style="Vertical-align:middle;" class="divTableCell"><a class="toast_download_show" href="/media/{{item.file}}" onclick="downloadSuccess(this)">{{item.filename}}</a></div>
+                            <div class="status_show_position divTableCell">{{item.uploader}}</div>
+                            <div class="status_show_position divTableCell">{{item.date_created|date:'Y-m-d H:i:s'}}</div>
+                            {% if testrun.testplan %}
+                            {% if testrun.testplan.status == '2' %}
+                                {% if current_user.username in assign_list or creator_bool == True %}
+                                    <div class="status_show_position divTableCell"><a id="upload_teststep_id_{{item.id}}" class="btn" onclick="delete_teststep_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a></div>
+                                {% endif %}
+                            {% endif %}
+                            {% else %}
+                            {% if testrun.testplans.testplan_group.status == '2' %}
+                                {% if current_user.username in assign_list or creator_bool == True %}
+                                    <div class="status_show_position divTableCell"><a id="upload_teststep_id_{{item.id}}" class="btn" onclick="delete_teststep_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a></div>
+                                {% endif %}
+                            {% endif %}
+                            
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </span>
+        <div class="modal-footer">
+           
+        </div>
+    </div>
+</div>
+

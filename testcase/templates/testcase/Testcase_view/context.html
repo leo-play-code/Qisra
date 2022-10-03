@@ -1,0 +1,24 @@
+<div class="col-md-5 col-lg-3">
+    <div id="save_context_div">
+        {% if testcase.description == '' %}
+            <p>
+                <div id="save_context" class="save_context_no_text">
+                    &nbsp&nbsp&nbsp&nbsp&nbspNo description
+                </div>
+            </p>
+        {% else %}
+            <p>
+                <div id="save_context" class="save_context_has_text">
+                    {{testcase.description|safe|linebreaks}}
+                </div>
+            </p>
+        {% endif %}
+    </div>
+    <div id="edit_context_div" class="hidden">
+        <p id="edit_context">
+            <div class="">
+                <textarea class="ckeditor" cols="80" name="content" id="context">{{testcase.description|safe}}</textarea>
+            </div>
+        </p>
+    </div>
+</div>

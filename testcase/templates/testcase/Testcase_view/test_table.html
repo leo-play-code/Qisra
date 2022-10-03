@@ -1,0 +1,103 @@
+{% load static %}
+{% load i18n %}
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'colresizable/samples/colResizable/css/main.css' %}" />  
+<link rel="stylesheet" type="text/css" href="{% static 'css/resize_table.css' %}" />  
+
+<script src="{% static 'colresizable/colResizable-1.6.js' %}"></script>
+<script type="text/javascript">
+    
+$(function(){	
+    $("#teststepview_table").colResizable({
+        liveDrag:true, 
+        gripInnerHtml:"<div class='grip'></div>", 
+        draggingClass:"dragging", 
+        resizeMode:'overflow'
+    }); 
+});	
+</script>
+
+<div class="resize_scroll resize_scroll_limit_h" id="resize_scroll_teststep_table">
+    <table id="teststepview_table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr class="header">
+                <th style="width:30px;">編號</th>
+                <th style="width:200px;">驗證項目</th>
+                <th >驗證條件</th>
+                <th >備註</th>
+                <th id="upload_title" style="width:200px;">附件</th>
+            </tr>
+        </thead>
+        <tbody id="teststep_tr_list_editmode" class="hidden">
+            <tr class="hidden" id="teststep_tr_list" class="teststep_tr_list_sample">
+                <td id="id" class="hidden">None</td>
+                <td id="edit_number" class="">
+                    <button type="submit" class="btn add-teststep-up" onclick="return _ADD_up_teststep(this)"><i class="fa-solid fa-arrow-turn-up"></i></button>
+                    <br>
+                    <br><button type="submit" class="btn delete-teststep" onclick="return _Delete_teststep(this)"><i class="fa-solid fa-trash"></i></button>
+                    <br>
+                    <br><button type="submit" class="btn add-teststep-down" onclick="return _ADD_down_teststep(this)"><i class="fa-solid fa-arrow-turn-down"></i></button>
+                </td>
+                <td id="number" class="status_show_position hidden"></td>
+                <td id="description"><div class="ckeditor_replace"></div></td required>
+                <td id="condition"><div class="ckeditor_replace"></div></td>
+                <td id="remark"><div class="ckeditor_replace"></div></td>
+                <td id="upload" class="hidden"></td>
+            </tr>
+        </tbody>
+        <tbody id="teststep_tr_list_savemode">
+            {% for item,teststep_file in teststep_dict.items %}
+            <tr class="gradient_teststep_list" >
+                <td id="id" class="hidden">{{item.id}}</td>
+                <td id="edit_number" class="hidden">
+                    <button type="submit" class="btn add-teststep-up" onclick="return _ADD_up_teststep(this)"><i class="fa-solid fa-arrow-turn-up"></i></button>
+                    <br>
+                    <br><button type="submit" class="btn delete-teststep" onclick="return _Delete_teststep(this)"><i class="fa-solid fa-trash"></i></button>
+                    <br>
+                    <br><button type="submit" class="btn add-teststep-down" onclick="return _ADD_down_teststep(this)"><i class="fa-solid fa-arrow-turn-down"></i></button>
+                </td>
+                <td id="number" class="status_show_position">{{item.number}}</td>
+                <td id="description"><div class="ckeditor_replace">{{item.description|safe|linebreaks}}</div></td required>
+                <td id="condition"><div class="ckeditor_replace">{{item.condition|safe|linebreaks}}</div></td>
+                <td id="remark"><div class="ckeditor_replace">{{item.remark|safe|linebreaks}}</div></td>
+                <td id="upload">
+                    <div class="row save_upload_td">
+                        {% if creator_bool == True %}
+                            <div class="col">
+                                <a class="btn" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                <div class="modal fade" id="teststep_file_toggle_{{item.id}}" aria-hidden="true" aria-labelledby="teststep_file_togglelabel_{{item.id}}" tabindex="-1">
+                                    {% include "testcase/Testcase_view/teststep_file_upload.html" %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col hidden">
+                                <a class="btn" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                <div class="modal fade" id="teststep_file_toggle_{{item.id}}" aria-hidden="true" aria-labelledby="teststep_file_togglelabel_{{item.id}}" tabindex="-1">
+                                    {% include "testcase/Testcase_view/teststep_file_upload.html" %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="col ">
+                            {% if teststep_file|length > 0 %}
+                                <a class="btn" id="teststep_showfile_link_{{item.id}}" data-bs-toggle="modal" href="#teststep_file_show_{{item.id}}" role="button"><img style="width:30px;height:auto;" src='/static/images/teststep_file.svg'></a>
+                            {% else %}
+                                <a class="btn hidden" id="teststep_showfile_link_{{item.id}}" data-bs-toggle="modal" href="#teststep_file_show_{{item.id}}" role="button"><img style="width:30px;height:auto;" src='/static/images/teststep_file.svg'></a>
+                            {% endif %}
+                            <div class="modal fade fileshow-modal" id="teststep_file_show_{{item.id}}" aria-hidden="true" aria-labelledby="teststep_file_showlabel_{{item.id}}" tabindex="-1">
+                                {% include "testcase/Testcase_view/teststep_file_show.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>															
+    </table>
+    <div class="col-md-1 col-lg-1">
+        <button type="submit" onclick="return _Add_teststep(this)" id="add_teststep_btn" class="btn btn-info btn-sm hidden">{% trans "add Teststep" %}</button>
+    </div>
+    <div class="col-md-4 col-lg-4">
+    </div>
+</div>

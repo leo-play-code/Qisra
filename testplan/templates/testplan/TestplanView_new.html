@@ -1,0 +1,126 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}Testplan-{{testplan.issue_name}}{% endblock %}
+{% block head %}
+    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
+{% block contents %}       
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'testplan/css/status_color.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'testcase/css/info.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'testplan/css/Normal_table.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/resize_table.css' %}" />  
+
+    <form method="POST" action="" class="needs-validation">
+        {% csrf_token %}
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+    <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+        <span class="fs-4" ><span id="testplan_issue_name_show">[{{testplan}}]</span> <a href="{% url 'project_view' testplan.project.id %}" class="search_link" style="color: blue;" id="testplan-project">{{testplan.project.name}}</a>/<span id="testplan_title">{{testplan.name}}</span></span>
+        {% if creator_bool == True %}
+            <div class="dropdown text-end" id="dropdown_three_dot">
+                <a href="#" class="btn" data-bs-toggle="dropdown" id="dropdownedit" aria-expanded="false"><img src='/static/images/three-dots-vertical.svg'></a></li>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownedit">
+                    <div id="clone_div">
+                        <li><button class="dropdown-item btn" type="submit" id="clone" name="clone"><img src='/static/images/clipboard-plus-fill.svg'> CLONE</button></li>
+                        <li><hr class="dropdown-divider"></li>
+                    </div>
+                    
+                    <a class="btn dropdown-item" data-bs-toggle="modal" href="#delete_toggle" role="button"><img src='/static/images/trash3-fill.svg'> DELETE</a>
+                </ul>
+            </div>
+        {% else %}
+            <div class="dropdown text-end hidden" id="dropdown_three_dot">
+                <a href="#" class="btn" data-bs-toggle="dropdown" id="dropdownedit" aria-expanded="false"><img src='/static/images/three-dots-vertical.svg'></a></li>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownedit">
+                    <div id="clone_div">
+                        <li><button class="dropdown-item btn" type="submit" id="clone" name="clone"><img src='/static/images/clipboard-plus-fill.svg'> CLONE</button></li>
+                        <li><hr class="dropdown-divider"></li>
+                    </div>
+                    
+                    <a class="btn dropdown-item" data-bs-toggle="modal" href="#delete_toggle" role="button"><img src='/static/images/trash3-fill.svg'> DELETE</a>
+                </ul>
+            </div>
+        {% endif %}
+        <div class="modal fade modal-delete" id="delete_toggle" aria-hidden="true" aria-labelledby="delete_toggleLabel" tabindex="-1">
+            {% include "testplan/testplan/delete_testplan.html" %}
+        </div>
+    </header>
+    <main>
+        <input type="hidden" id="current_user_username" value="{{current_user.username}}">
+        <p>
+            <h5>議題詳情
+                <span style="padding-left: 30px;" class="" id="edit-save-div-info">
+                    {% if creator_bool == True %}
+                    <button type="submit" class="btn btn-md cleared" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    {% else %}
+                    <button type="submit" class="btn btn-md cleared hidden" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    {% endif %}
+                    <button type="submit" class="btn btn-sm btn-success hidden" onclick="return _Save_info(this)" id="Save_info_btn">儲存</button>
+                    <button type="submit" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_info(this)" id="Cancel_info_btn">取消</button>
+                </span>
+                <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_save_info" class="hidden">
+            </h5>
+            <button class="fa-solid fa-sort-down dropdown_btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"
+            aria-label="議題詳情" style="border: 0; transform: rotate(0deg);" id="dropdown_btn1"></button> 
+        </p>
+        <div class="row g-5 collapse show" id="collapseExample">
+            {% include "testplan/testplan/info.html" %}
+        </div>  
+    </main>
+    <br>
+    <main>
+        <h5>描述
+            <span style="padding-left: 20px;" class="" id="second-box-edit-save_div">
+                {% if creator_bool == True %}
+                <button type="submit" class="btn btn-md cleared" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                {% else %}
+                <button type="submit" class="btn btn-md cleared hidden" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                {% endif %}
+                <button type="submit" class="btn btn-sm btn-success hidden" onclick="return _Save_context(this)" id="Save_context_btn">儲存</button>
+                <button type="submit" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_context(this)" id="Cancel_context_btn">取消</button>
+            </span>
+            <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_save_context" class="hidden">
+        </h5>
+        <button class="fa-solid fa-sort-down dropdown_btn" type="button" data-bs-toggle="collapse" data-bs-target="#second-box-data" aria-expanded="true" aria-controls="second-box-data"
+        aria-label="second-box-data" style="border: 0; transform: rotate(0deg);" id="dropdown_btn2"></button> 
+        <div class="row g-5 collapse show" id="second-box-data">
+            {% include "testplan/testplan/context.html" %}
+        </div>
+    </main>
+    <main>
+        <p>
+            <h5>Testrun ({{testrun_dict.items|length}})
+            </h5>
+            <button class="fa-solid fa-sort-down dropdown_btn" type="button" data-bs-toggle="collapse" data-bs-target="#Teststep" aria-expanded="true" aria-controls="Teststep"
+            aria-label="Teststep" style="border: 0; transform: rotate(0deg);" id="dropdown_btn3"></button> 
+        </p>
+        
+        <div class="row g-5 collapse show" id="Teststep">
+            {% include "testplan/testplan/testplan_table.html" %}
+        </div>
+    </main>
+    <br>
+    <main>
+        <h5>歷史紀錄
+        </h5>
+        <button class="fa-solid fa-sort-down dropdown_btn" type="button" data-bs-toggle="collapse" data-bs-target="#fourth-box-data" aria-expanded="true" aria-controls="fourth-box-data"
+        aria-label="fourth-box-data" style="border: 0; transform: rotate(-90deg);" id="dropdown_btn4"></button> 
+        <div class="row g-5 collapse" id="fourth-box-data">
+            {% include "testcase/Form_View/history_table.html" %}
+        </div>
+    </main>
+    <footer class="pt-5 my-5 text-muted border-top">
+    </footer>
+    </div>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- <script src="{% static 'testplan/js/testplan_view.js' %}"></script> -->
+    <script src="{% static 'testplan/js/testplan/info.js' %}"></script>
+    <script src="{% static 'testplan/js/testplan/context.js' %}"></script>
+    <script src="{% static 'testplan/js/testplan/table.js' %}"></script>
+
+
+    
+    {% endblock %}

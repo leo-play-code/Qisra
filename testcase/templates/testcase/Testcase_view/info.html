@@ -1,0 +1,60 @@
+{{testcaseform.media}}
+<div class="col-md-3" >
+    <div id="info_savemode">
+        <div class="info_border">
+            <h1><span>項目屬性</span></h1>
+            <div class="info_show_left">
+                <p id="save_name">名稱: {{testcase.name}}</p>
+                <p id="save_class">類型: Testcase</p>
+                <p id="save_creator">創建者: {{testcase.creator.username}}</p>
+                <p id="save_create_date">建立日: {{testcase.date_created|date:"Y-m-d H:i"}}</p>
+                <p id="save_teststep_count">Number of Step: {{teststep_dict|length}}</p>
+                <p id="save_tag">標籤:
+                    {% if tag_list|length == 0 %}
+                        <span>無</span>
+                    {% else %}
+                        {% for tag in tag_list %}
+                        <span style="color:#5DADE2;">{{tag}}</span>
+                    {% endfor %}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="info_editmode" class="hidden">
+        <div class="info_border">
+            <h1><span>項目屬性</span></h1>
+            <div class="info_show_left">
+                <p>
+                    <div class="form-group info_label">
+                        <label for="id_testcasename" style="transform: translateY(3px);color:blue;">名稱:</label>
+                        <input style="width:85% ;transform: translateY(-3px)" type="text" id="id_testcasename" name="id_testcasename" class="form-control" placeholder="Testcase 名稱" value="{{testcase.name}}" required>
+                        <span id="error-name" style="color: red;" class="hidden">名稱不可空白</span>
+                    </div>
+                </p>
+                <p id="edit_class">類型: Testcase</p>
+                <p id="edit_creator">創建者: {{testcase.creator.username}}</p>
+                <p id="edit_create_date">建立日: {{testcase.date_created|date:"Y-m-d H:i"}}</p>
+                <p id="edit_teststep_count">Number of Step: {{teststep_dict|length}}</p>
+                <p id="edit_tag" style="color: blue;">
+                    標籤:
+                    <select class="selectpicker" multiple data-live-search="true" name="id_tag" id="id_tag">   
+                        {% for tag in tag_object %}
+                            {% if tag.name in tag_list %}
+                            <option selected="selected" value="{{tag.name}}">{{tag}}</option>
+                            {% else %}
+                            <option value="{{tag.name}}">{{tag}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <a class="btn" data-bs-toggle="modal" href="#tag_toggle" role="button"><img src='/static/images/journal-plus.svg'></a>
+                </p>
+                
+            </div>
+        </div>
+        <div class="modal fade" id="tag_toggle" aria-hidden="true" aria-labelledby="tag_toggleLabel" tabindex="-1">
+            {% include "testcase/Form_View/tag_modal.html" %}
+        </div>
+    </div>
+    <div class="border-bottom"></div>
+</div>

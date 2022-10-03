@@ -1,0 +1,33 @@
+<div class="resize_scroll resize_scroll_limit_h">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 200px; background-color: #EC7063;" class="status_show_position">更動時間</th>
+                <th scope="col" style="background-color: #EC7063;">更動內容</th>
+                <th scope="col" style="width: 100px;background-color: #EC7063;" class="status_show_position">更動人員</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h,value in history_dict.items %}
+            {% if h.history_change_reason != None and h.history_change_reason != '' %}
+                <tr>
+                    <td class="status_show_position">{{ h.history_date |date:'Y-m-d H:i:s'}}</td>
+                    <td>
+                        {% for value_item in value%}
+                            <div class="row">
+                                <div class="col-2"><span style="color: red;">[{{ value_item.0 }}]</span>-<span style="color: blue;">{{ value_item.1 }}</span></div>
+                                <div class="col-4 border border-danger">{{value_item.2|safe|linebreaks}}</div>
+                                <div class="col-1 status_show_position"><img src='/static/images/caret-right-fill.svg'></div>
+                                <div class="col-4 border border-primary">{{value_item.3|safe|linebreaks}}</div>
+                                <div class="col-1"></div>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    </td>
+                    <td class="status_show_position">{{ h.history_user}}</td>
+                </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

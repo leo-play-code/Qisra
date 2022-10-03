@@ -1,0 +1,41 @@
+div.div_table {
+    font-family: "Arial Black", Gadget, sans-serif;
+    border: 1px solid #DDDDDD;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+  }
+  .divTable.div_table .divTableCell, .divTable.div_table .divTableHead {
+    border: 2px solid #DDDDDD;
+    padding: 5px 4px;
+  }
+  .divTable.div_table .divTableBody .divTableCell {
+    font-size: 15px;
+    height: 50px;
+  }
+  .divTable.div_table .divTableRow:nth-child(even) {
+    background: #E8E9EB;
+  }
+  .divTable.div_table .divTableHeading {
+    background: #E8E9EB;
+    background: -moz-linear-gradient(top, #eeeef0 0%, #eaebed 66%, #E8E9EB 100%);
+    background: -webkit-linear-gradient(top, #eeeef0 0%, #eaebed 66%, #E8E9EB 100%);
+    background: linear-gradient(to bottom, #eeeef0 0%, #eaebed 66%, #E8E9EB 100%);
+  }
+  .divTable.div_table .divTableHeading .divTableHead {
+    font-size: 15px;
+    font-weight: bold;
+    color: #000000;
+    text-align: left;
+  }
+  .div_table .tableFootStyle {
+    font-size: 14px;
+  }
+  /* DivTable.com */
+  .divTable{ display: table; }
+  .divTableRow { display: table-row; }
+  .divTableHeading { display: table-header-group;}
+  .divTableCell, .divTableHead { display: table-cell;}
+  .divTableHeading { display: table-header-group;}
+  .divTableFoot { display: table-footer-group;}
+  .divTableBody { display: table-row-group;}

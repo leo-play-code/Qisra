@@ -1,0 +1,19 @@
+.table_border_teststep {
+    padding-right: 500px;
+    padding-left: 200px;
+}
+.table_border_teststep table,tr,td{
+    border:1px solid #dddddd;
+    border-collapse:collapse;
+}
+.table_border_teststep table  { border-collapse: collapse; width: 100%; }
+.table_border_teststep th, td { padding: 8px 16px; }
+.table_border_teststep th     { background:#eee; }
+.table_border_teststep tr:nth-child(even) {
+    background-color: #eaeef1;
+}
+.table_border_teststep{
+    border: 1rem solid;
+    border-color: #E7E9EB;
+}
+

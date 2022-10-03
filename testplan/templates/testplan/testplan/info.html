@@ -1,0 +1,249 @@
+{{testplanform.media}}
+<div class="col-md-3" id="first_box_info_1" >
+    <div id="info_savemode_left" class="info_savemode">
+        <div class="info_border">
+            <h1><span>項目名稱</span></h1>
+            <div class="info_show_left">
+                <p id="save_name">名稱: {{testplan.name}}</p>
+                <p id="save_issue_name">鏈值: {{testplan.issue_name}}</p>
+            </div>
+        </div>
+        <br>
+        <div class="info_border" style="height: 400px;">
+            <h1><span>項目屬性</span></h1>
+            <div class="info_show_left">
+                <p id="save_class">類型: Testplan</p>
+                {% if testplan.project.client.name != None %}
+                    <p id="save_client">客戶: {{testplan.project.client.name}}</p>
+                {% else %}
+                    <p id="save_client">客戶: 尚無客戶選擇</p>
+                {% endif %}
+                <p id="save_tag">標籤:
+                    {% if tag_list|length == 0 %}
+                        <span>無</span>
+                    {% else %}
+                        {% for tag in tag_list %}
+                        <span style="color:#5DADE2;">{{tag}}</span>
+                    {% endfor %}
+                    {% endif %}
+                </p>
+                <p id="save_stage">Stage: {{testplan.stage}}</p>
+                <p id="save_testrun_count">Number of Test Case: {{testrun_dict.items|length}}</p>
+                <p id="save_teststep_count">Number of Step: {{count_step}}</p>
+                <p id="save_status">狀態:                           
+                    {% if testplan.status == '3' %}
+                        <button type="button" class="btn btn-sm btn-secondary" style="--bs-btn-disabled-opacity:1" disabled >未開始</button>
+                    {% elif testplan.status == '2' %}
+                        <button type="button" class="btn btn-sm btn-primary" style="--bs-btn-disabled-opacity:1" disabled>進行中</button>
+                    {% elif testplan.status == '4'%}
+                        <button type="button" class="btn btn-sm btn-success" style="--bs-btn-disabled-opacity:1" disabled>關閉</button>
+                    {% elif testplan.status == '1'%}
+                    <button type="button" class="btn btn-sm btn-warning" style="--bs-btn-disabled-opacity:1" disabled>pending</button>
+                    {% endif %}
+                </p>
+                <div id="save_testplan_progress">
+                    <label for="progress_id">
+                        <div class="row">
+                            <div class="col-3">
+                                進度:
+                            </div>
+                            <div class="col-9" style="transform: translateY(4px);">
+                                <div class="progress mb-3" style="width:200px ;">
+                                    <div class="progress-bar pass" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Passed</div>
+                                    <div class="progress-bar fail" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Failed</div>
+                                    <div class="progress-bar ongoing" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">進行中</div>
+                                    <div class="progress-bar omitted" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">未開始</div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <div id="progress_id" style="width: 100%;">
+                        <div class="progress mb-3" style="float:left; width:80%;transform: translateY(4px)">
+                            <div class="progress-bar pass" role="progressbar" style="width: {% widthratio testplan_progress_list.1 testplan_progress_list.4 1 %}%" aria-valuenow="{{ testplan_progress_list.1 }}" aria-valuemin="0" aria-valuemax="{{testplan_progress_list.4}}">{{testplan_progress_list.1}}</div>
+                            <div class="progress-bar fail" role="progressbar" style="width: {% widthratio testplan_progress_list.2 testplan_progress_list.4 1 %}%" aria-valuenow="{{testplan_progress_list.2}}" aria-valuemin="0" aria-valuemax="{{testplan_progress_list.4}}">{{testplan_progress_list.2}}</div>
+                            <div class="progress-bar ongoing" role="progressbar" style="width: {% widthratio testplan_progress_list.0 testplan_progress_list.4 1 %}%" aria-valuenow="{{testplan_progress_list.0}}" aria-valuemin="0" aria-valuemax="{{testplan_progress_list.4}}">{{testplan_progress_list.0}}</div>
+                            <div class="progress-bar omitted" role="progressbar" style="width: {% widthratio testplan_progress_list.3 testplan_progress_list.4 1 %}%" aria-valuenow="{{testplan_progress_list.3}}" aria-valuemin="0" aria-valuemax="{{testplan_progress_list.4}}">{{testplan_progress_list.3}}</div>
+                        </div>
+                        <div style="float:right; width:20%">
+                            <span>&nbsp&nbsp&nbsp{% widthratio testplan_progress_list.5 testplan_progress_list.4 1 %}%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="info_editmode_left" class="info_editmode hidden">
+        <div class="info_border">
+            <h1><span>項目名稱</span></h1>
+            <div class="info_show_left">
+                <p>
+                    <div class="form-group info_label">
+                        <label for="id_testplanname" style="transform: translateY(3px);color:blue;">名稱:</label>
+                        <input style="width:85% ;transform: translateY(-3px)" type="text" id="id_testplanname" name="id_testplanname" class="form-control"  placeholder="Testplan 名稱" value="{{testplan.name}}" required>
+                        <span id="error-name" style="color: red;" class="hidden">名稱不可空白</span>
+                    </div>
+                </p>
+                <p>
+                    <div class="form-group info_label">
+                        <label for="id_testplan_issue_name" style="transform: translateY(3px);color:blue;">鏈值:</label>
+                        <input style="width:85% ;transform: translateY(-3px)" type="text" id="id_testplan_issue_name" name="id_testplan_issue_name" class="form-control"  placeholder="Testplan 鏈值" value="{{testplan.issue_name}}" required>
+                        <span id="error-issue-name" style="color: red;" class="hidden">鏈值不可空白</span>
+                    </div>
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="info_border" style="height: 350px;">
+            <h1><span>項目屬性</span></h1>
+            <div class="info_show_left">
+                <p id="edit_class">類型: Testplan</p>
+                {% if testplan.project.client.name != None %}
+                    <p id="edit_client">客戶: {{testplan.project.client.name}}</p>
+                {% else %}
+                    <p id="edit_client">客戶: 尚無客戶選擇</p>
+                {% endif %}
+                <p id="edit_tag" style="color: blue;">
+                    標籤:
+                    <select class="selectpicker" multiple data-live-search="true" name="id_tag" id="id_tag">   
+                        {% for tag in tag_object %}
+                            {% if tag.name in tag_list %}
+                            <option selected="selected" value="{{tag.name}}">{{tag}}</option>
+                            {% else %}
+                            <option value="{{tag.name}}">{{tag}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <a class="btn" data-bs-toggle="modal" href="#tag_toggle" role="button"><img src='/static/images/journal-plus.svg'></a>
+                    <div class="modal fade" id="tag_toggle" aria-hidden="true" aria-labelledby="tag_toggleLabel" tabindex="-1">
+                        {% include "testcase/Form_View/tag_modal.html" %}
+                    </div>
+                </p>
+                <p>
+                    <div class="form-group info_label">
+                        <label for="edit_stage_select" style="transform: translateY(3px);color:blue;">Stage:</label>
+                        <select class="form-select" id="edit_stage_select" style="width: 300px;transform: translateY(-3px)">
+                            {% for stage in Stage_list %}
+                                {% if testplan.stage == stage %}
+                                    <option value="{{stage}}" selected="selected">{{stage}}</option>
+                                {% else %}
+                                    <option value="{{stage}}">{{stage}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </p>
+                <p id="edit_testrun_count">Number of Test Case: {{testrun_dict.items|length}}</p>
+                <p id="edit_teststep_count">Number of Step: {{count_step}}</p>
+                <p id="edit_status" style="color: blue;">狀態:&nbsp&nbsp&nbsp   
+                    {% if testplan.status == '2' %}
+                        <input type="radio" class="btn-check" name="testplan_status_option_edit" id="Ongoing-outlined-testplan-edit" autocomplete="off" checked>
+                        <label class="btn btn-outline-ongoing" for="Ongoing-outlined-testplan-edit">進行中</label>
+                    {% else %}
+                        <input type="radio" class="btn-check" name="testplan_status_option_edit" id="Ongoing-outlined-testplan-edit" autocomplete="off">
+                        <label class="btn btn-outline-ongoing" for="Ongoing-outlined-testplan-edit">進行中</label>
+                    {% endif %}
+                    {% if testplan.status == '4' %}
+                    <input type="radio" class="btn-check" name="testplan_status_option_edit" id="Closed-outlined-testplan-edit" autocomplete="off" checked>
+                        <label class="btn btn-outline-close" for="Closed-outlined-testplan-edit">關閉</label>
+                    {% else %}
+                        <input type="radio" class="btn-check" name="testplan_status_option_edit" id="Closed-outlined-testplan-edit" autocomplete="off">
+                        <label class="btn btn-outline-close" for="Closed-outlined-testplan-edit">關閉</label>
+                    {% endif %}
+                    {% if testplan.status == '3'%}
+                        <input type="radio" class="btn-check" name="testplan_status_option_edit" id="Not_start-outlined-testplan-edit" autocomplete="off" checked>
+                        <label class="btn btn-outline-not-start" for="Not_start-outlined-testplan-edit">未開始</label>
+                    {% else %}
+                        <input type="radio" class="btn-check" name="testplan_status_option_edit" id="Not_start-outlined-testplan-edit" autocomplete="off">
+                        <label class="btn btn-outline-not-start" for="Not_start-outlined-testplan-edit">未開始</label>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+<div class="col-md-2" id="first_box_info_2"></div>
+<div class="col-md-3">
+    <div id="info_savemode_right" class="info_savemode">
+        <div class="info_border " >
+            <h1><span>人員名單</span></h1>
+            <div class="info_show_left">
+                <p id="save_creator">創建者: {{testplan.creator}}</p>
+                {% if testplan.assign != None %}
+                    <p id="save_assign">負責人: {{testplan.assign.username}}</p>
+                {% else %}
+                    <p id="save_assign">負責人: <span style="color:red ;">未指派</p>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <div class="info_border">
+            <h1><span>日期</span></h1>
+            <div class="info_show_left">
+                <p id="save_create_date">建立日: {{testplan.create_date|date:"Y-m-d"}}</p>
+                <p id="save_start_date">開始日: {{testplan.start_date|date:"Y-m-d"}}</p>
+                <p id="save_end_date">結束日: {{testplan.end_date|date:"Y-m-d"}}</p>
+            </div>
+        </div>
+    </div>
+    <div id="info_editmode_right" class="info_editmode hidden">
+        <div class="info_border " >
+            <h1><span>人員名單</span></h1>
+            <div class="info_show_left">
+                <p id="edit_creator">創建者: {{testplan.creator}}</p>
+                <p id="edit_assign" style="color: blue;">負責人:
+                    <select class="selectpicker"  data-live-search="true" id="edit_assign_select">
+                        <option value="None">--select--</option>
+                        {% for user in user_list %}
+                            {% if testplan.assign.username == user %}
+                                <option value="{{user}}" selected="selected">{{user}}</option>
+                            {% else %}
+                                <option value="{{user}}">{{user}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="info_border">
+            <h1><span>日期</span></h1>
+            <div class="info_show_left">
+                <p id="save_create_date">建立日: {{testplan.create_date|date:"Y-m-d"}}</p>
+                <p id="edit_start_date" style="color:blue ;">開始日: &nbsp&nbsp&nbsp
+                    <input type="date" id="edit_start_date_input" name="edit_start_date_input" value="{{testplan.start_date|date:'Y-m-d'}}" > 
+                </p>
+                <p id="invalid-testplan-start-time" style="color:red" class="hidden">
+                    開始日不可空白
+                </p>
+                <p id="edit_end_date" style="color: blue;">結束日: &nbsp&nbsp&nbsp
+                    <input type="date" id="edit_end_date_input" name="edit_end_date_input" value="{{testplan.end_date|date:'Y-m-d'}}" > 
+                </p>
+                <p id="invalid-testplan-end-time" style="color:red" class="hidden">
+                    結束日不可空白
+                </p>
+                <p id="invalid-testplan-time" style="color:red" class="hidden">
+                    開始日期須早於結束日期
+                </p>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+<div class="col-md-4" id="upload_testplan_div">
+    <div style="float:right">
+        {% if testplan.status == '2' and current_user.username == testplan.assign.username %}
+            <button type="submit" class="btn btn-success" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>
+        {% else %}
+            <button type="submit" class="btn btn-success hidden" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>
+        {% endif %}
+        {% if testplan.status == '1' %}
+            <button type="submit" class="btn btn-secondary" id="already-upload-testplan" disabled>已申報結案</button>
+        {% else %}
+            <button type="submit" class="btn btn-secondary hidden" id="already-upload-testplan" disabled>已申報結案</button>
+        {% endif %}
+    </div>
+</div>

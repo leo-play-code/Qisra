@@ -1,0 +1,35 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="add_testcase_toggleLabel">添加Testcase</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <span class="modal-body" >
+        <table class="table table-hover table_border" id="">
+            <thead>
+                <tr class="header">
+                    <th>Name</th>
+                    <th>Tag</th>
+                    <th>Create Date</th>
+                </tr>
+            </thead>
+            <tbody id="search_all_testcase_body">
+                {% for testcase in testcase_object %}
+                <tr class="testplan_search_testcase_tr" id="{{testcase.id}}">
+                    <td id="testplan_search_testcase_name_td"><a class="search_link"  href="{% url 'teststep' testcase.id %}" target="_blank" id="testplan_search_testcase_name">{{testcase.name}}</a></td>
+                    <td id="testplan_search_testcase_tag_td">
+                        {% for tag in testcase.tag.all %}
+                            <span id="testplan_search_testcase_tag">{{tag}}</span>
+                        {% endfor %}
+                    </td>
+                    <td id="testplan_search_testcase_createdate">{{testcase.date_created|date:"Y-m-d"}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </span>
+    <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-primary" id="addnewtag">創建</button> -->
+    </div>
+</div>
+</div>

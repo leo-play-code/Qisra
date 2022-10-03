@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-5">
+        <h5 style="color:#E74C3C;">補充文件:</h5>
+        <table class="table table-striped">
+            <thead>
+                <th>檔案名稱</th>
+            </thead>
+            <tbody id="">
+                {% for item in testrun_file_list %}
+                <tr>
+                    <td style="Vertical-align:middle;"><a class="toast_download_show" href="/media/{{item.file}}">{{item.filename}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-5">
+        <h5 style="color:#E74C3C;">Tester上傳的文件:</h5>
+        <table class="table table-striped">
+            <thead>
+                <th>檔案名稱</th>
+                <th class="status_show_position">上傳者</th>
+                <th class="status_show_position">上傳時間</th>
+                {% if testrun.testplan %}
+                    {% if testrun.testplan.status == '2' %}
+                        {% if current_user.username in assign_list or creator_bool == True %}
+                            <th class="status_show_position">刪除</th>
+                        {% else %}
+                        <th class="status_show_position hidden">刪除</th>
+                        {% endif %}
+                    {% else %}
+                        <th class="status_show_position hidden">刪除</th>
+                    {% endif %}
+                {% else %}
+                    {% if testrun.testplans.testplan_group.status == '2' %}
+                        {% if current_user.username in assign_list or creator_bool == True %}
+                            <th class="status_show_position">刪除</th>
+                        {% else %}
+                        <th class="status_show_position hidden">刪除</th>
+                        {% endif %}
+                    {% else %}
+                        <th class="status_show_position hidden">刪除</th>
+                    {% endif %}
+                {% endif %}
+            </thead>
+            <tbody id="uploadfile_table_body">
+                {% for item in testrun_tester_file_list %}
+                <tr>
+                    <td style="Vertical-align:middle;"><a class="toast_download_show" href="/media/{{item.file}}">{{item.filename}}</a></td>
+                    <td class="status_show_position">{{item.uploader}}</td>
+                    <td class="status_show_position">{{item.date_created|date:'Y-m-d H:i:s'}}</td>
+                    {% if testrun.testplan %}
+                        {% if testrun.testplan.status == '2' %}
+                            {% if current_user.username in assign_list or creator_bool == True %}
+                                <td class="status_show_position">
+                                    <a id="upload_id_{{item.id}}" class="btn" onclick="delete_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a>
+                                </td>
+                            {% else %}
+                                <td class="status_show_position hidden">
+                                    <a id="upload_id_{{item.id}}" class="btn" onclick="delete_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a>
+                                </td>
+                            {% endif %}
+                        {% else %}
+                            <td class="status_show_position hidden">
+                                <a id="upload_id_{{item.id}}" class="btn" onclick="delete_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a>
+                            </td>
+                        {% endif %}
+                    {% else %}
+                        {% if testrun.testplans.testplan_group.status == '2' %}
+                            {% if current_user.username in assign_list or creator_bool == True %}
+                            <td class="status_show_position">
+                                <a id="upload_id_{{item.id}}" class="btn" onclick="delete_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a>
+                            </td>
+                            {% else %}
+                            <td class="status_show_position hidden">
+                                <a id="upload_id_{{item.id}}" class="btn" onclick="delete_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a>
+                            </td>
+                            {% endif %}
+                        {% else %}
+                            <td class="status_show_position hidden">
+                                <a id="upload_id_{{item.id}}" class="btn" onclick="delete_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a>
+                            </td>
+                        {% endif %}
+                            
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

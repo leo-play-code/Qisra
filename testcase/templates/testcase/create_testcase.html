@@ -1,0 +1,106 @@
+{% extends "main/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block head %}
+    {{ form.media }}
+    
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript"  src="{% static 'ckeditor/ckeditor/lang/en.js' %}"></script>
+
+{% endblock %}
+{% block title %}
+    {% trans "New Test Case" %}
+{% endblock %}
+
+{% block contents %}    
+<link rel="stylesheet" type="text/css" href="{% static 'testcase/css/create_testcase.css' %}" />  
+    <div class="col-lg-12 mx-auto p-3 py-md-5">
+        <form class="form-horizontal" action="{% url 'testcases-create-test' %}" method="post" id="allform">
+            {% csrf_token %}
+        
+            <div class="form-group">
+                <label class="col-md-1 col-lg-1" for="id_testcasename">{% trans "名稱" %}</label>
+                <div class="col-md-3 col-lg-3 {% if form_testcase.name.errors %}has-error{% endif %}">
+                    <input type="text" id="id_testcasename" name="name" class="form-control" required>
+                        {{ form_testcase.name.errors }}
+                </div>
+                <a class="btn btn-warning" style="float: right;" data-bs-toggle="modal" href="#import_testcase_toggle" role="button">匯入Testcase</a>
+                <div class="modal fade" id="import_testcase_toggle" aria-hidden="true" aria-labelledby="import_excel_label" tabindex="-1">
+                    {% include "testcase/Create_testcase/import_excel_modal.html" %}
+                </div>
+            </div>
+            <div id="error-name" style="color: red; font-size: 15px;" class="status_show_position hidden ">
+                名稱不可空白
+            </div>
+            <div class="form-group">
+                <!-- <div style="float: right;"><button id="import_testcase">test</button></div> -->
+                <div class="col-1 label-shift-y" ><label for="id_tag" class="form-label">標籤</label></div>
+                <select class="selectpicker" multiple data-live-search="true" name="id_tag" id="id_tag">   
+                    {% for tag in tag_object %}
+                        <option value="{{tag.name}}">{{tag.name}}</option>
+                    {% endfor %}
+                </select>
+                <a class="btn" data-bs-toggle="modal" href="#tag_toggle" role="button"><img src='/static/images/journal-plus.svg'></a>
+                <div class="modal fade" id="tag_toggle" aria-hidden="true" aria-labelledby="tag_toggleLabel" tabindex="-1">
+                    {% include "testcase/Form_View/tag_modal.html" %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-1 col-lg-1" for="id_text">{% trans "描述" %}</label>
+                <div class="col-md-3 col-lg-5">
+                    <textarea class="ckeditor" cols="80" name="content" id="content"></textarea>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6 col-lg-6">
+                    <h1>Teststeps:</h1>
+                    
+                </div>
+                <div class="">
+                    <button type="button" name="Save_btn" value="Save_btn" id="Save_btn" class="btn btn-success btn-md">{% trans "Save" %}</button>
+
+                    <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_save_testcase" class="hidden">
+                    <a type="button" class="btn" style="float:right" id="fullscreen"><img src='/static/images/fullscreen.svg'></a>
+                    <a type="button" class="btn hidden" style="float:right" id="smallscreen"><img src='/static/images/fullscreen-exit.svg'></a>
+                </div>
+            </div>
+            {{teststepform.media}}
+            <div class="form-group tableFixHead create_testcase_table" id="create_testcase_table">
+                <table class="table table-hover table_border testcase">
+                    <thead>
+                        <tr class="header">
+                            <th>編號</th>
+                            <th>驗證項目</th>
+                            <th>驗證條件</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody id="formset-teststep">
+                        <tr class="hidden" id="teststep_tr_list">
+                            <td id="number"></td>
+                            <td id="description">{{teststepform.description}}</td required>
+                            <td id="condition">{{teststepform.condition}}</td>
+                            <td id="remark">
+                                {{teststepform.remark}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="col-md-1 col-lg-1">
+                    <button type="submit" id="add_teststepform" name="add_teststepform" value="add_teststepform" class="btn btn-info btn-md">{% trans "add Teststep" %}</button>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                </div>
+            </div>
+            <hr style="height:30px">
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static 'testcase/js/createtestcase.js' %}"></script>
+
+    
+{% endblock %}

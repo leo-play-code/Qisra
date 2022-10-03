@@ -1,0 +1,44 @@
+{% load static %}
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="teststep_file_showlabel_{{item.id}}">檔案下載</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <span class="modal-body" >
+            <div class="form-group tableFixHead" style="overflow:scroll;height:500px;overflow-x: hidden;width:100%;">
+            <table class="table table-hover table_border " id="teststep_file_table_{{item.id}}">
+            <!-- <table class="table table-striped"> -->
+                <thead>
+                    <th>檔案名稱</th>
+                    <th class="status_show_position">上傳者</th>
+                    <th class="status_show_position">上傳時間</th>
+                    {% if creator_bool == True %}
+                        <th class="status_show_position">刪除</th>
+                    {% else %}
+                        <th class="status_show_position hidden">刪除</th>
+                    {% endif %}
+                </thead>
+                <tbody class="teststep_uploadfile_table_body">
+                    {% for item in teststep_file %}
+                    <tr>
+                        <td style="Vertical-align:middle;"><a class="toast_download_show" href="/media/{{item.file}}" target="_blank">{{item.filename}}</a></td>
+                        <td class="status_show_position">{{item.uploader}}</td>
+                        <td class="status_show_position">{{item.date_created|date:'Y-m-d H:i:s'}}</td>
+                        {% if creator_bool == True %}
+                            <td class="status_show_position"><a id="upload_teststep_id_{{item.id}}" class="btn" onclick="delete_teststep_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a></td>
+                        {% else %}
+                            <td class="status_show_position hidden"><a id="upload_teststep_id_{{item.id}}" class="btn" onclick="delete_teststep_upload(this)"><img style="width:15px;height:auto;" src='/static/images/trash3-fill.svg'></a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </span>
+        <div class="modal-footer">
+           
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,70 @@
+
+
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-header border-0">
+        <button class="cleared" id="last_page_btn">
+        <img src="/static/images/arrow-left-short.svg" />
+        </button>
+        <h5 class="modal-title upload_div" id="import_excel_label">&emsp; 匯入Excel</h5>
+        <h5 class="modal-title choose_sheet_div hidden" id="import_excel_label">選擇sheet</h5>
+        <h5 class="modal-title accurate_title_div hidden" id="accurate_title_label">標題確認</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close_import_modal"></button>
+    </div>
+    <div class="upload_div">
+        <span class="modal-body">
+        <input type="file" id="id_file" />
+        </span>
+    </div>
+    <div class="choose_sheet_div hidden" id="choose_sheet_body" style="margin: auto"></div>
+    <div class="accurate_title_div hidden" id="accurate_title_body">
+        <table class="table">
+        <thead>
+            <th>編號</th>
+            <th>驗 證 項 目</th>
+            <th>驗 證 條 件</th>
+            <td>備註</td>
+        </thead>
+        <tbody id="accurate_title"></tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-11">
+            <div style="color: red" id="error_upload_blank_msg" class="error_msg hidden">請選擇要上傳的資料</div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-11">
+            <div style="color: red" id="error_upload_fail_msg" class="error_msg hidden">上傳失敗,請上傳.xlsx後綴的檔案</div>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-9">
+        <div style="color: red" id="error_title_fail_msg" class="error_msg hidden">
+            載入失敗!請將此Sheet的標題改為
+            <br />
+            [編號] [驗 證 項 目] [驗 證 條 件][備註]
+        </div>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-9">
+            <div style="color: red" id="error_file_fail_msg" class="error_msg hidden">
+                載入失敗!請不要將標題名稱重複引用
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer border-0">
+        <button type="submit" class="btn btn-warning" id="cancel_import">取消</button>
+        <div class="upload_div">
+            <button type="submit" class="btn btn-primary" id="upload_testcase_btn">上傳</button>
+        </div>
+        <div class="choose_sheet_div hidden">
+            <button type="submit" class="btn btn-primary" id="upload_sheet_btn">確認</button>
+        </div>
+        <div class="accurate_title_div hidden">
+            <button type="submit" class="btn btn-primary" id="upload_title_btn">確認</button>
+        </div>
+        <img src="/static/images/Double Ring-1s-48px.svg" id="loading_img" class="hidden"/>
+    </div>
+    </div>
+</div>
+  

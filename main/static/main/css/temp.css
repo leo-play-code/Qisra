@@ -1,0 +1,192 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins' , sans-serif;
+}
+
+.loginModalbody
+{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    min-height: 80vh; 
+    min-width: 80vh; 
+    flex-direction: column;
+    gap: 10px;
+    background: #1d2b3a;
+}
+.inputBox
+{
+    position: relative;
+    width: 250px;
+}
+.inputBox input
+{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: #1d2b3a;
+    border-radius: 5px;
+    outline: none;
+    color: #fff;
+    font-size: 1em;
+    transition: 0.5s;
+}
+.inputBox span
+{
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+    transition: 0.5s;
+}
+input::placeholder
+{
+    position: absolute;
+    pointer-events: none;
+    font-size: 1em;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+    transition: 0.5s;
+}
+
+
+
+
+
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span
+{
+    color: #00dfc4;
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.65em;
+    padding: 0 10px;
+    background: #1d2b3a;
+    border-left: 1px solid #00dfc4;
+    border-right: 1px solid #00dfc4;
+}
+
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span
+{
+    background: #00dfc4;
+    color: #1d2b3a;
+    border-radius: 2px;
+}
+.inputBox input:valid,
+.inputBox input:focus
+{
+    border: 1px solid #00dfc4;
+}
+
+/*  dropdown css */
+/* .type-body
+{
+    font-family:  Helvetica, sans-serif;
+    background: #23242a;
+    min-height: 100vh;
+} */
+
+
+.dropdown
+{
+    min-width: 15em;
+    position: relative;
+    margin: 2em;
+}
+
+.dropdown *
+{
+    box-sizing: border-box;
+}
+
+.select
+{
+    background: #2a2f3b;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px #2a2f3b solid;
+    border-radius: 0.5em;
+    padding:  1em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+/* javascript use */
+.select-clicked
+{
+    border: 2px #26489a solid;
+    box-shadow: 0 0 0.8em #26489a;
+}
+
+.select:hover
+{
+    background: #323741;
+}
+
+.caret
+{
+    width: 0;
+    height: 0;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top : 6px solid #fff;
+    transition: 0.3s;
+}
+
+/* javascript use */
+.caret-rotate
+{
+    transform: rotate(180deg);
+}
+
+.menu
+{
+    list-style: none;
+    padding: 0.2em 0.5em;
+    background: #323741;
+    border: 1px #363a43 solid;
+    box-shadow: 0 0.5em 1em rgba(0,0,0,0.2);
+    border-radius: 0.5em;
+    color: #9fa5b5;
+    position: absolute;
+    top: 3em;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    z-index: 1;
+}
+
+.menu l1
+{
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0 ;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.menu li:hover
+{
+    background: #2a2d35;
+}
+
+/* javascript use */
+.active
+{
+    background: #23242a;
+}
+/* javascript use */
+.menu-open
+{
+    display: block;
+    opacity: 1;
+}

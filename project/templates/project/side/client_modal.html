@@ -1,0 +1,27 @@
+{% load static %}
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="client_toggleLabel">建立客戶名稱</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <span class="modal-body" >
+            <div class="row">
+                <div class="col">
+                    <input style="width:300px ;" type="text" id="new_client_name" class="form-control" placeholder="New Client Name" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span id="error-client-name" style="color: red;" class="hidden">Client名稱不可空白</span>
+                </div>
+            </div>
+        </span>
+        <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-primary" id="addnewtag">創建</button> -->
+            <button type="button" class="btn btn-primary" onclick="return _Create_Client(this)" id="add_client_btn">創建</button>
+            <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_create_client" class="hidden">
+        </div>
+    </div>
+</div>
+<script src="{% static 'project/js/add_client.js' %}"></script>

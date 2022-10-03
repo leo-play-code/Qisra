@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans "Home" %}{% endblock %}
+{% block contents %}
+<div class="container-fluid container-cards-pf">
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/dashboard.css' %}" />  
+    <form method="POST" action="" class="" id="">
+        {% if creator_bool == True %}
+        <div class="row g-5">
+            <div class="col-md-6" >
+                {% include "main/dashboard_table/testplan_creator_table.html"%}
+            </div>
+            <div class="col-md-6" >
+                {% include "main/dashboard_table/testplan_tester_table.html" %}
+            </div>
+            <div class="col-md-6" >
+                {% include "main/dashboard_table/testplan_creator_close_table.html" %}
+            </div>
+            <div class="col-md-6" >         
+            </div>
+            
+        </div>
+        {% else %}
+        <div class="row g-5">
+            <div class="col-md-6" >
+                {% include "main/dashboard_table/testplan_tester_table.html" %}
+            </div>
+            <div class="col-md-6" >
+                {% include "main/dashboard_table/testrun_tester_table.html" %}
+            </div>
+        </div>
+        {% endif %}
+    </form>
+    <script src="{% static 'main/js/pagination_table_new.js' %}"></script>
+    <script src="{% static 'main/js/dashbaord_delay_background.js' %}"></script>
+{% endblock %}

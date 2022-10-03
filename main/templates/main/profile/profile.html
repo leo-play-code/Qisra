@@ -1,0 +1,81 @@
+{% extends "main/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans "Profile" %}{% endblock %}
+{% block contents %}
+
+<link rel="stylesheet"  type="text/css" href="{% static 'main/css/profile.css' %}">
+<div class="container mt-5">
+    <div class="" role="tabpanel">
+        <div class="row">
+            <div class="col-4">
+                <!-- Account Sidebar-->
+                <div class="author-card pb-3">
+                    <div class="author-card-profile">
+                        <div class="author-card-avatar"><img src="{% static 'images/user.png' %}" >
+                        </div>
+                        <div class="author-card-details">
+                            <h5 class="author-card-name text-lg">{{current_user}}</h5><span class="author-card-position">Joined {{current_user.date_joined}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active show" id="list-profile-list" data-toggle="tab" href="#list-profile" role="tab" aria-controls="list-profile" aria-selected="true">Profile</a>
+                    <!-- <a class="list-group-item list-group-item-action" id="list-history-list" data-toggle="tab" href="#list-history" role="tab" aria-controls="list-history" aria-selected="false">History</a> -->
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade" id="list-history" role="tabpanel" aria-labelledby="list-history-list">
+                        <p>開發中.......</p>
+                    </div>
+                    <div class="tab-pane fade active show" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                        <form class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="account-fn">Username</label>
+                                    <input class="form-control" type="text" id="account-name" value="{{current_user.username}}" disabled="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="account-email">E-mail Address</label>
+                                    <input class="form-control" type="email" id="account-email" value="{{current_user.email}}" disabled="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="account-pass">New Password</label>
+                                    <input class="form-control" type="password" id="account-pass">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="account-confirm-pass">Confirm Password</label>
+                                    <input class="form-control" type="password" id="account-confirm-pass">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <hr class="mt-2 mb-3">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                    <button class="btn btn-style-1 btn-primary" id="update_profile_btn" type="button" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                                </div>
+                                <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_update_profile" class="hidden">
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+   
+</div>
+
+
+<script src="{% static 'main/js/profile.js' %}"></script>
+
+{% endblock %}

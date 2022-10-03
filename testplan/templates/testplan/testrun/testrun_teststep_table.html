@@ -1,0 +1,147 @@
+{% load static %}
+{% load i18n %}
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'colresizable/samples/colResizable/css/main.css' %}" />  
+<link rel="stylesheet" type="text/css" href="{% static 'css/resize_table.css' %}" />  
+
+<script src="{% static 'colresizable/colResizable-1.6.js' %}"></script>
+<script type="text/javascript">
+    
+$(function(){	
+    $("#teststepview_table").colResizable({
+        liveDrag:true, 
+        gripInnerHtml:"<div class='grip'></div>", 
+        draggingClass:"dragging", 
+        resizeMode:'overflow'
+    }); 
+});	
+</script>
+
+<div class="resize_scroll resize_scroll_limit_h" id="resize_scroll_teststep_table">
+    <table id="teststepview_table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr class="header">
+                <th style="width: 100px;">編號</th>
+                <th style="width: 300px;">驗證項目</th>
+                <th>驗證條件</th>
+                <th style="width:500px">實際結果</th>
+                <th style="width: 100px;">Status</th>
+                <th style="width:500px">備註</th>
+                <th style="width:200px ;">附件</th>
+            </tr>
+        </thead>
+
+
+        <tbody id="teststep_tr_list_savemode">
+            {% for item,teststep_file in teststep_file_dict.items %}
+            <tr id="teststep_show" class="gradient_teststep_list">
+                <td id="number" class="status_show_position">{{item.number}}</td>
+                <td id="description">{{item.description|safe|linebreaks}}</td required>
+                <td id="condition">{{item.condition|safe|linebreaks}}</td>
+                <td id="outcome"><div class="ckeditor_replace">{{item.actual_outcome|safe|linebreaks}}</div></td>
+                <td class="status_show_position" id="status">
+                    <input type="radio" class="btn-check" name="show-status-{{item.number}}" id="show-status-{{item.number}}" autocomplete="off" checked >
+                {% if item.status == 'Passed' %}
+                <button id="show-status-label" class="btn btn-outline-success testrun_status" for="show-status-{{item.number}}" style="--bs-btn-disabled-opacity:1" disabled>Passed</button>
+                {% elif item.status == 'Incomplete' %}
+                <button id="show-status-label" class="btn btn-outline-warning testrun_status" for="show-status-{{item.number}}" style="--bs-btn-disabled-opacity:1" disabled>Incomplete</button>
+                {% elif item.status == 'Failed'%}
+                <button id="show-status-label" class="btn btn-outline-danger testrun_status" for="show-status-{{item.number}}" style="--bs-btn-disabled-opacity:1" disabled>Failed</button>
+                {% elif item.status == 'Blocked'%}
+                <button id="show-status-label" class="btn btn-outline-block testrun_status" for="show-status-{{item.number}}" style="--bs-btn-disabled-opacity:1" disabled>Blocked</button>
+                {% elif item.status == 'Omitted'%}
+                <button id="show-status-label" class="btn btn-outline-omitt testrun_status" for="show-status-{{item.number}}" style="--bs-btn-disabled-opacity:1" disabled>Omitted</button>
+                {% endif %}
+                </td>
+                <td id="edit_status" class="status_show_position hidden">
+                    {% if item.status == 'Passed' %}
+                    <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Passed" autocomplete="off" checked>
+                    <label class="btn btn-outline-success testrun_status" for="id-status-{{item.number}}-Passed">Passed</label>
+                    {% else %}
+                    <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Passed" autocomplete="off">
+                    <label class="btn btn-outline-success testrun_status" for="id-status-{{item.number}}-Passed">Passed</label>
+                    {% endif %}
+                    {% if item.status == 'Failed' %}
+                        <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Failed" autocomplete="off" checked>
+                        <label class="btn btn-outline-danger testrun_status" for="id-status-{{item.number}}-Failed">Failed</label>
+                    {% else %}
+                    <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Failed" autocomplete="off">
+                    <label class="btn btn-outline-danger testrun_status" for="id-status-{{item.number}}-Failed">Failed</label>
+                    {% endif %}
+                    {% if item.status == 'Incomplete' %}
+                        <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Incomplete" autocomplete="off" checked>
+                        <label class="btn btn-outline-warning testrun_status" for="id-status-{{item.number}}-Incomplete">Incomplete</label>
+                    {% else %}
+                    <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Incomplete" autocomplete="off">
+                    <label class="btn btn-outline-warning testrun_status" for="id-status-{{item.number}}-Incomplete">Incomplete</label>
+                    {% endif %}
+                    {% if item.status == 'Blocked' %}
+                        <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Blocked" autocomplete="off" checked>
+                        <label class="btn btn-outline-block testrun_status" for="id-status-{{item.number}}-Blocked">Blocked</label>
+                    {% else %}
+                    <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Blocked" autocomplete="off">
+                    <label class="btn btn-outline-block testrun_status" for="id-status-{{item.number}}-Blocked">Blocked</label>
+                    {% endif %}
+                    {% if item.status == 'Omitted' %}
+                        <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Omitted" autocomplete="off" checked>
+                        <label class="btn btn-outline-omitt testrun_status" for="id-status-{{item.number}}-Omitted">Omitted</label>
+                    {% else %}
+                    <input type="radio" class="btn-check" name="id-option-{{item.number}}" id="id-status-{{item.number}}-Omitted" autocomplete="off">
+                    <label class="btn btn-outline-omitt testrun_status" for="id-status-{{item.number}}-Omitted">Omitted</label>
+                    {% endif %}
+                </td>
+                <td id="remark">{{item.remark|safe|linebreaks}}</td>
+                <td id="file">
+                    <div class="row save_upload_td">
+                        
+                        <div class="col upload_href">
+                            {% if testrun.testplan %}
+                                {% if testrun.testplan.status == '2' %}
+                                    {% if current_user.username in assign_list or creator_bool == True %}
+                                    <a class="btn" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                    {% else %}
+                                    <a class="btn hidden" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                    {% endif %}
+                                {% else %}
+                                <a class="btn hidden" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                {% endif %}
+                            {% else %}
+                                {% if testrun.testplans.testplan_group.status == '2' %}
+                                    {% if current_user.username in assign_list or creator_bool == True %}
+                                    <a class="btn" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                    {% else %}
+                                    <a class="btn hidden" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                    {% endif %}
+                                {% else %}
+                                <a class="btn hidden" data-bs-toggle="modal" href="#teststep_file_toggle_{{item.id}}" role="button"><i class="fa-solid fa-file-arrow-up" style="color: red; font-size:30px"></i></a>
+                                {% endif %}
+                            {% endif %}
+                        </div>  
+                        <div class="col show_href">
+                            {% if teststep_file.0|length > 0 or teststep_file.1|length > 0 %}
+                                <a class="btn " id="teststep_showfile_link_{{item.id}}" data-bs-toggle="modal" href="#teststep_file_show_{{item.id}}" role="button"><img style="width:30px;height:auto;" src='/static/images/teststep_file.svg'></a>
+                            {% else %}
+                                <a class="btn hidden " id="teststep_showfile_link_{{item.id}}" data-bs-toggle="modal" href="#teststep_file_show_{{item.id}}" role="button"><img style="width:30px;height:auto;" src='/static/images/teststep_file.svg'></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+                <div class="modal fade" id="teststep_file_toggle_{{item.id}}" aria-hidden="true" aria-labelledby="teststep_file_togglelabel_{{item.id}}" tabindex="-1">
+                    {% include "testcase/Testcase_view/teststep_file_upload.html" %}
+                </div>
+                <div class="modal fade fileshow-modal" id="teststep_file_show_{{item.id}}" aria-hidden="true" aria-labelledby="teststep_file_showlabel_{{item.id}}" tabindex="-1">
+                    {% include "testplan/testrun/teststep_file_show.html" %}
+                </div>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <div class="col-md-1 col-lg-1">
+            <button type="submit" id="add_teststepform" name="add_teststepform" value="add_teststepform" class="btn btn-info btn-md hidden">{% trans "add Teststep" %}</button>
+        </div>
+        <div class="col-md-4 col-lg-4">
+        </div>
+    
+    </table>
+</div>

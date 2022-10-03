@@ -1,0 +1,26 @@
+{% load static %}
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="file_upload_toggleLabel">上傳檔案</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <span class="modal-body" >
+            <input type="file" id="id_file_upload" />
+            <div style="color: red" id="error_upload_blank_msg" class="error_msg hidden">
+                請選擇要上傳的資料
+            </div>
+            <div style="color: red" id="error_upload_fail_msg" class="error_msg hidden">
+                上傳失敗,請上傳.xlsx後綴的檔案
+            </div>
+        </span>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="upload_teststep_file_btn">
+                上傳
+            </button>
+            
+            <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_teststep_file_btn" class="hidden">
+        </div>
+    </div>
+</div>
+

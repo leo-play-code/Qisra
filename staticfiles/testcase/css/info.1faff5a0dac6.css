@@ -1,0 +1,30 @@
+.info_border{
+    border: 1px solid #000;
+}
+.info_border h1{
+    text-align: center;
+    margin-top: -10px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 15px;
+}
+.info_border h1 span{
+    background-color: white;
+    font-size: 20px;
+}
+.save_context_no_text{
+    color:#ccc;
+}
+.save_context_has_text{
+    transform: translateX(30px)
+}
+.info_show_left{
+    padding-left: 10px;
+}
+.info_label label {
+    /* Other styling... */
+    text-align: right;
+    clear: both;
+    float:left;
+    margin-right:15px;
+}

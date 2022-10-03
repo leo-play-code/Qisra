@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="delete_toggleLabel">Are you absolutely sure?</h5>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <span>
+            <div style="background-color: #FF5733 ;color:#fff ;" class="status_show_position">
+                <h5>如果你不讀這篇文章，會發生意想不到的壞事！</h5>
+            </div>
+        </span>
+        <span class="modal-body" >
+            <div class="row">
+                <h5>
+                    此操作無法撤消。
+                    <br>
+                    這將永久刪除 <span style="color:#DC7633">{{testrun.name}}</span> 的 testcase, teststep, issues, comments, history.
+                </h5>
+            </div>
+            <br>           
+        </span>
+        <div class="modal-footer">
+            <form method="POST" action="" class="needs-validation">
+                {% csrf_token %}
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" >取消</button>
+                <button type="submit" class="btn btn-danger" id="delete_verify" name="delete_verify" >刪除</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
