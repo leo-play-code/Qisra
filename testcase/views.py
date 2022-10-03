@@ -23,6 +23,9 @@ from testcase.models import (
     Tag,testcase_file,teststep_file,
     testcase_import_excel)
 
+from testplan.models import Testrun
+
+
 import re
 from difflib import SequenceMatcher
 import json
@@ -146,7 +149,8 @@ def TestStepView(request, pk):
     history_dict = get_history(testcase_history_model)
     # reason_history
     temp_blank = ''
-
+    # detect testcase in any testplan-group testrun or not 
+    testrun_count = Testrun.objects.filter(testcase = testcase).count()
     if 'save_teststep' in request.POST:
         '''
         teststep update
@@ -199,7 +203,7 @@ def TestStepView(request, pk):
                                             remark=item_data[3])
                     change_reason += "新增||編號{}:\n||{}||{}||".format(
                         str(item_data[0]), temp_blank, item_data[1])
-        print('teststep_orignal_id_list',teststep_orignal_id_list)
+        # print('teststep_orignal_id_list',teststep_orignal_id_list)
         for item in teststep_orignal_id_list:
             try:
                 temp_teststep = Teststep.objects.get(id=item)
@@ -388,7 +392,7 @@ def TestStepView(request, pk):
     tag_list_json = json.dumps(tag_list)
     context = {'testcase': testcase, 'teststep_dict': teststep_dict, 'form_teststep_list': form_teststep_list, 
                'tag_list': tag_list, 'tag_list_json': tag_list_json, 'tag_all_list': tag_all_list, 'teststepform': teststepform,'testcase_file_list':testcase_file_list,
-               'testcaseform': testcaseform, 'history_dict': history_dict}
+               'testcaseform': testcaseform, 'history_dict': history_dict,'testrun_count':testrun_count}
     return render(request, 'testcase/teststep_view.html', context)
 
 
