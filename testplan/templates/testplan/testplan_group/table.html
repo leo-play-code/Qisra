@@ -18,7 +18,7 @@
         }); 
     });	
 </script> -->
-<div class="row">
+<div class="row hidden" id="add_table_div">
     <div class="col-2"></div>
     <div class="col-5">
         <div id="edit_testrun_table" style="float: left;">
@@ -49,11 +49,11 @@
     </div>
 </div>
 
-<div class="scroll_all" id="resize_scroll_teststep_table" >
+<div class="scroll_all scroll_all_limit_h" id="resize_scroll_teststep_table" >
     <table id="teststepview_table"  border="0" cellpadding="0" cellspacing="0">
         <thead>
             <tr class="header">
-                <th style="width: 100px;">TC.ID</th>
+                <th>TC.ID</th>
                 <th>TC.Name</th>    
                 {% for testplan in testplan_list %}
                     <th class="status_show_position">
@@ -68,29 +68,28 @@
         <tbody id="teststep_tr_list_savemode">
             {% for testcase,testrun_list in testcase_dict.items %}
                 <tr>
-                    <td><a href="{% url 'teststep' testcase.id %}">TEM-{{testcase.id}}</a></td>
-                    <td>
+                    <th class="first"><a href="{% url 'teststep' testcase.id %}">TEM-{{testcase.id}}</a></th>
+                    <th class="second">
                         {{testcase.name}}
                         <input type="hidden" value="{{testcase.id}}" id="checkbox_id">
                         <input type="checkbox" class="hidden testcase_check_all" onclick="_check_all(this)">
-                    </td>
+                    </th>
+
                     {% for data in testrun_list %}
                         {% if data.1 != 'None' %}
-                        <td tyle="float: left;">
+                        <td class="table_td_edit hidden">
                             <div><input type="checkbox" class="testplan_testcase_checkbox_checked"  checked disabled></div>
                         </td>
                         {% else %}
-                        <td tyle="float: left;"><input type="checkbox" class="testplan_testcase_checkbox testplan_checkbox_{{data.0.id}} testcase_checkbox_{{testcase.id}}" id="TestplanID-{{data.0.id}}-TestcaseID-{{testcase.id}}"  disabled></td>
+                        <td class="table_td_edit hidden"><input type="checkbox" class="testplan_testcase_checkbox testplan_checkbox_{{data.0.id}} testcase_checkbox_{{testcase.id}}" id="TestplanID-{{data.0.id}}-TestcaseID-{{testcase.id}}"  disabled></td>
                         {% endif %}
                     {% endfor %}
-                  
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
+       
+                    
+     
                     {% for data in testrun_list %}
                         {% if data.1 != 'None' %}
-                        <td >
+                        <td class="table_td_save">
                             <div>
                                 {% if data.1.status == 'Incomplete' %}
                                     <a href="{% url 'testrun' data.1.id %}" style="color:#B7950B">{{data.1.status}}</a>
@@ -109,13 +108,19 @@
                             </div>
                         </td>
                         {% else %}
-                        <td>
+                        <td class="table_td_save">
                             <div></div>
                             <div></div>
                         </td>
                         {% endif %}
                     {% endfor %}
+            
                 </tr>
+                <!-- <tr class="">
+                    <th class="first"></th>
+                    <th class="second"></th>
+                    
+                </tr> -->
             {% endfor %}
         </tbody>
     </table>

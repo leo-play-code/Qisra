@@ -471,17 +471,31 @@ def Testplan_Group_view(request,pk):
             update_change_reason(testplan_group, change_reason)
     elif 'save_testcase' in request.POST:
         add_testcase_list = request.POST.getlist('testcase_list[]')
-        '''
-        create teststep for tester
-        '''
+        testcase_list_name = ''
         for item in add_testcase_list:
             testplan_group.testcase_list.add(Testcase.objects.get(id=int(item)))
-        # get all testplan from testplan group
+            testcase_list_name += (Testcase.objects.get(id=int(item)).name+'\n')
+        testplan_group.save()
+        # history
+        change_reason = ''
+        
+        change_reason = "添加|| {}:\n|| {}|| {} ||".format(
+            'Testcase','',testcase_list_name)
+        if change_reason != '':
+            update_change_reason(testplan_group, change_reason)
+
         
     elif 'save_testplan' in request.POST:
         name = request.POST['name']
         new_testplan = Testplans.objects.create(testplan_group=testplan_group,name=name,number_issue=0)
         new_testplan.save()
+        testplan_group.save()
+        # history
+        change_reason = ''
+        change_reason = "添加|| {}:\n|| {}|| {} ||".format(
+            'Testplan','',name)
+        if change_reason != '':
+            update_change_reason(testplan_group, change_reason)
         return JsonResponse({'id':new_testplan.id,'name':new_testplan.name})
     elif 'create_testrun' in request.POST:
         testrun_list = request.POST.getlist('testrun[]')

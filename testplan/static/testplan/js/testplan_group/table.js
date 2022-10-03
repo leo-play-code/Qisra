@@ -55,31 +55,34 @@ function _Add_testplan(DOM){
 
 
 
-function _Cancel_Add_testplan(DOM){
-    new_testplan_name = DOM.parentNode.parentNode.querySelector('#new_testplan_name')
-    new_testplan_name.classList.add('hidden')
-    DOM.parentNode.parentNode.querySelector('#add_testplan_btn').classList.add('hidden')
-    DOM.classList.add('hidden')
-    DOM.parentNode.parentNode.parentNode.querySelector('#show_testplan_input_btn').classList.remove('hidden')
-    $('#new_testplan_name').val('')
-    return false
-}
+
 
 const Edit_table_btn = document.getElementById('Edit_table_btn')
 const Save_table_btn = document.getElementById('Save_table_btn')
 const Cancel_table_btn = document.getElementById('Cancel_table_btn')
-
+const add_table_div = document.getElementById('add_table_div')
+const table_td_edit = document.querySelectorAll('.table_td_edit')
+const table_td_save = document.querySelectorAll('.table_td_save')
 // btn 
 function _Edit_table2(DOM){
     var testplan_testcase_checkbox = document.querySelectorAll('.testplan_testcase_checkbox')
     var testcase_check_all = document.querySelectorAll('.testcase_check_all')
     var testplan_check_all = document.querySelectorAll('.testplan_check_all')
+    
     testcase_check_all.forEach(element=>{
         element.classList.remove('hidden')
     })
     testplan_check_all.forEach(element=>{
         element.classList.remove('hidden')
     })
+    table_td_edit.forEach(element=>{
+        element.classList.remove('hidden')
+    })
+    table_td_save.forEach(element=>{
+        element.classList.add('hidden')
+    })
+
+    add_table_div.classList.remove('hidden')
     Edit_table_btn.classList.add('hidden')
     Save_table_btn.classList.remove('hidden')
     Cancel_table_btn.classList.remove('hidden')
@@ -100,6 +103,15 @@ function _Cancel_table(DOM){
         element.checked = false
         element.classList.add('hidden')
     })
+
+    table_td_edit.forEach(element=>{
+        element.classList.add('hidden')
+    })
+    table_td_save.forEach(element=>{
+        element.classList.remove('hidden')
+    })
+
+    add_table_div.classList.add('hidden')
     Save_table_btn.classList.add('hidden')
     Cancel_table_btn.classList.add('hidden')
     Edit_table_btn.classList.remove('hidden')
@@ -110,10 +122,13 @@ function _Cancel_table(DOM){
     return false
 }
 function _Save_table(DOM){
+    var loading_save_table = document.getElementById('loading_save_table')
     Save_table_btn.classList.add('hidden')
     Cancel_table_btn.classList.add('hidden')
-    Edit_table_btn.classList.remove('hidden')
+    loading_save_table.classList.remove('hidden')
+    // Edit_table_btn.classList.remove('hidden')
     _Save_testcase_django()
+    
     
     return false
 }
