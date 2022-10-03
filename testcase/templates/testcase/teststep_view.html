@@ -22,9 +22,13 @@
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownedit">
                         <div id="clone_div">
                             <li><button class="dropdown-item btn" type="submit" id="clone" name="clone"><img src='/static/images/clipboard-plus-fill.svg'> CLONE</button></li>
-                            <li><hr class="dropdown-divider"></li>
                         </div>
-                        <a class="btn dropdown-item" data-bs-toggle="modal" href="#delete_toggle" role="button"><img src='/static/images/trash3-fill.svg'> DELETE</a>
+                        {% if testrun_count > 0 %}
+                            <a class="btn dropdown-item hidden" data-bs-toggle="modal" href="#delete_toggle" role="button"><img src='/static/images/trash3-fill.svg'> DELETE</a>
+                        {% else %}
+                            <li><hr class="dropdown-divider"></li>
+                            <a class="btn dropdown-item" data-bs-toggle="modal" href="#delete_toggle" role="button"><img src='/static/images/trash3-fill.svg'> DELETE</a>
+                        {% endif %}
                     </ul>
                 </div>
             {% else %}

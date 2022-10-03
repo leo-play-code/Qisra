@@ -514,6 +514,49 @@ def Testplan_Group_view(request,pk):
     elif 'delete_verify' in request.POST:
         testplan_group.delete()
         return redirect('Dashboard')  
+    elif 'clone' in request.POST:
+        loc_dt = dt2.today() 
+        loc_dt_format = loc_dt.strftime("%Y-%m-%d %H:%M:%S")
+        temp_clone_list = str(testplan_group.name).split('-clone')
+        clonename = temp_clone_list[0]+'-clone-'+str(loc_dt_format)
+        clone_issue_name = testplan_group.issue_name+'-clone-'+str(loc_dt_format)
+        name = clonename
+        tag_list = testplan_group.tag.all()
+        add_testcase_list = testplan_group.testcase_list.all()
+        assign = testplan_group.assign
+        stage = testplan_group.stage
+        start_time = testplan_group.start_date
+        stop_time = testplan_group.end_date
+        context = testplan_group.text
+        project_object =  testplan_group.project
+        creator_object = request.user
+        issue_name = clone_issue_name
+        if assign != 'None':
+            assing_object = User.objects.get(username = assign)
+            new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
+                                    stage = stage , start_date = start_time,end_date=stop_time,
+                                    assign=assing_object,text=context,issue_name=issue_name,number_issue=0)
+        else:
+            new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
+                                    stage = stage , start_date = start_time,end_date=stop_time,
+                                    text=context,issue_name=issue_name,number_issue=0)
+        for item in tag_list:
+            try:
+                new_testplan.tag.add(item)
+            except Exception as e:
+                print('error = ',e)
+        '''
+        create teststep for tester
+        '''
+
+        for item in add_testcase_list:
+            '''
+            獲取要複製的資料
+            '''
+            new_testplan.testcase_list.add(item)
+        new_testplan.save()
+        return HttpResponseRedirect(reverse("testplan_group_view", args=[new_testplan.pk]))
+    
     context = {'testplan_group':testplan_group,'history_dict':history_dict,'tag_list':tag_list,'testcase_list':testcase_list,
                'testplan_list':testplan_list,'testcase_dict':testcase_dict,'testplan_progress_list':testplan_progress_list}
     return render(request,'testplan/Testplan_group_view.html',context)

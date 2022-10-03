@@ -74,7 +74,6 @@
                         <input type="hidden" value="{{testcase.id}}" id="checkbox_id">
                         <input type="checkbox" class="hidden testcase_check_all" onclick="_check_all(this)">
                     </th>
-
                     {% for data in testrun_list %}
                         {% if data.1 != 'None' %}
                         <td class="table_td_edit hidden">
@@ -84,9 +83,6 @@
                         <td class="table_td_edit hidden"><input type="checkbox" class="testplan_testcase_checkbox testplan_checkbox_{{data.0.id}} testcase_checkbox_{{testcase.id}}" id="TestplanID-{{data.0.id}}-TestcaseID-{{testcase.id}}"  disabled></td>
                         {% endif %}
                     {% endfor %}
-       
-                    
-     
                     {% for data in testrun_list %}
                         {% if data.1 != 'None' %}
                         <td class="table_td_save">
@@ -116,11 +112,6 @@
                     {% endfor %}
             
                 </tr>
-                <!-- <tr class="">
-                    <th class="first"></th>
-                    <th class="second"></th>
-                    
-                </tr> -->
             {% endfor %}
         </tbody>
     </table>
