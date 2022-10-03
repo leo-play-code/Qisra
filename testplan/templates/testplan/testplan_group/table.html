@@ -4,10 +4,10 @@
 
 
 
-<link rel="stylesheet" type="text/css" href="{% static 'colresizable/samples/colResizable/css/main.css' %}" />  
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/resize_table.css' %}" />  
 
-<script src="{% static 'colresizable/colResizable-1.6.js' %}"></script>
+<script src="{% static 'js/colResizable-1.6.js' %}"></script>
 <!-- <script type="text/javascript">
     $(function(){	
         $("#teststepview_table").colResizable({
@@ -18,20 +18,37 @@
         }); 
     });	
 </script> -->
-<div>
-    <div id="edit_testrun_table" style="float: left;">
-        <p style="color:green ;">添加 Testcase:
-            <select class="selectpicker" multiple data-live-search="true" id="select_testcase">   
-                {% for testcase in testcase_object %}
-                    {% if testcase not in testcase_list %}
-                        <option value="{{testcase.id}}">{{testcase.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </p>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-5">
+        <div id="edit_testrun_table" style="float: left;">
+            <p style="color:green ;">添加 Testcase:
+                <select class="selectpicker" multiple data-live-search="true" id="select_testcase">   
+                    {% for testcase in testcase_object %}
+                        {% if testcase not in testcase_list %}
+                            <option value="{{testcase.id}}">{{testcase.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </p>
+        </div>
+        <button style="float:left" type="submit" class="btn btn-md cleared" onclick="return _Add_testcase(this)" id="Edit_teststep_btn"><i class="fa-solid fa-plus"></i></button>
     </div>
-    <button style="float:left" type="submit" class="btn btn-md cleared" onclick="return _Add_testcase(this)" id="Edit_teststep_btn"><i class="fa-solid fa-plus"></i></button>
+    <div class="col-5">
+        <div class="row">
+            <div class="col-3" style="color:green ;">
+                <p style="transform: translateY(5px)"> 添加 Testplan:</p>
+            </div>
+            <div class="col-7">
+                <input style="width:85% ;" type="text" id="new_testplan_name" name="new_testplan_name" class="form-control" placeholder="New Testplan Name" >
+            </div>
+            <div class="col-2">
+                <button type="submit" style="float:left" class="btn btn-md btn-success" onclick="return _Add_testplan(this)" id="add_testplan_btn" >添加</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 <div class="scroll_all" id="resize_scroll_teststep_table" >
     <table id="teststepview_table"  border="0" cellpadding="0" cellspacing="0">
         <thead>
@@ -45,22 +62,9 @@
                         <input type="checkbox" class="hidden testplan_check_all" onclick="_check_all(this)">
                     </th>
                 {% endfor %}
-                <th> 
-                    <button type="submit" class="btn btn-md cleared" onclick="return _Show_testplan_input(this)" id="show_testplan_input_btn"><i class="fa-solid fa-plus"></i></button>
-                    <div>
-                        <div style="float: left;">
-                            <input style="width:300px ;" type="text" id="new_testplan_name" name="new_testplan_name" class="form-control hidden" placeholder="New Testplan Name" >
-                        </div>
-                        <div style="float: right;" class="status_show_position">
-                            <button type="submit" class="btn btn-md cleared hidden" onclick="return _Add_testplan(this)" id="add_testplan_btn" style="color: green;"><i class="fa-solid fa-check"></i></button>
-                            <button type="submit" class="btn btn-md cleared hidden" onclick="return _Cancel_Add_testplan(this)" id="cancel_testplan_btn" style="color: red;"><i class="fa-solid fa-xmark"></i></button>
-                        </div>
-                    </div>
-                </th>
+                
             </tr>
         </thead>
-
-
         <tbody id="teststep_tr_list_savemode">
             {% for testcase,testrun_list in testcase_dict.items %}
                 <tr>

@@ -25,21 +25,14 @@ function _Add_testcase(DOM){
     return false
 }
 
-function _Show_testplan_input(DOM){
-    new_testplan_name = DOM.parentNode.querySelector('#new_testplan_name')
-    DOM.classList.add('hidden')
-    new_testplan_name.classList.remove('hidden')
-    DOM.parentNode.querySelector('#add_testplan_btn').classList.remove('hidden')
-    DOM.parentNode.querySelector('#cancel_testplan_btn').classList.remove('hidden')
-    return false
-}
+
 
 function _Add_testplan(DOM){
     data_dict = {}
     var csrftoken = getCookie('csrftoken');
     data_dict['csrfmiddlewaretoken'] = csrftoken;
     data_dict['save_testplan'] = 'save_testplan'
-    if ($('#new_testplan_name').val()==null){
+    if ($('#new_testplan_name').val()==''){
         createToast(false, '添加Testplan 失敗')
     }else{
         data_dict['name'] = $('#new_testplan_name').val()
