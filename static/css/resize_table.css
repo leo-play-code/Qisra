@@ -22,7 +22,7 @@
 .resize_scroll tr:nth-child(odd):hover {background-color: #ececef;}
 .resize_scroll table,tr,td{
     border:1px solid #dddddd;
-    border-collapse:collapse;
+    border-collapse:separate;
 }
 .resize_scroll td { padding: 8px 16px; }
 

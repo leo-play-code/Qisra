@@ -40,13 +40,13 @@
                     {% endif %}
                 </p>
                 <div id="save_testplan_progress">
-                    <label for="progress_id">
+
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-2">
                                 進度:
                             </div>
-                            <div class="col-9" style="transform: translateY(4px);">
-                                <div class="progress mb-3" style="width:200px ;">
+                            <div class="col-10" style="transform: translateY(4px);">
+                                <div class="progress mb-3" style="width:90% ;">
                                     <div class="progress-bar pass" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Passed</div>
                                     <div class="progress-bar fail" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Failed</div>
                                     <div class="progress-bar ongoing" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">進行中</div>
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                    </label>
+  
                     <div id="progress_id" style="width: 100%;">
                         <div class="progress mb-3" style="float:left; width:80%;transform: translateY(4px)">
                             <div class="progress-bar pass" role="progressbar" style="width: {% widthratio testplan_progress_list.1 testplan_progress_list.4 1 %}%" aria-valuenow="{{ testplan_progress_list.1 }}" aria-valuemin="0" aria-valuemax="{{testplan_progress_list.4}}">{{testplan_progress_list.1}}</div>

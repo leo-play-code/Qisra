@@ -10,7 +10,9 @@
     .search_all_testcase_h3{
         color: #FC5D4F;;
     }
-    
+    .bootstrap-select {
+        width: 70% !important;
+    }
 </style>
 <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -34,11 +36,11 @@
             <hr class="my-4">
             <div class="row g-1"> 
                 <div class="col-1 label-shift-y"><label for="search_all_name" class="form-label search_target_name">搜尋名稱</label></div>
-                <div class="col-2"><input type="text" class="form-control search_target_name" style="width: 220px;" id="search_all_name" placeholder="搜尋名稱"></div>
+                <div class="col-2"><input type="text" class="form-control search_target_name" style="width: 70%;" id="search_all_name" placeholder="搜尋名稱"></div>
                 <div class="col-1 label-shift-y"><label for="search_all_creator" class="form-label search_target_creator">搜尋建立者</label></div>
                 <div class="col-2">
                     <div class="search_target_creator">
-                        <select class="selectpicker "  data-live-search="true" id="search_all_creator" style="width:230px;">
+                        <select class="selectpicker "  data-live-search="true" id="search_all_creator" >
                             <option value="None">--select--</option>
                             {% for user in user_list %}
                                 <option value="{{user}}">{{user}}</option>
@@ -48,11 +50,11 @@
                 </div>
                 <div class="col-1 label-shift-y"><label for="search_all_start_date" class="form-label search_target_start_date">搜尋開始日</label></div>
                 <div class="col-2">
-                    <input type="date" class="label-shift-y search_target_start_date" id="search_all_start_date" name="search_all_start_date">
+                    <input type="date" style="width: 80%;" class="label-shift-y search_target_start_date" id="search_all_start_date" name="search_all_start_date">
                 </div>
 
                 <div class="col-1 label-shift-y"><label for="search_all_issue_name" class="form-label search_target_issue_name">搜尋鏈值</label></div>
-                <div class="col-2"><input type="text" class="form-control search_target_issue_name" style="width: 220px;" id="search_all_issue_name" placeholder="搜尋鏈值"></div>
+                <div class="col-2"><input type="text" class="form-control search_target_issue_name" style="width: 70%;" id="search_all_issue_name" placeholder="搜尋鏈值"></div>
                 
                 <div class="col-1 label-shift-y"><label for="search_all_tag" class="form-label search_target_tag">搜尋標籤</label></div>
                 <div class="col-2">
@@ -76,7 +78,7 @@
                 </div>
                 <div class="col-1 label-shift-y"><label for="search_all_end_date" class="form-label search_target_end_date">搜尋結束日</label></div>
                 <div class="col-2">
-                    <input type="date" class="label-shift-y search_target_end_date" id="search_all_end_date" name="search_all_end_date">
+                    <input type="date" style="width: 80%;" class="label-shift-y search_target_end_date" id="search_all_end_date" name="search_all_end_date">
                 </div>
                 
                 <div class="col-1 label-shift-y"><label for="search_all_testplan_project" class="form-label search_target_project">搜尋project</label></div>
@@ -107,7 +109,7 @@
                 <div class="col-1 label-shift-y"><label for="search_all_status" class="form-label search_target_status">搜尋Status</label></div>
                 <div class="col-7 search_target_status">
                         <input type="radio" class="btn-check" name="search_status_target" id="Ongoing-outlined-search" autocomplete="off" >
-                        <label class="btn btn-outline-ongoing" for="Ongoing-outlined-search">進行中</label>
+                        <label  class="btn btn-outline-ongoing" for="Ongoing-outlined-search">進行中</label>
 
                         <input type="radio" class="btn-check" name="search_status_target" id="Closed-outlined-search"autocomplete="off">
                         <label class="btn btn-outline-close" for="Closed-outlined-search">關閉</label>
@@ -266,6 +268,8 @@
                                         <button type="button" class="btn btn-sm btn-primary" style="--bs-btn-disabled-opacity:1" disabled >進行中</button>
                                     {% elif testplan.status == '4'%}
                                         <button type="button" class="btn btn-sm btn-success" style="--bs-btn-disabled-opacity:1" disabled >關閉</button>
+                                    {% elif testplan.status == '1'%}
+                                        <button type="button" class="btn btn-sm btn-warning" style="--bs-btn-disabled-opacity:1" disabled>pending</button>
                                     {% endif %}
                                 </td>
                                 <td id="search_all_testplan_create_date">{{testplan.create_date|date:"Y-m-d"}}</td>
