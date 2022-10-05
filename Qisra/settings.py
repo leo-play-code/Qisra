@@ -18,10 +18,10 @@ SECRET_KEY = '+f(#3&pcejhb#sh*e0)8nwb(c81$tsirfw-=bd7#w#9y0$ckz4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'qisra-beta2.herokuapp.com',
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'qisrabeta2.herokuapp.com',
                  "127.0.0.1"]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1',
-                        'https://qisra-beta2.herokuapp.com/']
+                        'https://qisrabeta2.herokuapp.com/']
 # root of url
 ROOT_URL = 'http://127.0.0.1:8000'
 # 
