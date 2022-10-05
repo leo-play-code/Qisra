@@ -1,0 +1,68 @@
+.resize_scroll{
+    overflow:scroll;
+    max-width:100%;
+    position:relative;
+}
+.resize_scroll_limit_h{
+    max-height: 1000px;
+}
+.resize_scroll_hegiht_max{
+    overflow:scroll;
+    max-width:100%;
+    position:relative;
+}
+.resize_scroll th{
+    padding: 8px 16px;
+}
+.resize_scroll tr:nth-child(even) {
+    background-color: #eaeef1;
+}
+.resize_scroll thead th { position: sticky; top: 0; z-index: 1;background-color: #f0ecec; height:50px; }
+.resize_scroll tr:nth-child(even):hover {background-color: #e6e6ea;}
+.resize_scroll tr:nth-child(odd):hover {background-color: #ececef;}
+.resize_scroll table,tr,td{
+    border:1px solid #dddddd;
+    border-collapse:separate;
+}
+.resize_scroll td { padding: 8px 16px; }
+
+/*  testplan-group */
+.scroll_all{
+    overflow: scroll;
+
+    position:relative;
+    padding-left: 0;
+}
+.scroll_all_limit_h{
+    max-height: 1000px;
+}
+.scroll_all th{
+    padding: 8px 16px;
+}
+.scroll_all tr:nth-child(even) {
+    background-color: #eaeef1;
+}
+.scroll_all thead th{ 
+    position: sticky; top: 0; z-index: 2;background-color: #f0ecec; height:50px; 
+}
+
+.scroll_all tr:nth-child(even):hover {background-color: #e6e6ea;}
+.scroll_all tr:nth-child(odd):hover {background-color: #ececef;}
+.scroll_all table,tr,td{
+    border:1px solid #dddddd;
+    border-collapse:separate;
+}
+.scroll_all td { padding: 8px 16px; }
+
+.scroll_all tbody tr th{
+    position: sticky;
+    left: 0;
+    background-color: #f0ecec;
+    z-index: 1;
+    text-align: left;
+}
+
+.scroll_all tbody tr th.second {
+    left: 76px;
+}
+

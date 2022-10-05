@@ -1,0 +1,32 @@
+.testcase table,tr,td{
+    border:1px solid #dddddd;
+    border-collapse:collapse;
+}
+.testcase .tbl-header{
+    width:calc(100% - 17px);
+    width:-webkit-calc(100% - 17px);
+    width:-moz-calc(100% - 17px);
+}
+
+.tableFixHead          { overflow: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; background-color: #E7E9EB; }
+
+.testcase table  { border-collapse: collapse; width: 100%; }
+.testcase th, td { padding: 8px 16px; }
+.testcase th     { background:#eee; }
+.testcase tr:nth-child(even) {
+    background-color: #eaeef1;
+}
+.testcase .table_border{
+    border: 1rem solid;
+    border-color: #E7E9EB;
+}
+.create_testcase_table{
+    overflow:scroll;
+    height:1000px;
+    
+}
+button.cleared {
+    border: 0;
+    background: transparent;
+}
