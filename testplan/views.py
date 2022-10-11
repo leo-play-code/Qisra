@@ -319,6 +319,7 @@ def Testplan_Group_view(request,pk):
         old_status = testplan_group.status
         testplan_group.status = request.POST['status']
         testplan_group.save()
+        '''
         # send email
         send_mail_bool = False
         if request.POST['status'] == '2':
@@ -398,6 +399,7 @@ def Testplan_Group_view(request,pk):
                         print('testrun msg_list error =',e)
         if msg_list != {}:
             send_email_method(msg_list)
+        '''
         # history
         new_record, old_record, *_ = testplan_group.history.all()
         delta = new_record.diff_against(old_record)
@@ -688,7 +690,7 @@ def Testplanview(request,pk):
         old_status = testplan.status
         testplan.status = request.POST['status']
         testplan.save()
-        
+        '''
         send_mail_bool = False
         if request.POST['status'] == '2':
             if old_status != request.POST['status']:
@@ -756,7 +758,7 @@ def Testplanview(request,pk):
                     except:pass
         if msg_list != {}:
             send_email_method(msg_list)
-        
+        '''
         new_record, old_record, *_ = testplan.history.all()
         delta = new_record.diff_against(old_record)
         for change in delta.changes:
@@ -990,6 +992,7 @@ def Testrunview(request,pk):
             if testrun.testplans.testplan_group.status == '2' and len(need_add) > 0:
                 send_mail_bool = True
             target_testplan = testrun.testplans.testplan_group
+        '''
         msg_list = {}
         print('send_mail_bool=',send_mail_bool)
         if send_mail_bool == True:
@@ -1021,7 +1024,7 @@ def Testrunview(request,pk):
                 # except:pass
         if msg_list != {}:
             send_email_method(msg_list)
-        
+        '''
         
         
         

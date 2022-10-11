@@ -1,3 +1,8 @@
+<style>
+    .info_editmode .bootstrap-select {
+        width: 70% !important;
+    }
+</style>
 <div class="col-md-3" id="first_box_info_1" >
     <div id="info_savemode_left" class="info_savemode">
         <div class="info_border">
@@ -119,7 +124,7 @@
                 <p>
                     <div class="form-group info_label">
                         <label for="edit_stage_select" style="transform: translateY(3px);color:blue;">Stage:</label>
-                        <select class="form-select" id="edit_stage_select" style="width: 300px;transform: translateY(-3px)">
+                        <select class="form-select" id="edit_stage_select" style="width: 70%;transform: translateY(-3px)">
                             {% for stage in Stage_list %}
                                 {% if testplan_group.stage == stage %}
                                     <option value="{{stage}}" selected="selected">{{stage}}</option>
