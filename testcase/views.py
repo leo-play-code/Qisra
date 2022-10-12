@@ -111,7 +111,10 @@ def get_file_data(model):
     '''
     format_data = "%Y-%m-%d %H:%M:%S"
     file_path = model.file.path
-    file_path = file_path.split('media/')[1]
+    try:
+        file_path = file_path.split('media/')[1]
+    except:
+        file_path = file_path.split('media\\')[1]
     filename = model.filename
     temp_time = str(model.date_created)
     temp_time = temp_time.split(' ')

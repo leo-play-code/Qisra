@@ -22,7 +22,7 @@ DEBUG = True
 #                  "127.0.0.1"]
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1',
-                        'https://qisrabeta2.herokuapp.com/']
+                        'https://qisrabeta2.herokuapp.com/','https://d7ee-118-167-110-203.jp.ngrok.io']
 # root of url
 ROOT_URL = 'http://127.0.0.1:8000'
 # 
@@ -88,28 +88,28 @@ WSGI_APPLICATION = 'Qisra.wsgi.application'
 '''
 dbsqlite3 database
 '''
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 # import dj_database_url
 # db_from_env = dj_database_url.config(conn_max_age=600)
 # DATABASES['default'].update(db_from_env)
 '''
 local progresSQL
 '''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'version1',
-        'USER': 'postgres',
-        'PASSWORD': 'qisra123',
-        'HOST': 'localhost',
-        'POST': '5432'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'version1',
+#         'USER': 'postgres',
+#         'PASSWORD': 'qisra123',
+#         'HOST': 'localhost',
+#         'POST': '5432'
+#     }
+# }
 #  Aws progresSQL
 # DATABASES = {
 #     'default': {
