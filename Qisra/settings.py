@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '+f(#3&pcejhb#sh*e0)8nwb(c81$tsirfw-=bd7#w#9y0$ckz4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'qisrabeta2.herokuapp.com',
                  "127.0.0.1"]
