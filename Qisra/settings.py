@@ -88,12 +88,12 @@ WSGI_APPLICATION = 'Qisra.wsgi.application'
 '''
 dbsqlite3 database
 '''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 # import dj_database_url
 # db_from_env = dj_database_url.config(conn_max_age=600)
 # DATABASES['default'].update(db_from_env)
@@ -124,16 +124,16 @@ local progresSQL
 '''
 Heroku
 '''
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd8qe0o19ep5s8i',
-#         'USER': 'dlrwfkmessfxuj',
-#         'PASSWORD': 'b41fc258a1e587969c16708c91d668d850859f75fde61906d4b4e99b084324f0',
-#         'HOST': 'ec2-44-195-100-240.compute-1.amazonaws.com',
-#         'POST': '5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd8qe0o19ep5s8i',
+        'USER': 'dlrwfkmessfxuj',
+        'PASSWORD': 'b41fc258a1e587969c16708c91d668d850859f75fde61906d4b4e99b084324f0',
+        'HOST': 'ec2-44-195-100-240.compute-1.amazonaws.com',
+        'POST': '5432'
+    }
+}
 
 
 
