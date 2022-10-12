@@ -18,11 +18,11 @@ SECRET_KEY = '+f(#3&pcejhb#sh*e0)8nwb(c81$tsirfw-=bd7#w#9y0$ckz4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'qisrabeta2.herokuapp.com',
-#                  "127.0.0.1"]
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'qisrabeta2.herokuapp.com',
+                 "127.0.0.1"]
+# ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1',
-                        'https://qisrabeta2.herokuapp.com/','https://d7ee-118-167-110-203.jp.ngrok.io']
+                        'https://qisrabeta2.herokuapp.com/']
 # root of url
 ROOT_URL = 'http://127.0.0.1:8000'
 # 
@@ -88,12 +88,12 @@ WSGI_APPLICATION = 'Qisra.wsgi.application'
 '''
 dbsqlite3 database
 '''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 # import dj_database_url
 # db_from_env = dj_database_url.config(conn_max_age=600)
 # DATABASES['default'].update(db_from_env)
@@ -124,16 +124,16 @@ local progresSQL
 '''
 Heroku
 '''
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'dbi618n18i94bh',
-#         'USER': 'gdmdzjmatbzipn',
-#         'PASSWORD': '09b9ef9c1f5bb54c6dc7a7c7d81e9fe346dbbc2f20cd68d7e133f35d4b533626',
-#         'HOST': 'ec2-52-200-5-135.compute-1.amazonaws.com',
-#         'POST': '5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd8qe0o19ep5s8i',
+        'USER': 'dlrwfkmessfxuj',
+        'PASSWORD': 'b41fc258a1e587969c16708c91d668d850859f75fde61906d4b4e99b084324f0',
+        'HOST': 'ec2-44-195-100-240.compute-1.amazonaws.com',
+        'POST': '5432'
+    }
+}
 
 
 
