@@ -34,11 +34,11 @@ $(function(){
             <tr class="hidden" id="teststep_tr_list" class="teststep_tr_list_sample">
                 <td id="id" class="hidden">None</td>
                 <td id="edit_number" class="">
-                    <button type="submit" class="btn add-teststep-up" onclick="return _ADD_up_teststep(this)"><i class="fa-solid fa-arrow-turn-up"></i></button>
+                    <button type="button" class="btn add-teststep-up" onclick="return _ADD_up_teststep(this)"><i class="fa-solid fa-arrow-turn-up"></i></button>
                     <br>
-                    <br><button type="submit" class="btn delete-teststep" onclick="return _Delete_teststep(this)"><i class="fa-solid fa-trash"></i></button>
+                    <br><button type="button" class="btn delete-teststep" onclick="return _Delete_teststep(this)"><i class="fa-solid fa-trash"></i></button>
                     <br>
-                    <br><button type="submit" class="btn add-teststep-down" onclick="return _ADD_down_teststep(this)"><i class="fa-solid fa-arrow-turn-down"></i></button>
+                    <br><button type="button" class="btn add-teststep-down" onclick="return _ADD_down_teststep(this)"><i class="fa-solid fa-arrow-turn-down"></i></button>
                 </td>
                 <td id="number" class="status_show_position hidden"></td>
                 <td id="description"><div class="ckeditor_replace"></div></td required>
@@ -52,11 +52,11 @@ $(function(){
             <tr class="gradient_teststep_list" >
                 <td id="id" class="hidden">{{item.id}}</td>
                 <td id="edit_number" class="hidden">
-                    <button type="submit" class="btn add-teststep-up" onclick="return _ADD_up_teststep(this)"><i class="fa-solid fa-arrow-turn-up"></i></button>
+                    <button type="button" class="btn add-teststep-up" onclick="return _ADD_up_teststep(this)"><i class="fa-solid fa-arrow-turn-up"></i></button>
                     <br>
-                    <br><button type="submit" class="btn delete-teststep" onclick="return _Delete_teststep(this)"><i class="fa-solid fa-trash"></i></button>
+                    <br><button type="button" class="btn delete-teststep" onclick="return _Delete_teststep(this)"><i class="fa-solid fa-trash"></i></button>
                     <br>
-                    <br><button type="submit" class="btn add-teststep-down" onclick="return _ADD_down_teststep(this)"><i class="fa-solid fa-arrow-turn-down"></i></button>
+                    <br><button type="button" class="btn add-teststep-down" onclick="return _ADD_down_teststep(this)"><i class="fa-solid fa-arrow-turn-down"></i></button>
                 </td>
                 <td id="number" class="status_show_position">{{item.number}}</td>
                 <td id="description"><div class="ckeditor_replace">{{item.description|safe|linebreaks}}</div></td required>
@@ -96,7 +96,7 @@ $(function(){
         </tbody>															
     </table>
     <div class="col-md-1 col-lg-1">
-        <button type="submit" onclick="return _Add_teststep(this)" id="add_teststep_btn" class="btn btn-info btn-sm hidden">{% trans "add Teststep" %}</button>
+        <button type="button" onclick="return _Add_teststep(this)" id="add_teststep_btn" class="btn btn-info btn-sm hidden">{% trans "add Teststep" %}</button>
     </div>
     <div class="col-md-4 col-lg-4">
     </div>

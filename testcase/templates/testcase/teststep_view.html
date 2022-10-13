@@ -52,12 +52,12 @@
             <h5>議題詳情
                 <span style="padding-left: 30px;" class="" id="edit-save-div-info">
                     {% if creator_bool == True %}
-                        <button type="submit" class="btn btn-md cleared" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn btn-md cleared" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                     {% else %}
-                        <button type="submit" class="btn btn-md cleared hidden" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                     {% endif %}
-                    <button type="submit" class="btn btn-sm btn-success hidden" onclick="return _Save_info(this)" id="Save_info_btn">儲存</button>
-                    <button type="submit" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_info(this)" id="Cancel_info_btn">取消</button>
+                    <button type="button" class="btn btn-sm btn-success hidden" onclick="return _Save_info(this)" id="Save_info_btn">儲存</button>
+                    <button type="button" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_info(this)" id="Cancel_info_btn">取消</button>
                 </span>
                 <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_save_info" class="hidden">
             </h5>
@@ -77,12 +77,12 @@
         <h5>描述
             <span style="padding-left: 20px;" class="" id="second-box-edit-save_div">
                 {% if creator_bool == True %}
-                    <button type="submit" class="btn btn-md cleared" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button type="button" class="btn btn-md cleared" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                 {% else %}
-                    <button type="submit" class="btn btn-md cleared hidden" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                 {% endif %}
-                <button type="submit" class="btn btn-sm btn-success hidden" onclick="return _Save_context(this)" id="Save_context_btn">儲存</button>
-                <button type="submit" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_context(this)" id="Cancel_context_btn">取消</button>
+                <button type="button" class="btn btn-sm btn-success hidden" onclick="return _Save_context(this)" id="Save_context_btn">儲存</button>
+                <button type="button" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_context(this)" id="Cancel_context_btn">取消</button>
             </span>
             <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_save_context" class="hidden">
         </h5>
@@ -97,12 +97,12 @@
             <h5>Teststep ({{teststep_dict|length}})
                 <span style="padding-left: 20px;" class="" id="edit-save-div-teststep">
                     {% if creator_bool == True %}
-                    <button type="submit" class="btn btn-md cleared" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button type="button" class="btn btn-md cleared" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                     {% else %}
-                    <button type="submit" class="btn btn-md cleared hidden" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                     {% endif %}
-                    <button type="submit" class="btn btn-sm btn-success hidden" onclick="return _Save_teststep(this)" id="Save_teststep_btn">儲存</button>
-                    <button type="submit" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_teststep(this)" id="Cancel_teststep_btn">取消</button>
+                    <button type="button" class="btn btn-sm btn-success hidden" onclick="return _Save_teststep(this)" id="Save_teststep_btn">儲存</button>
+                    <button type="button" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_teststep(this)" id="Cancel_teststep_btn">取消</button>
                 </span>
                 <img src='/static/images/Ellipsis-2.4s-48px.svg' id="loading_save_teststep" class="hidden">
                 <a type="button" class="btn" style="float:right" id="fullscreen"><img src='/static/images/fullscreen.svg'></a>

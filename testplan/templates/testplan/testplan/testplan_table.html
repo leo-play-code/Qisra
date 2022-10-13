@@ -1,7 +1,7 @@
 <div id="teststep_tr_list_savemode">
     <div class="form-group " id="teststepview_table">
         {% if creator_bool == True %}
-            <button style="float:right" type="submit" class="btn btn-md cleared" onclick="return _Add_testcase(this)" id="Edit_teststep_btn"><i class="fa-solid fa-plus"></i></button>
+            <button style="float:right" type="button" class="btn btn-md cleared" onclick="return _Add_testcase(this)" id="Edit_teststep_btn"><i class="fa-solid fa-plus"></i></button>
             <div id="edit_testrun_table" style="float: right;">
                 <p style="color:green ;">添加 Testcase:
                     <select class="selectpicker" multiple data-live-search="true" id="select_testcase">   
@@ -14,7 +14,7 @@
                 </p>
             </div>
         {% else %}
-            <button style="float:right" type="submit" class="btn btn-md cleared hidden" onclick="return _Add_testcase(this)" id="Edit_teststep_btn"><i class="fa-solid fa-plus"></i></button>
+            <button style="float:right" type="button" class="btn btn-md cleared hidden" onclick="return _Add_testcase(this)" id="Edit_teststep_btn"><i class="fa-solid fa-plus"></i></button>
             <div id="edit_testrun_table" style="float: right;" class="hidden">
                 <p style="color:green ;">添加 Testcase:
                     <select class="selectpicker" multiple data-live-search="true" id="select_testcase">   

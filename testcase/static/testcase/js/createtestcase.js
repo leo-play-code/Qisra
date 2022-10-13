@@ -64,15 +64,15 @@ function AddTeststep(event) {
 
     // delete button 
     teststep_tr_list.querySelector('#number').innerHTML += `
-    <button type="submit" class="btn add-teststep-up"><img src='/static/images/arrow-90deg-up.svg'></button>
+    <button type="button" class="btn add-teststep-up"><img src='/static/images/arrow-90deg-up.svg'></button>
     <br>
     <br>
     <br>
-    <br><button type="submit" style="color:red" class="btn delete-teststep"><img src='/static/images/trash.svg'></button>
+    <br><button type="button" style="color:red" class="btn delete-teststep"><img src='/static/images/trash.svg'></button>
     <br>
     <br>
     <br>
-    <br><button type="submit" class="btn add-teststep-down"><img src='/static/images/arrow-90deg-down.svg'></button>
+    <br><button type="button" class="btn add-teststep-down"><img src='/static/images/arrow-90deg-down.svg'></button>
     `
     formset_teststep.append(teststep_tr_list)
     var delete_teststep_button = document.getElementsByClassName('delete-teststep')[length_teststep_list]
@@ -424,15 +424,15 @@ function _Add_exists_teststep(num, data_list) {
     delete_remark_main.removeChild(temp)
     // delete button 
     teststep_tr_list.querySelector('#number').innerHTML += `
-    <button type="submit" class="btn add-teststep-up"><img src='/static/images/arrow-90deg-up.svg'></button>
+    <button type="button" class="btn add-teststep-up"><img src='/static/images/arrow-90deg-up.svg'></button>
     <br>
     <br>
     <br>
-    <br><button type="submit" style="color:red" class="btn delete-teststep"><img src='/static/images/trash.svg'></button>
+    <br><button type="button" style="color:red" class="btn delete-teststep"><img src='/static/images/trash.svg'></button>
     <br>
     <br>
     <br>
-    <br><button type="submit" class="btn add-teststep-down"><img src='/static/images/arrow-90deg-down.svg'></button>
+    <br><button type="button" class="btn add-teststep-down"><img src='/static/images/arrow-90deg-down.svg'></button>
     `
     formset_teststep.append(teststep_tr_list)
     var delete_teststep_button = document.getElementsByClassName('delete-teststep')[length_teststep_list]

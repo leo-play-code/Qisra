@@ -238,14 +238,14 @@
 <div class="col-md-4" id="upload_testplan_div">
     <div style="float:right">
         {% if testplan_group.status == '2' and current_user.username == testplan_group.assign.username %}
-            <button type="submit" class="btn btn-success" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>
+            <button type="button" class="btn btn-success" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>
         {% else %}
-            <button type="submit" class="btn btn-success hidden" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>
+            <button type="button" class="btn btn-success hidden" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>
         {% endif %}
         {% if testplan_group.status == '1' %}
-            <button type="submit" class="btn btn-secondary" id="already-upload-testplan" disabled>已申報結案</button>
+            <button type="button" class="btn btn-secondary" id="already-upload-testplan" disabled>已申報結案</button>
         {% else %}
-            <button type="submit" class="btn btn-secondary hidden" id="already-upload-testplan" disabled>已申報結案</button>
+            <button type="button" class="btn btn-secondary hidden" id="already-upload-testplan" disabled>已申報結案</button>
         {% endif %}
     </div>
 </div>

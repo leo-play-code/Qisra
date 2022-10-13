@@ -35,7 +35,7 @@ tag_submit.addEventListener('click',function(e){
     id_tag_selected.innerHTML = ''
     for (var i in tag_list_text){
         var item = `
-                <input type="submit" class="btn btn-warning delete_tag" id="data-row-${i}" name="delete_tag" value="${tag_list_text[i]} &#215;">
+                <input type="button" class="btn btn-warning delete_tag" id="data-row-${i}" name="delete_tag" value="${tag_list_text[i]} &#215;">
                 `
         id_tag_selected.innerHTML += item
     }
@@ -58,7 +58,7 @@ function TagDelete(item){
     id_tag_selected.innerHTML = ''
     for (var i in tag_list_text){
         var item = `
-                <input type="submit" class="btn btn-warning delete_tag" id="data-row-${i}" name="delete_tag" value="${tag_list_text[i]} &#215;">
+                <input type="button" class="btn btn-warning delete_tag" id="data-row-${i}" name="delete_tag" value="${tag_list_text[i]} &#215;">
                 `
         id_tag_selected.innerHTML += item
     }
@@ -118,14 +118,14 @@ function show_testcase_answer(name,tag){
                                 return_innerHTML+=`<tr>
                                     <form method="POST">
                                     
-                                    <td><input type="submit" id="${testcasename}" class="Have_selected" value="Select"></td>
+                                    <td><input type="button" id="${testcasename}" class="Have_selected" value="Select"></td>
                                     </form>
-                                    <td class="selected_td"><div>&#10004;</div><div class="float:right"><input type="submit" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div></td>`
+                                    <td class="selected_td"><div>&#10004;</div><div class="float:right"><input type="button" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div></td>`
                             }else{
                                 return_innerHTML+=`<tr>
                                     <form method="POST">
                             
-                                    <td><input type="submit" id="${testcasename}" class="Have_selected" value="Select"></td>
+                                    <td><input type="button" id="${testcasename}" class="Have_selected" value="Select"></td>
                                     </form>
                                     <td class="selected_td"><div class="float:right"><input type="hidden" id="remove_testcase" class="remove_testcase" value="remove"></td>`
                             }
@@ -156,14 +156,14 @@ function show_testcase_answer(name,tag){
                             return_innerHTML+=`<tr>
                                 <form method="POST">
                     
-                                <td><input type="submit" id="${testcasename}" class="Have_selected" value="Select"></td>
+                                <td><input type="button" id="${testcasename}" class="Have_selected" value="Select"></td>
                                 </form>
-                                <td class="selected_td"><div>&#10004;</div><div class="float:right"><input type="submit" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div></td>`
+                                <td class="selected_td"><div>&#10004;</div><div class="float:right"><input type="button" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div></td>`
                         }else{
                             return_innerHTML+=`<tr>
                                 <form method="POST">
                         
-                                <td><input type="submit" id="${testcasename}" class="Have_selected" value="Select"></td>
+                                <td><input type="button" id="${testcasename}" class="Have_selected" value="Select"></td>
                                 </form>
                                 <td class="selected_td"><div class="float:right"><input type="hidden" id="remove_testcase" class="remove_testcase" value="remove"></td>`
                         }
@@ -184,14 +184,14 @@ function show_testcase_answer(name,tag){
                     return_innerHTML+=`<tr>
                         <form method="POST">
                     
-                            <td><input type="submit" id="${testcasename}" class="Have_selected" value="Select"></td>
+                            <td><input type="button" id="${testcasename}" class="Have_selected" value="Select"></td>
                             </form>
-                        <td class="selected_td"><div>&#10004;</div><div class="float:right"><input type="submit" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div></td>`
+                        <td class="selected_td"><div>&#10004;</div><div class="float:right"><input type="button" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div></td>`
                 }else{
                     return_innerHTML+=`<tr>
                         <form method="POST">
             
-                        <td><input type="submit" id="${testcasename}" class="Have_selected" value="Select"></td>
+                        <td><input type="button" id="${testcasename}" class="Have_selected" value="Select"></td>
                         </form>
                         <td class="selected_td"><div class="float:right"><input type="hidden" id="remove_testcase" class="remove_testcase" value="remove"></td>`
                 }
@@ -232,7 +232,7 @@ function selected_button_method(){
 function check_selected_testcase(i){
     temp_td = document.getElementsByClassName('selected_td')[i]
     temp_td.innerHTML = ``
-    temp_td.innerHTML += `<div>&#10004;</div><div class="float:right"><input type="submit" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div>`
+    temp_td.innerHTML += `<div>&#10004;</div><div class="float:right"><input type="button" id="remove_testcase" class="btn btn-danger remove_testcase" value="remove"></div>`
     var remove_testcase_btn = document.getElementsByClassName('remove_testcase')[i]
     remove_testcase_btn.addEventListener('click',function(e){
         e.preventDefault()

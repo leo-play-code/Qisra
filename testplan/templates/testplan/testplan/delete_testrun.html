@@ -23,7 +23,7 @@
             <form method="POST" action="" class="needs-validation">
                 {% csrf_token %}
                 <button type="button" class="btn btn-warning" data-bs-dismiss="modal" >取消</button>
-                <button type="submit" class="btn btn-danger" onclick="return _Delete_testrun(this)">刪除</button>
+                <button type="button" class="btn btn-danger" onclick="return _Delete_testrun(this)">刪除</button>
                 <input type="hidden" value="{{item.id}}" id="delete_testrun_value">
             </form>
         </div>
