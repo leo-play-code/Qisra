@@ -55,7 +55,7 @@ def signup(request):
             lastname = request.POST['email'].lower()
             username = lastname.replace('@qisda.com', '')
             password = request.POST['password1']
-            if 'Qisda.com' in email:
+            if '@qisda.com' in lastname:
                 pass
             else:
                 email_is_valid = validate_email(email,verify=True)
