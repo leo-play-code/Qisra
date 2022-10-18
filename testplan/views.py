@@ -270,6 +270,7 @@ def Testplan_Group_view(request,pk):
         assign = request.POST['assign']
         try:
             old_assign = testplan_group.assign.username
+            old_assign_obj = testplan_group.assign
         except:
             old_assign = 'None'
         if assign != 'None':
@@ -458,6 +459,17 @@ def Testplan_Group_view(request,pk):
                     title, tempold, tempnew)
         if change_reason != '':
             update_change_reason(testplan_group, change_reason)
+        for testplan_item in testplan_list_object:
+            testplan_list.append(testplan_item)
+            temp_testcase_list = Testrun.objects.filter(testplans=testplan_item)
+            for item in temp_testcase_list:
+                try:
+                    assing_object = testplan_group.assign
+                    if old_assign != 'None':
+                        item.assign.remove(old_assign_obj)
+                    item.assign.add(assing_object)
+                except Exception as e:
+                    print('error = ', e)
     elif 'save_context_data' in request.POST:
         testplan_group.text = request.POST['context']
         testplan_group.save()
