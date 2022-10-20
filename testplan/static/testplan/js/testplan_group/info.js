@@ -37,20 +37,18 @@ var edit_info_div = document.querySelectorAll('.info_editmode')
 
 const current_username = document.getElementById('current_user_username').value
 const error_name_msg = document.getElementById('error-name')
-const error_issue_name_msg = document.getElementById('error-issue-name')
+
 const error_time_msg = document.getElementById('invalid-testplan-time')
 const error_start_time_msg = document.getElementById('invalid-testplan-start-time')
 const error_end_time_msg = document.getElementById('invalid-testplan-end-time')
 var testplan_title = document.getElementById('testplan_title')
 const save_name_p = document.getElementById('save_name')
-const save_issue_name_p = document.getElementById('save_issue_name')
 const save_tag_p = document.getElementById('save_tag')
 const save_stage_p = document.getElementById('save_stage')
 const save_assign_p = document.getElementById('save_assign')
 const save_start_date_p = document.getElementById('save_start_date')
 const save_end_date_p = document.getElementById('save_end_date')
 const save_status_p = document.getElementById('save_status')
-const testplan_issue_name_show_span = document.getElementById('testplan_issue_name_show')
 const upload_testplan_btn = document.getElementById('upload-testplan')
 const already_upload_testplan_btn = document.getElementById('already-upload-testplan')
 const edit_start_date_input = document.getElementById('edit_start_date_input')
@@ -86,9 +84,6 @@ function _Cancel_info(DOM){
     // reset name
     var save_name_data = save_name_p.innerHTML.replaceAll('名稱: ','')
     $('#id_testplanname').val(save_name_data)
-    // reset issue_name
-    var save_issue_name_data = save_issue_name_p.innerHTML.replaceAll('鏈值: ','')
-    $('#id_testplan_issue_name').val(save_issue_name_data)
     // reset stage
     var save_stage_data = save_stage_p.innerHTML.replaceAll('Stage: ','')
     $('#edit_stage_select').val(save_stage_data).change()
@@ -143,7 +138,6 @@ function _Cancel_info(DOM){
     Cancel_info_btn.classList.add('hidden')
     Edit_info_btn.classList.remove('hidden')
     error_name_msg.classList.add('hidden')
-    error_issue_name_msg.classList.add('hidden')
     error_time_msg.classList.add('hidden')
     error_start_time_msg.classList.add('hidden')
     error_end_time_msg.classList.add('hidden')
@@ -183,7 +177,6 @@ function save_info_django() {
         var status = '1'
     }
     var name_data = $('#id_testplanname').val()
-    var issue_name_data = $('#id_testplan_issue_name').val()
     data_dict = {}
     data_dict['csrfmiddlewaretoken'] = csrftoken;
     data_dict['save_info'] = 'save_info';
@@ -194,19 +187,12 @@ function save_info_django() {
     data_dict['start_date'] = start_date
     data_dict['end_date'] = end_date
     data_dict['status'] = status
-    data_dict['issue_name'] = issue_name_data
 
     if (name_data.replaceAll(' ', '') == '') {
         error_name_msg.classList.remove('hidden')
         bool_ajax = false
     } else {
         error_name_msg.classList.add('hidden')
-    }
-    if (issue_name_data.replaceAll(' ', '') == '') {
-        error_issue_name_msg.classList.remove('hidden')
-        bool_ajax = false
-    } else {
-        error_issue_name_msg.classList.add('hidden')
     }
 
     if (data_dict['start_date'] == '') {
@@ -259,7 +245,6 @@ function save_info_django() {
 function Save_info_mode() {
     Edit_info_btn.classList.remove('hidden')
     var name_data = $('#id_testplanname').val()
-    var issue_name_data = $('#id_testplan_issue_name').val()
     var tag_list = $('#id_tag').val()
     var stage = $('#edit_stage_select').val()
     var assign = $('#edit_assign_select').val()
@@ -273,9 +258,7 @@ function Save_info_mode() {
     }
     
     testplan_title.innerHTML = `${name_data}`
-    testplan_issue_name_show_span.innerHTML = `[${issue_name_data}]`
     save_name_p.innerHTML = `名稱: ${name_data}`
-    save_issue_name_p.innerHTML = `鏈值: ${issue_name_data}`
     save_tag_p.innerHTML = `標籤:`
     if (tag_list == null) {
         save_tag_p.innerHTML += ` <span>無</span>`
@@ -339,12 +322,6 @@ function Save_info_mode() {
     }
     first_box_info_1.className = "col-md-3"
     first_box_info_2.className = "col-md-2"
-    // refresh table issue_name
-    var issue_number_href = document.querySelectorAll('.issue_number_href')
-    issue_number_href.forEach(element => {
-        temp_issue_list = element.innerHTML.split('-')
-        element.innerHTML = `${issue_name_data}-${temp_issue_list[1]}`
-    })
     // refresh table assign name
     if (assign == 'None') {
         new_assign = '未指派'

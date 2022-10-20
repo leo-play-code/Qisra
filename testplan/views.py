@@ -48,7 +48,6 @@ from main.views import get_progress_data_testplan,get_progress_data_testrun
 
 def issue_name_transfor(num):
     orignal_num = num
-    print('orignal_num=',num)
     max_count_0 = 6
     while num>=1:
         num/=10
@@ -307,7 +306,6 @@ def Testplan_Group_view(request,pk):
         stop_time = dt2.strptime(request.POST['end_date'],format_data)
         testplan_group.start_date = start_time
         testplan_group.end_date = stop_time
-        testplan_group.issue_name = request.POST['issue_name']
         '''
         tag edit
         '''
@@ -428,8 +426,6 @@ def Testplan_Group_view(request,pk):
         for change in delta.changes:
             if change.field == 'project':
                 title = 'project'
-            elif change.field == 'issue_name':
-                title = '鏈值'
             elif change.field == 'name':
                 title = '名稱'
             elif change.field == 'stage':
@@ -554,7 +550,6 @@ def Testplan_Group_view(request,pk):
         loc_dt_format = loc_dt.strftime("%Y-%m-%d %H:%M:%S")
         temp_clone_list = str(testplan_group.name).split('-clone')
         clonename = temp_clone_list[0]+'-clone-'+str(loc_dt_format)
-        clone_issue_name = testplan_group.issue_name+'-clone-'+str(loc_dt_format)
         name = clonename
         tag_list = testplan_group.tag.all()
         add_testcase_list = testplan_group.testcase_list.all()
@@ -565,16 +560,15 @@ def Testplan_Group_view(request,pk):
         context = testplan_group.text
         project_object =  testplan_group.project
         creator_object = request.user
-        issue_name = clone_issue_name
-        if assign != 'None':
+        if assign != None:
             assing_object = User.objects.get(username = assign)
             new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                     stage = stage , start_date = start_time,end_date=stop_time,
-                                    assign=assing_object,text=context,issue_name=issue_name,number_issue=0)
+                                    assign=assing_object,text=context,number_issue=0)
         else:
             new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                     stage = stage , start_date = start_time,end_date=stop_time,
-                                    text=context,issue_name=issue_name,number_issue=0)
+                                    text=context,number_issue=0)
         for item in tag_list:
             try:
                 new_testplan.tag.add(item)
@@ -589,6 +583,10 @@ def Testplan_Group_view(request,pk):
             獲取要複製的資料
             '''
             new_testplan.testcase_list.add(item)
+        new_testplan.save()
+        testplan_count_obj = Testplan_count.objects.create(testplan_group=new_testplan)
+        testplan_count_obj.save()
+        new_testplan.issue_name = 'TP'+issue_name_transfor(testplan_count_obj.id)
         new_testplan.save()
         return HttpResponseRedirect(reverse("testplan_group_view", args=[new_testplan.pk]))
     
@@ -689,7 +687,6 @@ def Testplanview(request,pk):
         stop_time = dt2.strptime(request.POST['end_date'],format_data)
         testplan.start_date = start_time
         testplan.end_date = stop_time
-        testplan.issue_name = request.POST['issue_name']
         '''
         tag edit
         '''
@@ -797,8 +794,6 @@ def Testplanview(request,pk):
         for change in delta.changes:
             if change.field == 'project':
                 title = 'project'
-            elif change.field == 'issue_name':
-                title = '鏈值'
             elif change.field == 'name':
                 title = '名稱'
             elif change.field == 'stage':
