@@ -232,7 +232,7 @@ function Upload_tesstep_id(data){
                             </div>
                         </span>
                         <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary upload_file_btn" onclick="return activate_upload_file_btn_element(this)">
+                        <button type="button" class="btn btn-primary upload_file_btn" onclick="return activate_upload_file_btn_element(this)">
                             上傳
                         </button>
                             <img src='/static/images/Ellipsis-2.4s-48px.svg' class="hidden loading_teststep_file_btn">
