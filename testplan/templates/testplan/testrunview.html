@@ -18,7 +18,7 @@
             {% if testrun.testplan %}
                 <span class="fs-4" >[{{testrun}}]  <a href="{% url 'project_view' testrun.testplan.project.id %}" class="search_link" style="color: blue;" id="project_title_url">{{testrun.testplan.project.name}}</a>/<a href="{% url 'testplan_view' testrun.testplan.id %}" class="search_link" style="color: blue;" id="testplan_title_url">{{testrun.testplan.name}}</a>/<span id="testrun_title">{{testrun.name}}</span></span>
             {% else %}
-            <span class="fs-4" >[{{testrun}}]  <a href="{% url 'project_view' testrun.testplans.testplan_group.project.id %}" class="search_link" style="color: blue;" id="project_title_url">{{testrun.testplans.testplan_group.project.name}}</a>/<a href="{% url 'testplan_group_view' testrun.testplans.testplan_group.id %}" class="search_link" style="color: blue;" id="testplan_title_url">{{testrun.testplans.testplan_group.name}}</a>/<span id="testrun_title">{{testrun.name}}</span></span>
+            <span class="fs-4" >[{{testrun}}]  <a href="{% url 'project_view' testrun.testplans.testplan_group.project.id %}" class="search_link" style="color: blue;" id="project_title_url">{{testrun.testplans.testplan_group.project.name}}</a>/<a href="{% url 'testplan_group_view' testrun.testplans.testplan_group.id %}" class="search_link" style="color: blue;" id="testplan_title_url">{{testrun.testplans.testplan_group.name}}</a>/<span>{{testrun.testplans.name}}</span>/<span id="testrun_title">{{testrun.name}}</span></span>
             {% endif %}
             {% if creator_bool == True %}
                 <div class="dropdown text-end" id="dropdown_three_dot">

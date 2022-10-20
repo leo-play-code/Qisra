@@ -19,7 +19,7 @@ from testplan.models import (
     Testplan, Testrun_Teststep, Testrun,Testplan_Group,
     Testrun_file,Testrun_Teststep_file,
     Testrun_tester_upload_file,Teststep_tester_upload_file,
-    Testplans)
+    Testplans,Testplan_count)
 
 import json
 import ast
@@ -45,6 +45,22 @@ from main.clone_method import Clone_Models
 from testcase.views import get_history,get_file_data
 # get process data
 from main.views import get_progress_data_testplan,get_progress_data_testrun
+
+def issue_name_transfor(num):
+    orignal_num = num
+    print('orignal_num=',num)
+    max_count_0 = 6
+    while num>=1:
+        num/=10
+        max_count_0-=1
+    new_num = ''
+    i=0
+    while i<max_count_0:
+        new_num+='0'
+        i+=1
+    new_num+=str(orignal_num)
+    return new_num
+
 def django_time_transform(django_time):
     '''
     django_time = django time from models
@@ -119,7 +135,6 @@ def Create_testplan(request):
     context = request.POST['contect']
     project_object = Project.objects.get(id = int(project))
     creator_object = User.objects.get(username = creator)
-    issue_name = request.POST['issue_name']
     format_data = "%Y-%m-%d"
     start_time = dt2.strptime(start_time, format_data)
     stop_time = dt2.strptime(stop_time,format_data)
@@ -127,11 +142,11 @@ def Create_testplan(request):
         assing_object = User.objects.get(username = assign)
         new_testplan = Testplan.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                assign=assing_object,text=context,issue_name=issue_name,number_issue=0)
+                                assign=assing_object,text=context,number_issue=0)
     else:
         new_testplan = Testplan.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                text=context,issue_name=issue_name,number_issue=0)
+                                text=context,number_issue=0)
     for item in tag_list:
         print(item)
         try:
@@ -140,6 +155,10 @@ def Create_testplan(request):
             new_testplan.tag.add(tag.id)
         except Exception as e:
             print('error = ',e,item)   
+    new_testplan.save()
+    testplan_count_obj = Testplan_count.objects.create(testplan=new_testplan)
+    testplan_count_obj.save()
+    new_testplan.issue_name = 'TP'+issue_name_transfor(testplan_count_obj.id)
     new_testplan.save()
     '''
     create teststep for tester
@@ -204,7 +223,6 @@ def Create_testplan_group(request):
     context = request.POST['contect']
     project_object = Project.objects.get(id = int(project))
     creator_object = User.objects.get(username = creator)
-    issue_name = request.POST['issue_name']
     format_data = "%Y-%m-%d"
     start_time = dt2.strptime(start_time, format_data)
     stop_time = dt2.strptime(stop_time,format_data)
@@ -212,11 +230,11 @@ def Create_testplan_group(request):
         assing_object = User.objects.get(username = assign)
         new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                assign=assing_object,text=context,issue_name=issue_name,number_issue=0)
+                                assign=assing_object,text=context,number_issue=0)
     else:
         new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                text=context,issue_name=issue_name,number_issue=0)
+                                text=context,number_issue=0)
     for item in tag_list:
         try:
             tag= Tag.objects.get(id=int(item))
@@ -234,7 +252,10 @@ def Create_testplan_group(request):
         '''
         new_testplan.testcase_list.add(Testcase.objects.get(name=item).id)
     new_testplan.save()
-
+    testplan_count_obj = Testplan_count.objects.create(testplan_group=new_testplan)
+    testplan_count_obj.save()
+    new_testplan.issue_name = 'TP'+issue_name_transfor(testplan_count_obj.id)
+    new_testplan.save()
     return JsonResponse({'id':str(new_testplan.id)})
 
 @login_required
