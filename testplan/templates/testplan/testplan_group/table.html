@@ -96,10 +96,13 @@
                                 {% elif data.1.status == 'Ongoing' %}
                                     <a href="{% url 'testrun' data.1.id %}" style="color:#2471A3">In Progress</a>
                                 {% endif %}
+                                {% if current_user in data.1.assign.all %}
+                                    <span style="color:#28B463"><i class="fa-solid fa-user"></i></span>
+                                {% endif %}
                             </div>
                             <div>
                                 {% for assign_item in data.1.assign.all%}
-                                    {{assign_item}}
+                                    <div>{{assign_item}}</div>
                                 {% endfor %}
                             </div>
                         </td>

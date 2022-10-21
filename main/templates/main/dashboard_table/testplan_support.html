@@ -1,7 +1,7 @@
 {% load static %}
 
 
-<div class="dashboard_header status_show_position" style="width: 100%;">你 建立 的 Test Plans:({{testplan_open_count}}) </div>
+<div class="dashboard_header status_show_position" style="width: 100%;">你 Support 的 Test Plans:({{testplan_open_count}}) </div>
 <div class="pagination_table" id="table1">
     <table class="table">
         <thead>
@@ -18,53 +18,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for item,value in Testplan_creator_dict.items %}
+            {% for item,value in testplan_support_dict.items %}
                 {% if item.status != '4' %}
                     <tr class="dashboard_testplan_tr">
                         <td><a class="search_link" style="color: red;" href="{% url 'project_view' item.project.id %}">{{item.project.name}}</a></td>
-                        <td><a class="search_link" style="color: blue;" href="{% url 'testplan_view' item.id %}">{{item.issue_name}}</a></td>
-                        <td>{{item.name}}</td>
-                        {% if item.assign != None %}
-                            <td>{{item.assign}}</td>
-                        {% else %}
-                            <td>未指派</td>
-                        {% endif %}
-                        <td class="pagination_testplan_status">
-                            {% if item.status == '3' %}
-                                <button type="button" class="btn btn-sm btn-secondary" style="--bs-btn-disabled-opacity:1" disabled >未開始</button>
-                                {% elif item.status == '1' %}
-                                <button type="button" class="btn btn-sm btn-warning" style="--bs-btn-disabled-opacity:1" disabled>pending</button>
-                            {% elif item.status == '2' %}
-                                <button type="button" class="btn btn-sm btn-primary" style="--bs-btn-disabled-opacity:1" disabled >進行中</button>
-                            {% elif item.status == '4'%}
-                                <button type="button" class="btn btn-sm btn-success" style="--bs-btn-disabled-opacity:1" disabled >關閉</button>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <div id="progress_id">
-                                <div class="progress mb-3" style="float:left; width:80%;transform: translateY(4px)">
-                                    <div class="progress-bar pass" role="progressbar" style="width: {% widthratio value.1 value.4 1 %}%" aria-valuenow="{{ value.1 }}" aria-valuemin="0" aria-valuemax="{{value.4}}">{{value.1}}</div>
-                                    <div class="progress-bar fail" role="progressbar" style="width: {% widthratio value.2 value.4 1 %}%" aria-valuenow="{{value.2}}" aria-valuemin="0" aria-valuemax="{{value.4}}">{{value.2}}</div>
-                                    <div class="progress-bar ongoing" role="progressbar" style="width: {% widthratio value.0 value.4 1 %}%" aria-valuenow="{{value.0}}" aria-valuemin="0" aria-valuemax="{{value.4}}">{{value.0}}</div>
-                                    <div class="progress-bar omitted" role="progressbar" style="width: {% widthratio value.3 value.4 1 %}%" aria-valuenow="{{value.3}}" aria-valuemin="0" aria-valuemax="{{value.4}}">{{value.3}}</div>
-                                </div>
-                                <div style="float:right; width:20%">
-                                    <span>&nbsp&nbsp&nbsp{% widthratio value.5 value.4 1 %}%</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{item.stage}}</td>
-                        <td>{{item.start_date|date:"Y-m-d"}}</td>
-                        <td class="pagination_end_date">{{item.end_date|date:"Y-m-d"}}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-            {% for item,value in Testplan_group_creator_dict.items %}
-                {% if item.status != '4' %}
-                    <tr class="dashboard_testplan_tr">
-                        <td><a class="search_link" style="color: red;" href="{% url 'project_view' item.project.id %}">{{item.project.name}}</a></td>
+                        {% if item.testcase_list %}
                         <td><a class="search_link" style="color: blue;" href="{% url 'testplan_group_view' item.id %}">{{item.issue_name}}</a></td>
                         <td>{{item.name}}</td>
+                        {% else %}
+                        <td><a class="search_link" style="color: blue;" href="{% url 'testplan_view' item.id %}">{{item.issue_name}}</a></td>
+                            <td>{{item.name}}</td>
+                            
+                        {% endif %}
                         {% if item.assign != None %}
                             <td>{{item.assign}}</td>
                         {% else %}

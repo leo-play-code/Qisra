@@ -199,14 +199,27 @@
             <div class="info_show_left">
                 <p id="edit_assign" style="color: blue;">負責人: 
                     <select class="selectpicker" multiple data-live-search="true" id="edit_assign_select">   
-                        <!-- <option value="None">--select--</option> -->
-                        {% for user in user_list %}
-                            {% if user in assign_list %}
-                                <option value="{{user}}" selected="selected">{{user}}</option>
-                            {% else %}
-                                <option value="{{user}}">{{user}}</option>
-                            {% endif %}
-                        {% endfor %}
+                        {% if testrun.testplan %}
+                            {% for user in user_list %}
+                                {% if user != testrun.testplan.assign.username %}
+                                    {% if user in assign_list %}
+                                        <option value="{{user}}" selected="selected">{{user}}</option>
+                                    {% else %}
+                                        <option value="{{user}}">{{user}}</option>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for user in user_list %}
+                                {% if user != testrun.testplans.testplan_group.assign.username %}
+                                    {% if user in assign_list %}
+                                        <option value="{{user}}" selected="selected">{{user}}</option>
+                                    {% else %}
+                                        <option value="{{user}}">{{user}}</option>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </select>
                 </p>
             </div>

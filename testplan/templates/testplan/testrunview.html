@@ -3,7 +3,7 @@
 {% load i18n %}
 {% block title %}Testrun-{{testrun}}{% endblock %}
 {% block head %}
-    <script src="{% static 'ckeditor/ckeditor.js %}"></script>
+    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
 {% endblock %}
 {% block contents %}       
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -45,10 +45,18 @@
         <p>
             <h5>議題詳情
                 <span style="padding-left: 30px;" class="" id="edit-save-div-info">
-                    {% if creator_bool == True or current_user.username in assign_list %}
-                        <button type="button" class="btn btn-md cleared" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    {% if testrun.testplan %}
+                        {% if creator_bool == True  or current_user == testrun.testplan.assign %}
+                            <button type="button" class="btn btn-md cleared" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        {% else %}
+                            <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        {% endif %}
                     {% else %}
-                        <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        {% if creator_bool == True or current_user == testrun.testplans.testplan_group.assign %}
+                            <button type="button" class="btn btn-md cleared" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        {% else %}
+                            <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        {% endif %}
                     {% endif %}
                     <button type="button" class="btn btn-sm btn-success hidden" onclick="return _Save_info(this)" id="Save_info_btn">儲存</button>
                     <button type="button" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_info(this)" id="Cancel_info_btn">取消</button>
@@ -88,7 +96,7 @@
                 <span style="padding-left: 20px;" class="" id="edit-save-div-teststep">
                     {% if testrun.testplan %}
                         {% if testrun.testplan.status == '2' %}
-                            {% if current_user.username in assign_list or creator_bool == True %}
+                            {% if current_user.username in assign_list or creator_bool == True  or current_user == testrun.testplan.assign %}
                             <button type="button" class="btn btn-sm btn-primary" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn">更改結果</button>
                             {% else %}
                             <button type="button" class="btn btn-sm btn-primary hidden" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn">更改結果</button>
@@ -98,7 +106,7 @@
                         {% endif  %}
                     {% else %}
                         {% if testrun.testplans.testplan_group.status == '2' %}
-                            {% if current_user.username in assign_list or creator_bool == True %}
+                        {% if current_user.username in assign_list or creator_bool == True or current_user == testrun.testplans.testplan_group.assign %}
                             <button type="button" class="btn btn-sm btn-primary" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn">更改結果</button>
                             {% else %}
                             <button type="button" class="btn btn-sm btn-primary hidden" onclick="return _Edit_teststep(this)" id="Edit_teststep_btn">更改結果</button>
@@ -139,7 +147,7 @@
             <span style="width:120px ;">
                 {% if testrun.testplan %}
                     {% if testrun.testplan.status == '2' %}
-                        {% if current_user.username in assign_list or creator_bool == True %}
+                        {% if current_user.username in assign_list or creator_bool == True  or current_user == testrun.testplan.assign %}
                         <a class="btn btn-primary btn-sm upload_count_class" data-bs-toggle="modal"  href="#file_upload_toggle" role="button"> 上傳文件</a>
                         {% else %}
                         <a class="btn btn-primary btn-sm upload_count_class hidden" data-bs-toggle="modal"  href="#file_upload_toggle" role="button"> 上傳文件</a>
@@ -149,7 +157,7 @@
                     {% endif %}
                 {% else %}
                     {% if testrun.testplans.testplan_group.status == '2' %}
-                        {% if current_user.username in assign_list or creator_bool == True %}
+                        {% if current_user.username in assign_list or creator_bool == True or current_user == testrun.testplans.testplan_group.assign %}
                         <a class="btn btn-primary btn-sm upload_count_class" data-bs-toggle="modal"  href="#file_upload_toggle" role="button"> 上傳文件</a>
                         {% else %}
                         <a class="btn btn-primary btn-sm upload_count_class hidden" data-bs-toggle="modal"  href="#file_upload_toggle" role="button"> 上傳文件</a>

@@ -77,15 +77,18 @@
                     {% endif %}
                     <td id="testrun_id" class="hidden">{{item.id}}</td>
                     <td id="issue_number" class="status_show_position"><a href="{% url 'testrun' item.id %}" class="issue_number_href ">{{item}}</a></td>
-                    <td id="name">{{item.name}}</td>
-                    <td id="assign" class="status_show_position assign_list">
-                        {% if item.assign.all|length == 0 %}
-                            未指派
-                        {% else %}
-                            {% for item in item.assign.all %}
-                                {{item.username}}
-                            {% endfor %}
+                    <td id="name">{{item.name}}
+
+                        {% if current_user in item.assign.all %}
+                            <span style="color:#28B463"><i class="fa-solid fa-user"></i></span>
                         {% endif %}
+                    </td>
+                    <td id="assign" class="assign_list">
+                       
+                        {% for item in item.assign.all %}
+                            <div style="padding-left:20px ;">{{item.username}}</div>
+                        {% endfor %}
+
                     </td>
                     <td id="steps" class="status_show_position">{{value.7}}</td>
                     <td id="tag">

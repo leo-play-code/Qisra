@@ -88,28 +88,28 @@ WSGI_APPLICATION = 'Qisra.wsgi.application'
 '''
 dbsqlite3 database
 '''
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 # import dj_database_url
 # db_from_env = dj_database_url.config(conn_max_age=600)
 # DATABASES['default'].update(db_from_env)
 '''
 local progresSQL
 '''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'version1',
-        'USER': 'postgres',
-        'PASSWORD': 'qisra123',
-        'HOST': 'localhost',
-        'POST': '5432'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'version1',
+#         'USER': 'postgres',
+#         'PASSWORD': 'qisra123',
+#         'HOST': 'localhost',
+#         'POST': '5432'
+#     }
+# }
 #  Aws progresSQL
 # DATABASES = {
 #     'default': {

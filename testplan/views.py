@@ -177,11 +177,6 @@ def Create_testplan(request):
         '''  
         testcasefortestplan = Testrun.objects.create(name=orignal_testcase.name,testplan=new_testplan,description=orignal_testcase.description,
                                                                 number=str(count_number+1),testcase=orignal_testcase)
-        try:
-            assing_object = User.objects.get(username = assign)
-            testcasefortestplan.assign.add(assing_object)
-        except Exception as e:
-            print('error = ',e)
         for item2 in orignal_testcase_tag:
             testcasefortestplan.tag.add(Tag.objects.get(name=item2.name))
         testcasefortestplan.save()
@@ -339,6 +334,11 @@ def Testplan_Group_view(request,pk):
         old_status = testplan_group.status
         testplan_group.status = request.POST['status']
         testplan_group.save()
+        testplan_list_object = Testplans.objects.filter(testplan_group=testplan_group)
+        for testplan_item in testplan_list_object:
+            testrun_list = Testrun.objects.filter(testplans=testplan_item)
+            for testrun_item in testrun_list:
+                testrun_item.assign.remove(testplan_group.assign)
         '''
         # send email
         send_mail_bool = False
@@ -476,17 +476,6 @@ def Testplan_Group_view(request,pk):
                     title, tempold, tempnew)
         if change_reason != '':
             update_change_reason(testplan_group, change_reason)
-        for testplan_item in testplan_list_object:
-            testplan_list.append(testplan_item)
-            temp_testcase_list = Testrun.objects.filter(testplans=testplan_item)
-            for item in temp_testcase_list:
-                try:
-                    assing_object = testplan_group.assign
-                    if old_assign != 'None':
-                        item.assign.remove(old_assign_obj)
-                    item.assign.add(assing_object)
-                except Exception as e:
-                    print('error = ', e)
     elif 'save_context_data' in request.POST:
         testplan_group.text = request.POST['context']
         testplan_group.save()
@@ -607,11 +596,6 @@ def Testcase_to_Testrun(temp_testplan,temp_testcase_id):
     temp_testplan.number_issue = len(Testrun.objects.filter(testplans=temp_testplan))
     temp_testplan.testplan_group.save()
     temp_testplan.save()
-    try:
-        assing_object = User.objects.get(username = assign)
-        testcasefortestplan.assign.add(assing_object)
-    except Exception as e:
-        print('error = ',e)
 
     for item2 in orignal_testcase_tag:
         testcasefortestplan.tag.add(Tag.objects.get(name=item2.name))
@@ -720,6 +704,9 @@ def Testplanview(request,pk):
         old_status = testplan.status
         testplan.status = request.POST['status']
         testplan.save()
+        testrun = Testrun.objects.filter(testplan=testplan).order_by('id')
+        for testrun_item in testrun:
+            testrun_item.assign.remove(testplan.assign)
         '''
         send_mail_bool = False
         if request.POST['status'] == '2':
@@ -843,13 +830,6 @@ def Testplanview(request,pk):
                     title, tempold, tempnew)
         if change_reason != '':
             update_change_reason(testplan, change_reason)
-        for item in testrun:
-            pass
-            try:
-                assing_object = testplan.assign
-                item.assign.add(assing_object)
-            except Exception as e:
-                print('error = ', e)
     elif 'save_context_data' in request.POST:
         testplan.text = request.POST['context']
         testplan.save()
@@ -889,11 +869,6 @@ def Testplanview(request,pk):
                                                                      number=str(count_number+1),testcase=orignal_testcase)
             for item2 in orignal_testcase_tag:
                 testcasefortestplan.tag.add(Tag.objects.get(name=item2.name))
-            try:
-                assing_object = testplan.assign
-                testcasefortestplan.assign.add(assing_object)
-            except Exception as e:
-                print('error = ', e)
             testcasefortestplan.save()
             # clone file from testcase 
             testcase_file_list = testcase_file.objects.filter(testcase = orignal_testcase)
