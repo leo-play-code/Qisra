@@ -37,6 +37,7 @@ var edit_info_div = document.querySelectorAll('.info_editmode')
 
 const current_username = document.getElementById('current_user_username').value
 const error_name_msg = document.getElementById('error-name')
+
 const error_time_msg = document.getElementById('invalid-testplan-time')
 const error_start_time_msg = document.getElementById('invalid-testplan-start-time')
 const error_end_time_msg = document.getElementById('invalid-testplan-end-time')
@@ -193,6 +194,7 @@ function save_info_django() {
     } else {
         error_name_msg.classList.add('hidden')
     }
+
     if (data_dict['start_date'] == '') {
         error_start_time_msg.classList.remove('hidden')
         bool_ajax = false
@@ -222,7 +224,8 @@ function save_info_django() {
             data: data_dict,
             success: function () {
                 console.log("success");
-                Save_info_mode()
+                // Save_info_mode()
+                window.location=''
                 loading_save_info.classList.add('hidden')
                 createToast(true, 'Testplan information 儲存成功')
             },

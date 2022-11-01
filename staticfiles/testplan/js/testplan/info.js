@@ -222,7 +222,8 @@ function save_info_django() {
             data: data_dict,
             success: function () {
                 console.log("success");
-                Save_info_mode()
+                // Save_info_mode()
+                window.location=''
                 loading_save_info.classList.add('hidden')
                 createToast(true, 'Testplan information 儲存成功')
             },
