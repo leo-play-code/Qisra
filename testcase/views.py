@@ -544,11 +544,13 @@ def TestcaseNew_test(request):
             testcase_name = request.POST['testcase_name']
             df = pd.read_excel(file_path, sheet_name=sheetname,
                                header=count_header, usecols=usecols_title_list_name)
+            print('df',df,'length',len(df))
             i = 0
             data_list = {}
             count = 1
             while i < len(df):
                 temp_data = (df[i:i+1].values).tolist()
+                print('temp_data=',temp_data,'i=',i,'count=',count)
                 temp_data = temp_data[0]
                 if str(temp_data[0]) != 'nan':
                     number = str(temp_data[0]).replace('.0', '')
@@ -567,6 +569,9 @@ def TestcaseNew_test(request):
                     try:
                         data_list[count-1][0] = i+1
                         i += 1
+                        data_list[count] = [i, description, condition, remark]
+                        count += 1
+                        continue
                     except:
                         pass
                     data_list[count] = [i, description, condition, remark]
@@ -574,9 +579,11 @@ def TestcaseNew_test(request):
                 i += 1
             try:
                 data_list[count-1][0] = i+1
-            except:
-                pass
+            except Exception as e:
+                print('add data_list error:',e)
+                
             key_list = list(data_list)
+            print('data_list',data_list,'length:',len(data_list))
             '''
             引入圖片
             '''
