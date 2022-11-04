@@ -434,8 +434,8 @@ def TestcaseNew_test(request):
                     except Exception as e:
                         print('error = ', e, item)
             if bool_exists == True:
-                Testcase.objects.get(
-                    name=';;;;~~;`!!=-dsfasf, lsapdfisda,pfaisdfo ')
+                print('send error')
+                return JsonResponse({'error': '此名稱已經被使用'})
 
             '''
             teststep

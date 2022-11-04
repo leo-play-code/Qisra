@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'simple_history',
     'require',
-    
     'whitenoise.runserver_nostatic',
 ]
 
@@ -135,8 +134,10 @@ Heroku
 #     }
 # }
 
-
-
+'''
+上傳資料不限制
+'''
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
