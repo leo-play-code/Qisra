@@ -503,20 +503,24 @@ def Testplan_Group_view(request,pk):
             'Testcase','',testcase_list_name)
         if change_reason != '':
             update_change_reason(testplan_group, change_reason)
-
-        
     elif 'save_testplan' in request.POST:
         name = request.POST['name']
-        new_testplan = Testplans.objects.create(testplan_group=testplan_group,name=name,number_issue=0)
-        new_testplan.save()
-        testplan_group.save()
-        # history
-        change_reason = ''
-        change_reason = "添加|| {}:\n|| {}|| {} ||".format(
-            'Testplan','',name)
-        if change_reason != '':
-            update_change_reason(testplan_group, change_reason)
-        return JsonResponse({'id':new_testplan.id,'name':new_testplan.name})
+        try:
+            Testplans.objects.get(testplan_group=testplan_group,name=name)
+            print('exists')
+            return JsonResponse({'error':name})
+        except:
+            print('not exists')
+            new_testplan = Testplans.objects.create(testplan_group=testplan_group,name=name,number_issue=0)
+            new_testplan.save()
+            testplan_group.save()
+            # history
+            change_reason = ''
+            change_reason = "添加|| {}:\n|| {}|| {} ||".format(
+                'Testplan','',name)
+            if change_reason != '':
+                update_change_reason(testplan_group, change_reason)
+            return JsonResponse({'id':new_testplan.id,'name':new_testplan.name})
     elif 'create_testrun' in request.POST:
         testrun_list = request.POST.getlist('testrun[]')
         print(testrun_list)
@@ -534,6 +538,22 @@ def Testplan_Group_view(request,pk):
     elif 'delete_verify' in request.POST:
         testplan_group.delete()
         return redirect('Dashboard')  
+    elif 'delete_testcase' in request.POST:
+        delete_testcase = Testcase.objects.get(id=request.POST['id'])
+        testplan_list = []
+        testplan_list_object = Testplans.objects.filter(testplan_group=testplan_group)
+        for testplan_item in testplan_list_object:
+            try:
+                temp_tr=Testrun.objects.get(testplans=testplan_item,testcase=delete_testcase)
+                temp_tr.delete()
+            except:
+                pass
+        testplan_group.testcase_list.remove(Testcase.objects.get(id=request.POST['id']))
+        testcase_list = []
+        testcase_list.append([delete_testcase.id,delete_testcase.name])
+        return JsonResponse({'testcase_list':testcase_list})
+    elif 'delete_testplan' in request.POST:
+        Testplans.objects.get(id=request.POST['id']).delete()
     elif 'clone' in request.POST:
         loc_dt = dt2.today() 
         loc_dt_format = loc_dt.strftime("%Y-%m-%d %H:%M:%S")
