@@ -102,9 +102,9 @@ local progresSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'version1',
+        'NAME': 'Qisra_beta1',
         'USER': 'postgres',
-        'PASSWORD': 'qisra123',
+        'PASSWORD': 'qisra12345',
         'HOST': 'localhost',
         'POST': '5432'
     }
