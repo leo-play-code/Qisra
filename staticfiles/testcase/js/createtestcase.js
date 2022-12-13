@@ -539,15 +539,21 @@ function _Save_all() {
             data: data_dict,
             success: function (data) {
                 console.log("success pk = ", data);
-                // loading_save_testcase.classList.add('hidden')
-                // Save_btn.classList.remove('hidden')
-                window.location = '/testcase/' + data['pk'] + '/teststep/';
+                
+                if (data['error']){
+                    Save_btn.classList.remove('hidden')
+                    loading_save_testcase.classList.add('hidden')
+                    createToast(false, '此名稱已存在！')
+                }else{
+                    window.location = '/testcase/' + data['pk'] + '/teststep/';
+                }
+                
             },
             error: function (data) {
                 console.log("error");
                 Save_btn.classList.remove('hidden')
                 loading_save_testcase.classList.add('hidden')
-                createToast(false, '此名稱已存在！')
+                createToast(false, '檔案格式內容有不符合的格式或內容')
             }
         });
     }
