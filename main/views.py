@@ -80,75 +80,7 @@ def get_progress_data_testrun(item):
 class DashboardView(TemplateView):
     template_name = "main/dashboard.html"
     def get_context_data(self, **kwargs):
-        # Check if domain is configured
         current_user = self.request.user
-        # # testplan 負責人
-        # try:
-        #     testplan_object_tester = Testplan.objects.filter(assign=current_user).filter(Q(status='1')|Q(status='2')|Q(status='3')).order_by('status')
-        # except:
-        #     print('testplan_object_tester','error')
-        #     testplan_object_tester= []
-        # testplan_tester_progress_dict = {}
-        # for testplan_item in testplan_object_tester:
-        #     testplan_tester_progress_dict[testplan_item] = get_progress_data_testplan(testplan_item)
-        # try:
-        #     testplan_object_creator = Testplan.objects.filter(creator=current_user).order_by('status')
-        # except:
-        #     testplan_object_creator = []
-        # testplan_creator_progress_dict = {}
-        # for testplan_item in testplan_object_creator:
-        #     testplan_creator_progress_dict[testplan_item] = get_progress_data_testplan(testplan_item)
-        # # testplan 關閉 創造者
-        # try:
-        #     testplan_object_creator_close = Testplan.objects.filter(creator=current_user,status='4').order_by('status')
-        # except:
-        #     print('testplan_object_creator_close','error')
-        #     testplan_object_creator_close= []
-        # # testplan 未關閉 創造者
-        # try:
-        #     testplan_object_creator_not_closed = Testplan.objects.filter(creator=current_user)
-        #     testplan_object_creator_not_closed = testplan_object_creator_not_closed.filter(Q(status='1')|Q(status='2')|Q(status='3')).order_by('status')
-        # except:
-        #     print('testplan_object_creator_not_closed','error')
-        #     testplan_object_creator_not_closed= []
-        # # testrun 負責人
-        # try:
-        #     testrun_object_tester = Testrun.objects.filter(assign__in=[current_user])
-        # except:
-        #     print('testrun_object_tester','error')
-        #     testrun_object_tester = []
-        # testrun_tester_progress_dict = {}
-        # for testrun_item in testrun_object_tester:
-        #     testrun_tester_progress_dict[testrun_item] = get_progress_data_testrun(testrun_item)
-        # # testplan group close
-        # try:
-        #     testplans_object_creator_close = Testplan_Group.objects.filter(creator=current_user,status='4').order_by('status')
-        # except:
-        #     testplans_object_creator_close = []
-        # # testplan group not close
-        # try:
-        #     testplans_object_creator_not_closed = Testplan_Group.objects.filter(creator=current_user)
-        #     testplans_object_creator_not_closed = testplans_object_creator_not_closed.filter(Q(status='1')|Q(status='2')|Q(status='3')).order_by('status')
-        # except:
-        #     testplans_object_creator_not_closed = []
-        # # creator testplan all 
-        # try:
-        #     testplans_object_tester = Testplan_Group.objects.filter(creator=current_user).order_by('status')
-        # except:
-        #     testplans_object_creator = []
-        # testplan_group_progress_dict = {}
-        # # for testplan_item in testplan
-        # return {
-        #     'testplan_object_tester':testplan_object_tester,
-        #     'testplan_object_creator':testplan_object_creator,
-        #     'testplan_object_creator_close':testplan_object_creator_close,
-        #     "creator_progress_dict":testplan_creator_progress_dict,
-        #     'testplan_object_creator_not_closed':testplan_object_creator_not_closed,
-        #     "tester_progress_dict":testplan_tester_progress_dict,
-        #     "testrun_object_tester" :testrun_object_tester,
-        #     "testrun_tester_progress_dict":testrun_tester_progress_dict
-        # }
-        # ---------------------------------------------------------------------------------
         # testplan creator
         Testplan_creator_list = Testplan.objects.filter(creator=current_user).order_by('status')
         Testplan_creator_list = Testplan_creator_list.filter(Q(status='1')|Q(status='2')|Q(status='3')|Q(status='4')).order_by('status')
@@ -162,18 +94,22 @@ class DashboardView(TemplateView):
             Testplan_assign_dict[testplan_item] = get_progress_data_testplan(testplan_item)
         # testrun assign 
         testrun_assign_list = Testrun.objects.filter(assign__in=[current_user])
-        temp_testrun_assign_list = []
+        testplan_support_list = []
         for testrun_item in testrun_assign_list:
             if testrun_item.testplan:
-                if testrun_item.testplan.status == '2':
-                    temp_testrun_assign_list.append(testrun_item)
+                if  testrun_item.testplan.assign != current_user:
+                    if testrun_item.testplan not in testplan_support_list:
+                        testplan_support_list.append(testrun_item.testplan)
             else:
-                if testrun_item.testplans.testplan_group.status == '2':
-                    temp_testrun_assign_list.append(testrun_item)
-        testrun_assign_list = temp_testrun_assign_list
-        testrun_assign_dict = {}
-        for testrun_item in testrun_assign_list:
-            testrun_assign_dict[testrun_item] = get_progress_data_testrun(testrun_item)
+                if testrun_item.testplans.testplan_group.assign != current_user:
+                    if testrun_item.testplans.testplan_group not in testplan_support_list:
+                        testplan_support_list.append(testrun_item.testplans.testplan_group)
+        
+        
+
+        testplan_support_dict = {}
+        for testplan_item in testplan_support_list:
+            testplan_support_dict[testplan_item] = get_progress_data_testplan(testplan_item)
         # testplan group creator
         Testplan_group_creator_list = Testplan_Group.objects.filter(creator=current_user).order_by('status')
         Testplan_group_creator_list = Testplan_group_creator_list.filter(Q(status='1')|Q(status='2')|Q(status='3')|Q(status='4')).order_by('status')
@@ -202,13 +138,12 @@ class DashboardView(TemplateView):
             'Testplan_creator_dict':Testplan_creator_dict,
             'Testplan_assign_list':Testplan_assign_list,
             'Testplan_assign_dict':Testplan_assign_dict,
-            'testrun_assign_list':testrun_assign_list,
-            'testrun_assign_dict':testrun_assign_dict,
+            'testplan_support_list':testplan_support_list,
+            'testplan_support_dict':testplan_support_dict,
             'Testplan_group_creator_list':Testplan_group_creator_list,
             'Testplan_group_creator_dict':Testplan_group_creator_dict,
             'Testplan_group_assign_list':Testplan_group_assign_list,
             'Testplan_group_assign_dict':Testplan_group_assign_dict,
-            
             'testplan_open_count':testplan_open_count,
             'testplan_close_count':testplan_close_count,
             'Testplan_assign_count':Testplan_assign_count,

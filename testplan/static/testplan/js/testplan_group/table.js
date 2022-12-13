@@ -41,12 +41,17 @@ function _Add_testplan(DOM){
             url: '',
             data: data_dict,
             success: function (data) {
-                console.log("success");
-                window.location = '';
+                if (data['error']){
+                    createToast(false, '添加Test Plan 失敗！此Testplan 名稱已經被使用')
+                }else{
+                    console.log("success");
+                    window.location = '';
+                }
+                
             },
             error: function (data) {
                 console.log("error");
-                createToast(false, '添加Testcase失敗！')
+                createToast(false, '添加Test Plan 失敗！')
             }
         });
     }
@@ -179,4 +184,66 @@ function _check_all(DOM){
     document.querySelectorAll('.'+class_id).forEach(element=>{
         element.checked=DOM.checked
     })
+}
+const testrun_table = document.getElementById('teststep_tr_list_savemode')
+function _Delete_testcase(DOM){
+    testcase_id =  DOM.parentNode.querySelector('#delete_testcase_value').value
+    delete_modal_id = 'delete_toggle_'+testcase_id
+    testcase_tr = document.getElementById('testcase_row_'+testcase_id)
+    var csrftoken = getCookie('csrftoken');
+    data_dict = {}
+    data_dict['csrfmiddlewaretoken'] = csrftoken;
+    data_dict['id'] = testcase_id
+    data_dict['delete_testcase'] = 'delete_testcase'
+    $.ajax({
+        type: 'POST',
+        url: '',
+        data: data_dict,
+        success: function (data) {
+            console.log("success");
+            $('#'+delete_modal_id).modal('hide');
+            testrun_table.removeChild(testcase_tr)
+            _Reset_select_testcase(data['testcase_list'])
+            createToast(true, '成功刪除Testcase！')
+        },
+        error: function (data) {
+            console.log("error");
+            createToast(false, '刪除Testcase失敗！')
+        }
+    });
+    return false
+}
+
+function _Delete_testplan(DOM){
+    testplan_id =  DOM.parentNode.querySelector('#delete_testplan_value').value
+    console.log(testplan_id)
+    delete_modal_id = 'delete_TP_toggle_'+testplan_id
+    var csrftoken = getCookie('csrftoken');
+    data_dict = {}
+    data_dict['csrfmiddlewaretoken'] = csrftoken;
+    data_dict['id'] = testplan_id
+    data_dict['delete_testplan'] = 'delete_testplan'
+    $.ajax({
+        type: 'POST',
+        url: '',
+        data: data_dict,
+        success: function (data) {
+            console.log("success");
+            $('#'+delete_modal_id).modal('hide');
+            createToast(true, '成功刪除Test Plan！')
+            window.location= ''
+        },
+        error: function (data) {
+            console.log("error");
+            createToast(false, '刪除Test Plan失敗！')
+        }
+    });
+    return false
+}
+
+function _Reset_select_testcase(data){
+    if (data.length>0){
+        $('#select_testcase').append('<option value="'+data[0][0]+'">'+data[0][1]+'</option>');
+        $('#select_testcase').selectpicker("refresh");
+    }
 }

@@ -16,7 +16,6 @@ get_issue_mode.addEventListener('change', function handleChange(event) {
     issue_choose_innertext = get_issue_mode.options[get_issue_mode.selectedIndex].text
     invalid_summary.classList.add('hidden')
     invalid_starttime.classList.add('hidden')
-    invalid_name.classList.add('hidden')
     invalid_time.classList.add('hidden')
     invalid_stoptime.classList.add('hidden')
     invalid_project.classList.add('hidden')
@@ -36,7 +35,6 @@ save_btn.addEventListener('click', function (e) {
     send_save()
 })
 var invalid_summary = document.getElementById('invalid-summary')
-var invalid_name = document.getElementById('invalid-name')
 var invalid_stoptime = document.getElementById('invalid-stoptime')
 var invalid_starttime = document.getElementById('invalid-starttime')
 var invalid_time = document.getElementById('invalid-create-time')
@@ -114,7 +112,6 @@ function send_save() {
         data_dict['start_time'] = document.getElementById('issue_starttime').value
         data_dict['stop_time'] = document.getElementById('issue_stoptime').value
         data_dict['contect'] = description_data
-        data_dict['issue_name'] = document.getElementById('issue_name').value
         console.log(data_dict)
         // detect if there are some not filled
         if (data_dict['name'] == '') {
@@ -134,12 +131,6 @@ function send_save() {
             bool_ajax = false
         } else {
             invalid_starttime.classList.add('hidden')
-        }
-        if (data_dict['issue_name'] == '') {
-            invalid_name.classList.remove('hidden')
-            bool_ajax = false
-        } else {
-            invalid_name.classList.add('hidden')
         }
         var start_time = new Date(data_dict['start_time'])
         var stop_time = new Date(data_dict['stop_time'])

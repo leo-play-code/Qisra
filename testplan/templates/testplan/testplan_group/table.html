@@ -53,21 +53,33 @@
     <table id="teststepview_table"  border="0" cellpadding="0" cellspacing="0">
         <thead>
             <tr class="header">
+                <th class="table_td_edit hidden"></th>
                 <th>TC.ID</th>
                 <th>TC.Name</th>    
                 {% for testplan in testplan_list %}
                     <th class="status_show_position">
+                        <span class="table_td_edit hidden" >
+                            <a data-bs-toggle="modal" style="color:black ;" href="#delete_TP_toggle_{{testplan.id}}" role="button"><i class="fa-solid fa-trash"></i></a>
+                        </span>
                         {{testplan.name}}
                         <input type="hidden" value="{{testplan.id}}" id="checkbox_id">
                         <input type="checkbox" class="hidden testplan_check_all" onclick="_check_all(this)">
                     </th>
+                    <div class="modal fade modal-delete" id="delete_TP_toggle_{{testplan.id}}" aria-hidden="true" aria-labelledby="delete_TP_toggleLabel_{{testplan.id}}" tabindex="-1">
+                        {% include "testplan/testplan_group/delete_testplan.html" %}
+                    </div> 
                 {% endfor %}
                 
             </tr>
         </thead>
         <tbody id="teststep_tr_list_savemode">
             {% for testcase,testrun_list in testcase_dict.items %}
-                <tr>
+                <tr id="testcase_row_{{testcase.id}}">
+                    <th class="table_td_edit hidden">
+                        <div class="status_show_position" >
+                            <a data-bs-toggle="modal" style="color:black ;" href="#delete_toggle_{{testcase.id}}" role="button"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </th>
                     <th class="first"><a href="{% url 'teststep' testcase.id %}">TEM-{{testcase.id}}</a></th>
                     <th class="second">
                         {{testcase.name}}
@@ -76,11 +88,11 @@
                     </th>
                     {% for data in testrun_list %}
                         {% if data.1 != 'None' %}
-                        <td class="table_td_edit hidden">
-                            <div><input type="checkbox" class="testplan_testcase_checkbox_checked"  checked disabled></div>
-                        </td>
+                            <td class="table_td_edit hidden">
+                                <div><input type="checkbox" class="testplan_testcase_checkbox_checked"  checked disabled></div>
+                            </td>
                         {% else %}
-                        <td class="table_td_edit hidden"><input type="checkbox" class="testplan_testcase_checkbox testplan_checkbox_{{data.0.id}} testcase_checkbox_{{testcase.id}}" id="TestplanID-{{data.0.id}}-TestcaseID-{{testcase.id}}"  disabled></td>
+                            <td class="table_td_edit hidden"><input type="checkbox" class="testplan_testcase_checkbox testplan_checkbox_{{data.0.id}} testcase_checkbox_{{testcase.id}}" id="TestplanID-{{data.0.id}}-TestcaseID-{{testcase.id}}"  disabled></td>
                         {% endif %}
                     {% endfor %}
                     {% for data in testrun_list %}
@@ -96,10 +108,13 @@
                                 {% elif data.1.status == 'Ongoing' %}
                                     <a href="{% url 'testrun' data.1.id %}" style="color:#2471A3">In Progress</a>
                                 {% endif %}
+                                {% if current_user in data.1.assign.all %}
+                                    <span style="color:#28B463"><i class="fa-solid fa-user"></i></span>
+                                {% endif %}
                             </div>
                             <div>
                                 {% for assign_item in data.1.assign.all%}
-                                    {{assign_item}}
+                                    <div>{{assign_item}}</div>
                                 {% endfor %}
                             </div>
                         </td>
@@ -110,8 +125,11 @@
                         </td>
                         {% endif %}
                     {% endfor %}
-            
                 </tr>
+                
+                <div class="modal fade modal-delete" id="delete_toggle_{{testcase.id}}" aria-hidden="true" aria-labelledby="delete_toggleLabel_{{testcase.id}}" tabindex="-1">
+                    {% include "testplan/testplan_group/delete_testcase.html" %}
+                </div> 
             {% endfor %}
         </tbody>
     </table>

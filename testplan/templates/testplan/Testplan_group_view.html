@@ -51,7 +51,7 @@
         <p>
             <h5>議題詳情
                 <span style="padding-left: 30px;" class="" id="edit-save-div-info">
-                    {% if creator_bool == True %}
+                    {% if creator_bool == True or testplan_group.assign.username == current_user.username %}
                     <button type="button" class="btn btn-md cleared" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                     {% else %}
                     <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_info(this)" id="Edit_info_btn"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -72,7 +72,7 @@
     <main>
         <h5>描述
             <span style="padding-left: 20px;" class="" id="second-box-edit-save_div">
-                {% if creator_bool == True %}
+                {% if creator_bool == True or testplan_group.assign.username == current_user.username %}
                 <button type="button" class="btn btn-md cleared" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
                 {% else %}
                 <button type="button" class="btn btn-md cleared hidden" onclick="return _Edit_context(this)" id="Edit_context_btn"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -92,7 +92,9 @@
         <p>
             <h5>Testplan
                 <span style="padding-left: 20px;" >
-                    <button type="button" class="btn btn-md cleared" onclick="return _Edit_table2(this)" id="Edit_table_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    {% if creator_bool == True or testplan_group.assign.username == current_user.username %}
+                        <button type="button" class="btn btn-md cleared" onclick="return _Edit_table2(this)" id="Edit_table_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                    {% endif %}
                     <button type="button" class="btn btn-sm btn-success hidden" onclick="return _Save_table(this)" id="Save_table_btn">儲存</button>
                     <button type="button" class="btn btn-sm btn-warning hidden" onclick="return _Cancel_table(this)" id="Cancel_table_btn">取消</button>
                 </span>

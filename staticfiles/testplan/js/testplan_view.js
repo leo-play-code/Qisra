@@ -124,7 +124,7 @@ Edit_info_btn.addEventListener('click', function (e) {
 const edit_save_div_info = document.getElementById('edit-save-div-info')
 function Edit_info_mode() {
     edit_save_div_info.innerHTML = `
-    <button type="submit" class="btn btn-sm btn-success" id="save_info" name="save_info">Save</button>
+    <button type="button" class="btn btn-sm btn-success" id="save_info" name="save_info">Save</button>
     `
     var SaveButton = document.getElementById('save_info')
     SaveButton.addEventListener('click', function (e) {
@@ -159,7 +159,7 @@ const upload_testplan_btn = document.getElementById('upload-testplan')
 const already_upload_testplan_btn = document.getElementById('already-upload-testplan')
 function Save_info_mode() {
     edit_save_div_info.innerHTML = `
-    <button type="submit" class="btn btn-sm btn-danger" id="edit_info" name="edit_info" value="edit_info">Edit</button>
+    <button type="button" class="btn btn-sm btn-danger" id="edit_info" name="edit_info" value="edit_info">Edit</button>
     `
     var EditButton = document.getElementById('edit_info')
     EditButton.addEventListener('click', function (e) {
@@ -397,7 +397,7 @@ var teststep_tr_list_edit = document.getElementById('teststep_tr_list_editmode')
 var teststep_tr_list_save = document.getElementById('teststep_tr_list_savemode')
 function _edit_table() {
     edit_table_div.innerHTML = `
-        <button type="submit" class="btn btn-sm btn-warning" id="save_next_level" name="save_next_level">Cancel</button>
+        <button type="button" class="btn btn-sm btn-warning" id="save_next_level" name="save_next_level">Cancel</button>
     `
     var Save_next_level_btn = document.getElementById('save_next_level')
     Save_next_level_btn.addEventListener('click', function (e) {
@@ -412,7 +412,7 @@ function _edit_table() {
 function _save_table() {
     console.log('save down')
     edit_table_div.innerHTML = `
-    <button type="submit" class="btn btn-sm btn-danger" id="edit_next_level" name="edit_next_level">Edit</button>
+    <button type="button" class="btn btn-sm btn-danger" id="edit_next_level" name="edit_next_level">Edit</button>
     `
     var Edit_next_level_btn = document.getElementById('edit_next_level')
     Edit_next_level_btn.addEventListener('click', function (e) {
@@ -575,7 +575,7 @@ function _save_second_box_todjango() {
 
 }
 function _edit_second_box_mode() {
-    second_box_edit_save_div.innerHTML = `<button type="submit" class="btn btn-sm btn-success" id="second-box-save" name="second-box-save">Save</button>`
+    second_box_edit_save_div.innerHTML = `<button type="button" class="btn btn-sm btn-success" id="second-box-save" name="second-box-save">Save</button>`
     var second_box_save_btn = document.getElementById('second-box-save')
     second_box_save_btn.addEventListener('click', function (e) {
         e.preventDefault()
@@ -587,7 +587,7 @@ function _edit_second_box_mode() {
     second_box_edit_div.classList.remove('hidden')
 }
 function _save_second_box_mode() {
-    second_box_edit_save_div.innerHTML = `<button type="submit" class="btn btn-sm btn-danger" id="second-box-edit" name="second-box-edit">Edit</button>`
+    second_box_edit_save_div.innerHTML = `<button type="button" class="btn btn-sm btn-danger" id="second-box-edit" name="second-box-edit">Edit</button>`
     var second_box_edit_btn = document.getElementById('second-box-edit')
     second_box_edit_btn.addEventListener('click', function (e) {
         e.preventDefault()

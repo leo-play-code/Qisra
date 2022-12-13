@@ -19,7 +19,7 @@ from testplan.models import (
     Testplan, Testrun_Teststep, Testrun,Testplan_Group,
     Testrun_file,Testrun_Teststep_file,
     Testrun_tester_upload_file,Teststep_tester_upload_file,
-    Testplans)
+    Testplans,Testplan_count)
 
 import json
 import ast
@@ -45,6 +45,21 @@ from main.clone_method import Clone_Models
 from testcase.views import get_history,get_file_data
 # get process data
 from main.views import get_progress_data_testplan,get_progress_data_testrun
+
+def issue_name_transfor(num):
+    orignal_num = num
+    max_count_0 = 6
+    while num>=1:
+        num/=10
+        max_count_0-=1
+    new_num = ''
+    i=0
+    while i<max_count_0:
+        new_num+='0'
+        i+=1
+    new_num+=str(orignal_num)
+    return new_num
+
 def django_time_transform(django_time):
     '''
     django_time = django time from models
@@ -119,7 +134,6 @@ def Create_testplan(request):
     context = request.POST['contect']
     project_object = Project.objects.get(id = int(project))
     creator_object = User.objects.get(username = creator)
-    issue_name = request.POST['issue_name']
     format_data = "%Y-%m-%d"
     start_time = dt2.strptime(start_time, format_data)
     stop_time = dt2.strptime(stop_time,format_data)
@@ -127,11 +141,11 @@ def Create_testplan(request):
         assing_object = User.objects.get(username = assign)
         new_testplan = Testplan.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                assign=assing_object,text=context,issue_name=issue_name,number_issue=0)
+                                assign=assing_object,text=context,number_issue=0)
     else:
         new_testplan = Testplan.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                text=context,issue_name=issue_name,number_issue=0)
+                                text=context,number_issue=0)
     for item in tag_list:
         print(item)
         try:
@@ -140,6 +154,10 @@ def Create_testplan(request):
             new_testplan.tag.add(tag.id)
         except Exception as e:
             print('error = ',e,item)   
+    new_testplan.save()
+    testplan_count_obj = Testplan_count.objects.create(testplan=new_testplan)
+    testplan_count_obj.save()
+    new_testplan.issue_name = 'TP'+issue_name_transfor(testplan_count_obj.id)
     new_testplan.save()
     '''
     create teststep for tester
@@ -159,11 +177,6 @@ def Create_testplan(request):
         '''  
         testcasefortestplan = Testrun.objects.create(name=orignal_testcase.name,testplan=new_testplan,description=orignal_testcase.description,
                                                                 number=str(count_number+1),testcase=orignal_testcase)
-        try:
-            assing_object = User.objects.get(username = assign)
-            testcasefortestplan.assign.add(assing_object)
-        except Exception as e:
-            print('error = ',e)
         for item2 in orignal_testcase_tag:
             testcasefortestplan.tag.add(Tag.objects.get(name=item2.name))
         testcasefortestplan.save()
@@ -204,7 +217,6 @@ def Create_testplan_group(request):
     context = request.POST['contect']
     project_object = Project.objects.get(id = int(project))
     creator_object = User.objects.get(username = creator)
-    issue_name = request.POST['issue_name']
     format_data = "%Y-%m-%d"
     start_time = dt2.strptime(start_time, format_data)
     stop_time = dt2.strptime(stop_time,format_data)
@@ -212,11 +224,11 @@ def Create_testplan_group(request):
         assing_object = User.objects.get(username = assign)
         new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                assign=assing_object,text=context,issue_name=issue_name,number_issue=0)
+                                assign=assing_object,text=context,number_issue=0)
     else:
         new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                 stage = stage , start_date = start_time,end_date=stop_time,
-                                text=context,issue_name=issue_name,number_issue=0)
+                                text=context,number_issue=0)
     for item in tag_list:
         try:
             tag= Tag.objects.get(id=int(item))
@@ -234,7 +246,10 @@ def Create_testplan_group(request):
         '''
         new_testplan.testcase_list.add(Testcase.objects.get(name=item).id)
     new_testplan.save()
-
+    testplan_count_obj = Testplan_count.objects.create(testplan_group=new_testplan)
+    testplan_count_obj.save()
+    new_testplan.issue_name = 'TP'+issue_name_transfor(testplan_count_obj.id)
+    new_testplan.save()
     return JsonResponse({'id':str(new_testplan.id)})
 
 @login_required
@@ -270,6 +285,7 @@ def Testplan_Group_view(request,pk):
         assign = request.POST['assign']
         try:
             old_assign = testplan_group.assign.username
+            old_assign_obj = testplan_group.assign
         except:
             old_assign = 'None'
         if assign != 'None':
@@ -285,7 +301,6 @@ def Testplan_Group_view(request,pk):
         stop_time = dt2.strptime(request.POST['end_date'],format_data)
         testplan_group.start_date = start_time
         testplan_group.end_date = stop_time
-        testplan_group.issue_name = request.POST['issue_name']
         '''
         tag edit
         '''
@@ -319,6 +334,11 @@ def Testplan_Group_view(request,pk):
         old_status = testplan_group.status
         testplan_group.status = request.POST['status']
         testplan_group.save()
+        testplan_list_object = Testplans.objects.filter(testplan_group=testplan_group)
+        for testplan_item in testplan_list_object:
+            testrun_list = Testrun.objects.filter(testplans=testplan_item)
+            for testrun_item in testrun_list:
+                testrun_item.assign.remove(testplan_group.assign)
         '''
         # send email
         send_mail_bool = False
@@ -406,8 +426,6 @@ def Testplan_Group_view(request,pk):
         for change in delta.changes:
             if change.field == 'project':
                 title = 'project'
-            elif change.field == 'issue_name':
-                title = '鏈值'
             elif change.field == 'name':
                 title = '名稱'
             elif change.field == 'stage':
@@ -485,20 +503,24 @@ def Testplan_Group_view(request,pk):
             'Testcase','',testcase_list_name)
         if change_reason != '':
             update_change_reason(testplan_group, change_reason)
-
-        
     elif 'save_testplan' in request.POST:
         name = request.POST['name']
-        new_testplan = Testplans.objects.create(testplan_group=testplan_group,name=name,number_issue=0)
-        new_testplan.save()
-        testplan_group.save()
-        # history
-        change_reason = ''
-        change_reason = "添加|| {}:\n|| {}|| {} ||".format(
-            'Testplan','',name)
-        if change_reason != '':
-            update_change_reason(testplan_group, change_reason)
-        return JsonResponse({'id':new_testplan.id,'name':new_testplan.name})
+        try:
+            Testplans.objects.get(testplan_group=testplan_group,name=name)
+            print('exists')
+            return JsonResponse({'error':name})
+        except:
+            print('not exists')
+            new_testplan = Testplans.objects.create(testplan_group=testplan_group,name=name,number_issue=0)
+            new_testplan.save()
+            testplan_group.save()
+            # history
+            change_reason = ''
+            change_reason = "添加|| {}:\n|| {}|| {} ||".format(
+                'Testplan','',name)
+            if change_reason != '':
+                update_change_reason(testplan_group, change_reason)
+            return JsonResponse({'id':new_testplan.id,'name':new_testplan.name})
     elif 'create_testrun' in request.POST:
         testrun_list = request.POST.getlist('testrun[]')
         print(testrun_list)
@@ -516,12 +538,27 @@ def Testplan_Group_view(request,pk):
     elif 'delete_verify' in request.POST:
         testplan_group.delete()
         return redirect('Dashboard')  
+    elif 'delete_testcase' in request.POST:
+        delete_testcase = Testcase.objects.get(id=request.POST['id'])
+        testplan_list = []
+        testplan_list_object = Testplans.objects.filter(testplan_group=testplan_group)
+        for testplan_item in testplan_list_object:
+            try:
+                temp_tr=Testrun.objects.get(testplans=testplan_item,testcase=delete_testcase)
+                temp_tr.delete()
+            except:
+                pass
+        testplan_group.testcase_list.remove(Testcase.objects.get(id=request.POST['id']))
+        testcase_list = []
+        testcase_list.append([delete_testcase.id,delete_testcase.name])
+        return JsonResponse({'testcase_list':testcase_list})
+    elif 'delete_testplan' in request.POST:
+        Testplans.objects.get(id=request.POST['id']).delete()
     elif 'clone' in request.POST:
         loc_dt = dt2.today() 
         loc_dt_format = loc_dt.strftime("%Y-%m-%d %H:%M:%S")
         temp_clone_list = str(testplan_group.name).split('-clone')
         clonename = temp_clone_list[0]+'-clone-'+str(loc_dt_format)
-        clone_issue_name = testplan_group.issue_name+'-clone-'+str(loc_dt_format)
         name = clonename
         tag_list = testplan_group.tag.all()
         add_testcase_list = testplan_group.testcase_list.all()
@@ -532,16 +569,15 @@ def Testplan_Group_view(request,pk):
         context = testplan_group.text
         project_object =  testplan_group.project
         creator_object = request.user
-        issue_name = clone_issue_name
-        if assign != 'None':
+        if assign != None:
             assing_object = User.objects.get(username = assign)
             new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                     stage = stage , start_date = start_time,end_date=stop_time,
-                                    assign=assing_object,text=context,issue_name=issue_name,number_issue=0)
+                                    assign=assing_object,text=context,number_issue=0)
         else:
             new_testplan = Testplan_Group.objects.create(name=name,project=project_object,creator=creator_object,
                                     stage = stage , start_date = start_time,end_date=stop_time,
-                                    text=context,issue_name=issue_name,number_issue=0)
+                                    text=context,number_issue=0)
         for item in tag_list:
             try:
                 new_testplan.tag.add(item)
@@ -556,6 +592,10 @@ def Testplan_Group_view(request,pk):
             獲取要複製的資料
             '''
             new_testplan.testcase_list.add(item)
+        new_testplan.save()
+        testplan_count_obj = Testplan_count.objects.create(testplan_group=new_testplan)
+        testplan_count_obj.save()
+        new_testplan.issue_name = 'TP'+issue_name_transfor(testplan_count_obj.id)
         new_testplan.save()
         return HttpResponseRedirect(reverse("testplan_group_view", args=[new_testplan.pk]))
     
@@ -576,11 +616,6 @@ def Testcase_to_Testrun(temp_testplan,temp_testcase_id):
     temp_testplan.number_issue = len(Testrun.objects.filter(testplans=temp_testplan))
     temp_testplan.testplan_group.save()
     temp_testplan.save()
-    try:
-        assing_object = User.objects.get(username = assign)
-        testcasefortestplan.assign.add(assing_object)
-    except Exception as e:
-        print('error = ',e)
 
     for item2 in orignal_testcase_tag:
         testcasefortestplan.tag.add(Tag.objects.get(name=item2.name))
@@ -656,7 +691,6 @@ def Testplanview(request,pk):
         stop_time = dt2.strptime(request.POST['end_date'],format_data)
         testplan.start_date = start_time
         testplan.end_date = stop_time
-        testplan.issue_name = request.POST['issue_name']
         '''
         tag edit
         '''
@@ -690,6 +724,9 @@ def Testplanview(request,pk):
         old_status = testplan.status
         testplan.status = request.POST['status']
         testplan.save()
+        testrun = Testrun.objects.filter(testplan=testplan).order_by('id')
+        for testrun_item in testrun:
+            testrun_item.assign.remove(testplan.assign)
         '''
         send_mail_bool = False
         if request.POST['status'] == '2':
@@ -764,8 +801,6 @@ def Testplanview(request,pk):
         for change in delta.changes:
             if change.field == 'project':
                 title = 'project'
-            elif change.field == 'issue_name':
-                title = '鏈值'
             elif change.field == 'name':
                 title = '名稱'
             elif change.field == 'stage':
@@ -815,13 +850,6 @@ def Testplanview(request,pk):
                     title, tempold, tempnew)
         if change_reason != '':
             update_change_reason(testplan, change_reason)
-        for item in testrun:
-            pass
-            try:
-                assing_object = testplan.assign
-                item.assign.add(assing_object)
-            except Exception as e:
-                print('error = ', e)
     elif 'save_context_data' in request.POST:
         testplan.text = request.POST['context']
         testplan.save()
@@ -861,11 +889,6 @@ def Testplanview(request,pk):
                                                                      number=str(count_number+1),testcase=orignal_testcase)
             for item2 in orignal_testcase_tag:
                 testcasefortestplan.tag.add(Tag.objects.get(name=item2.name))
-            try:
-                assing_object = testplan.assign
-                testcasefortestplan.assign.add(assing_object)
-            except Exception as e:
-                print('error = ', e)
             testcasefortestplan.save()
             # clone file from testcase 
             testcase_file_list = testcase_file.objects.filter(testcase = orignal_testcase)

@@ -168,7 +168,7 @@ var search_all_testcase_list = document.getElementById('search_all_testcase')
 var search_all_testplan_list = document.getElementById('search_all_testplan')
 var search_all_project_list = document.getElementById('search_all_project')
 function _Search_all_Project(search_dict){
-    target_name = search_dict['name']
+    target_name = search_dict['name'].toLowerCase()
     target_tag_list = search_dict['tag']
     target_assign = search_dict['assign']
     target_creator=search_dict['creator']
@@ -177,7 +177,7 @@ function _Search_all_Project(search_dict){
     var search_all_project_tr = document.querySelectorAll('.search_all_project_tr')
     search_all_project_tr.forEach(element => {
         var get_bool = true
-        var project_name = element.querySelector('#search_all_check_project_name').value
+        var project_name = element.querySelector('#search_all_check_project_name').value.toLowerCase()
         var tag_list_div =element.querySelector('#search_all_project_tag').querySelectorAll('#each_project_tag')
         var assign = element.querySelector('#search_all_project_assign').innerText
         var creator = element.querySelector('#search_all_project_creator').innerText
@@ -237,8 +237,8 @@ function _Search_all_Project(search_dict){
     })
 }
 function _Search_all_Testplan(search_dict){
-    target_name = search_dict['name']
-    target_issue_name = search_dict['issue_name']
+    target_name = search_dict['name'].toLowerCase()
+    target_issue_name = search_dict['issue_name'].toLowerCase()
     target_tag_list = search_dict['tag']
     target_assign = search_dict['assign']
     target_creator=search_dict['creator']
@@ -251,8 +251,8 @@ function _Search_all_Testplan(search_dict){
     search_all_testplan_tr.forEach(element => {
         var get_bool = true
         var project = element.querySelector('#search_all_testplan_project').innerHTML
-        var testplan_name = element.querySelector('#search_all_testplan_name').innerText
-        var testplan_issue_name =   element.querySelector('#search_all_issue_name').innerText
+        var testplan_name = element.querySelector('#search_all_testplan_name').innerText.toLowerCase()
+        var testplan_issue_name =   element.querySelector('#search_all_issue_name').innerText.toLowerCase()
         var tag_list_div =element.querySelector('#search_all_testplan_tag').querySelectorAll('#each_testplan_tag')
         var assign = element.querySelector('#search_all_testplan_assign').innerText
         var creator = element.querySelector('#search_all_testplan_creator').innerText
@@ -337,12 +337,12 @@ function _Search_all_Testplan(search_dict){
 }
 
 function _Search_all_Testcase(search_dict){
-    target_name = search_dict['name']
+    target_name = search_dict['name'].toLowerCase()
     target_tag_list = search_dict['tag']
     var search_all_testcase_tr = document.querySelectorAll('.search_all_testcase_tr')
     search_all_testcase_tr.forEach(element => {
         var get_bool = true
-        var testcase_name = element.querySelector('#search_all_check_testcase_name').innerText
+        var testcase_name = element.querySelector('#search_all_check_testcase_name').innerText.toLowerCase()
         var tag_list_div =element.querySelector('#search_all_testcase_tag').querySelectorAll('#each_testcase_tag')
         var temp_tag_list = []
         tag_list_div.forEach(element =>{

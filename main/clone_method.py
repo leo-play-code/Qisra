@@ -1,10 +1,25 @@
 from testcase.models import Teststep,Testcase,Tag,testcase_file,teststep_file
 from testplan.models import (
     Testplan, Testrun_Teststep, Testrun,
-    Testrun_file,Testrun_Teststep_file,
+    Testrun_file,Testrun_Teststep_file,Testplan_count,
     Testrun_tester_upload_file,Teststep_tester_upload_file)
 from django.contrib.auth.models import User
 from datetime import datetime as dt2
+
+def issue_name_transfor(num):
+    orignal_num = num
+    print('orignal_num=',num)
+    max_count_0 = 6
+    while num>=1:
+        num/=10
+        max_count_0-=1
+    new_num = ''
+    i=0
+    while i<max_count_0:
+        new_num+='0'
+        i+=1
+    new_num+=str(orignal_num)
+    return new_num
 def Clone_Models(creator,method,model):
     '''
     creator (Model) : request.user (User.Model)
@@ -39,13 +54,16 @@ def Clone_Models(creator,method,model):
         testrun = Testrun.objects.filter(testplan=testplan_model).order_by('id')
         temp_clone_list = str(testplan_model.name).split('-clone')
         clonename = temp_clone_list[0]+'-clone-'+str(loc_dt_format)
-        clone_issue_name = testplan_model.issue_name+'-clone-'+str(loc_dt_format)
         testplanclone = Testplan.objects.create(name=clonename,project=project_modal,creator=User.objects.get(username=creator.username),
                                 stage = testplan_model.stage , start_date = testplan_model.start_date,end_date=testplan_model.end_date,
-                                assign=testplan_model.assign,text=testplan_model.text,issue_name=clone_issue_name,number_issue=0)
+                                assign=testplan_model.assign,text=testplan_model.text,number_issue=0)
         testplanclone = Testplan.objects.get(name = clonename)
         for instance in tag_list:
             testplanclone.tag.add(Tag.objects.get(name=instance))
+        testplanclone.save()
+        testplan_count_obj = Testplan_count.objects.create(testplan=testplanclone)
+        testplan_count_obj.save()
+        testplanclone.issue_name = 'TP'+issue_name_transfor(testplan_count_obj.id)
         testplanclone.save()
         '''
         create teststep for tester
@@ -71,7 +89,7 @@ def Clone_Models(creator,method,model):
         '''
         建立clone檔案
         '''
-        testcasefortestplan = Testrun.objects.create(name=testrun_model.name,testplan=testplan_model,description=testrun_model.description,creator=creator,number=str(count_number+1),testcase=testrun_model.testcase)
+        testcasefortestplan = Testrun.objects.create(name=testrun_model.name,testplan=testplan_model,description=testrun_model.description,number=str(count_number+1),testcase=testrun_model.testcase)
         for item2 in orignal_testcase_tag:
             testcasefortestplan.tag.add(Tag.objects.get(name=item2.name))
         for item3 in orignal_testcase_assign:

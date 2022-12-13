@@ -1,0 +1,39 @@
+,,,,,
+,,,,,
+編號,驗 證 項 目 描 述,驗 證 判 定 條 件,驗證結果,備註,編修歷史
+,,,,,
+1, Optical Test,,,,
+2, AC Power ON/OFF Characteristics,,,,
+3, AC Power Variation Test,,,,
+4, Brown Out / Recovery Brown out Test,,,,
+5, Energy Star Test,,,,
+6,Thermal Profile,,,,
+7, Acoustic Noise Measurement ,,,,
+8," Cold&Hot Start Test
+1. All function Key
+2. All display Input port
+3. Earphone /Speaker
+4. USB hub (All upstream & downstream)
+5. Other in/out port or function( ex: card reader , touch screen…)","1. Monitor上每個Key能動作
+2. 每一個display input port能點亮，無異常畫面 (漏光，mura等在此條件下不判定)
+3. 播放音樂確認Speaker及Earphone音樂正常無明顯雜音
+4. USB hub的每個port能正常動作(包含upstream及downstream)
+5. DC /AC on /off 後 , 等待畫面穩定至少一分鐘後再執行下次DC /AC on /off
+",,,
+9, Operation Temperature and Humidity Test,在各溫度點，除了performance和function /Audio check，也要確驗畫面顏色正常,,,
+10, Non-operating Temperature and Humidity Test,,,,
+11, Package Storage Test ,,,,
+12, Condensation Test,,,,
+13, Touch MNT Vapor test ,,,,
+14, Harmonic Test,,,,
+15, Flicker Test,,,,
+16, ESDTest,,,,
+17, TCO Test,,,,
+18, Surge Test,,,,
+19," CS Test
+1. 週邊全部接上
+2. 播音樂
+3. 若有Touch screen需要全程畫線","2. 播音樂無雜音
+3. 全程畫線 , 不能斷線",,,
+20, Voltage Dip Test,,,,
+21, Hi-Pot Test,,,,
