@@ -35,7 +35,7 @@ const Cancel_info_btn = document.getElementById('Cancel_info_btn')
 var save_info_div = document.querySelectorAll('.info_savemode')
 var edit_info_div = document.querySelectorAll('.info_editmode')
 var error_name_msg = document.getElementById('error-name')
-var error_time_msg = document.getElementById('invalid-project-time')
+// var error_time_msg = document.getElementById('invalid-project-time')
 var project_title = document.getElementById('project_title')
 const save_name_p = document.getElementById('save_name')
 const save_tag_p = document.getElementById('save_tag')
@@ -83,18 +83,18 @@ function _Cancel_info(DOM){
     $('#id_tag').val(temp_tag_list)
     $('#id_tag').selectpicker("refresh");
     // reset time
-    save_start_date = document.getElementById('save_start_date').innerHTML.replaceAll('開始日: ','')
-    save_end_date = document.getElementById('save_end_date').innerHTML.replaceAll('結束日: ','')
-    if (save_start_date != '未選擇日期'){
-        edit_start_date_input.value = save_start_date
-    }else{
-        edit_start_date_input.value = ''
-    }
-    if (save_end_date != '未選擇日期'){
-        edit_end_date_input.value = save_end_date
-    }else{
-        edit_end_date_input.value = ''
-    }
+    // save_start_date = document.getElementById('save_start_date').innerHTML.replaceAll('開始日: ','')
+    // save_end_date = document.getElementById('save_end_date').innerHTML.replaceAll('結束日: ','')
+    // if (save_start_date != '未選擇日期'){
+    //     edit_start_date_input.value = save_start_date
+    // }else{
+    //     edit_start_date_input.value = ''
+    // }
+    // if (save_end_date != '未選擇日期'){
+    //     edit_end_date_input.value = save_end_date
+    // }else{
+    //     edit_end_date_input.value = ''
+    // }
     // reset client
     client_data = document.getElementById('save_client').innerHTML.replaceAll('客戶: ','')
     console.log(client_data)
@@ -119,8 +119,8 @@ function _Cancel_info(DOM){
     Save_info_btn.classList.add('hidden')
     Edit_info_btn.classList.remove('hidden')
 
-    error_time_msg.classList.add('hidden')
-    error_name_msg.classList.add('hidden')
+    // error_time_msg.classList.add('hidden')
+    // error_name_msg.classList.add('hidden')
 
     save_info_div.forEach(element => {
         element.classList.remove('hidden')
@@ -156,19 +156,19 @@ function save_info_django() {
     }else{
         error_name_msg.classList.add('hidden')
     }
-    if (data_dict['end_date'] != '' && data_dict['start_date'] != '') {
-        var start_date = new Date(data_dict['start_date'])
-        var end_date = new Date(data_dict['end_date'])
+    // if (data_dict['end_date'] != '' && data_dict['start_date'] != '') {
+    //     var start_date = new Date(data_dict['start_date'])
+    //     var end_date = new Date(data_dict['end_date'])
         
-        if (start_date.getTime() >= end_date.getTime()) {
-            error_time_msg.classList.remove('hidden')
-            bool_ajax = false
-        } else {
-            error_time_msg.classList.add('hidden')
-        }
-    } else {
-        error_time_msg.classList.add('hidden')
-    }
+    //     if (start_date.getTime() >= end_date.getTime()) {
+    //         error_time_msg.classList.remove('hidden')
+    //         bool_ajax = false
+    //     } else {
+    //         error_time_msg.classList.add('hidden')
+    //     }
+    // } else {
+    //     error_time_msg.classList.add('hidden')
+    // }
     if (bool_ajax == true){
         $.ajax({
             type: 'POST',
@@ -200,8 +200,8 @@ function Save_info_mode() {
     var tag_list = $('#id_tag').val()
     var client = $('#id_client').val()
     var assign = $('#edit_assign_select').val()
-    var start_date = $('#edit_start_date_input').val()
-    var end_date = $('#edit_end_date_input').val()
+    // var start_date = $('#edit_start_date_input').val()
+    // var end_date = $('#edit_end_date_input').val()
     project_title.innerHTML = `${name_data}`
     save_name_p.innerHTML = `名稱: ${name_data}`
     save_context_div.innerHTML = `${context_data}<br>`
@@ -213,16 +213,16 @@ function Save_info_mode() {
             save_tag_p.innerHTML += ` <span style="color:#5DADE2;">${tag_list[item]}</span>`
         }
     }
-    if (start_date != ''){
-        save_start_date_p.innerHTML = `開始日: ${start_date}`
-    }else{
-        save_start_date_p.innerHTML = `開始日: 未選擇日期`
-    }
-    if (end_date != ''){
-        save_end_date_p.innerHTML = `結束日: ${end_date}`
-    }else{
-        save_end_date_p.innerHTML = `結束日: 未選擇日期`
-    }
+    // if (start_date != ''){
+    //     save_start_date_p.innerHTML = `開始日: ${start_date}`
+    // }else{
+    //     save_start_date_p.innerHTML = `開始日: 未選擇日期`
+    // }
+    // if (end_date != ''){
+    //     save_end_date_p.innerHTML = `結束日: ${end_date}`
+    // }else{
+    //     save_end_date_p.innerHTML = `結束日: 未選擇日期`
+    // }
     
     if (assign != 'None') {
         save_assign_p.innerHTML = `負責人: ${assign}`
