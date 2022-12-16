@@ -29,7 +29,7 @@ def get_progress_data_testplan(item):
     item : Testplan Model
     if item is not Testplan Model will use Testplan_group Model
     '''
-    temp_value_list = [0,0,0,0,0,0]
+    temp_value_list = [0,0,0,0,0,0,0]
     try:
         testrun_teststep_list = Testrun.objects.filter(testplan = item)
     except:
@@ -51,6 +51,7 @@ def get_progress_data_testplan(item):
             temp_value_list[3]+=1
         temp_value_list[4]+=1
     temp_value_list[5] = temp_value_list[2]+temp_value_list[1]
+    temp_value_list[6] = temp_value_list[4]
     temp_value_list[4] = temp_value_list[4]/100
     return temp_value_list
 
