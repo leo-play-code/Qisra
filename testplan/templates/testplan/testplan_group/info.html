@@ -3,7 +3,7 @@
         width: 70% !important;
     }
 </style>
-<div class="col-md-3" id="first_box_info_1" >
+<div class="col-xl-4 col-lg-12" id="first_box_info_1" >
     <div id="info_savemode_left" class="info_savemode">
         <div class="info_border">
             <h1><span>項目名稱</span></h1>
@@ -133,7 +133,7 @@
                         </select>
                     </div>
                 </p>
-                <p id="edit_testrun_count">Number of Test Case: {{testplan_group.testcase_list|length}}</p>
+                <p id="save_testrun_count">Number of Testrun: {{testplan_progress_list.6}}</p>
                 <p id="edit_status" style="color: blue;">狀態:&nbsp&nbsp&nbsp   
                     {% if testplan_group.status == '2' %}
                         <input type="radio" class="btn-check" name="testplan_status_option_edit" id="Ongoing-outlined-testplan-edit" autocomplete="off" checked>
@@ -164,8 +164,8 @@
         
     </div>
 </div>
-<div class="col-md-2" id="first_box_info_2"></div>
-<div class="col-md-3">
+<div class="col-xl-1 col-lg-12" id="first_box_info_2"></div>
+<div class="col-xl-3 col-lg-12">
     <div id="info_savemode_right" class="info_savemode">
         <div class="info_border " >
             <h1><span>人員名單</span></h1>
@@ -233,7 +233,7 @@
     </div>
 </div>
 
-<div class="col-md-4" id="upload_testplan_div">
+<div class="col-xl-4 col-lg-12" id="upload_testplan_div">
     <div style="float:right">
         {% if testplan_group.status == '2' and current_user.username == testplan_group.assign.username %}
             <button type="button" class="btn btn-success" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>

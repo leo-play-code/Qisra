@@ -82,6 +82,12 @@ class DashboardView(TemplateView):
     template_name = "main/dashboard.html"
     def get_context_data(self, **kwargs):
         current_user = self.request.user
+        # testplan single on-going
+        Testplan_ongoing_list = Testplan.objects.all()
+        Testplan_ongoing_list = Testplan_ongoing_list.filter(Q(status='2'))
+        Testplan_ongoing_dict = {}
+        for testplan_item in Testplan_ongoing_list:
+            Testplan_ongoing_dict[testplan_item] = get_progress_data_testplan(testplan_item)
         # testplan creator
         Testplan_creator_list = Testplan.objects.filter(creator=current_user).order_by('status')
         Testplan_creator_list = Testplan_creator_list.filter(Q(status='1')|Q(status='2')|Q(status='3')|Q(status='4')).order_by('status')
@@ -105,12 +111,19 @@ class DashboardView(TemplateView):
                 if testrun_item.testplans.testplan_group.assign != current_user:
                     if testrun_item.testplans.testplan_group not in testplan_support_list:
                         testplan_support_list.append(testrun_item.testplans.testplan_group)
-        
+
         
 
         testplan_support_dict = {}
         for testplan_item in testplan_support_list:
             testplan_support_dict[testplan_item] = get_progress_data_testplan(testplan_item)
+        # testplan group on-going
+        testplan_group_ongoing_list = Testplan_Group.objects.all()
+        testplan_group_ongoing_list = testplan_group_ongoing_list.filter(Q(status='2'))
+        testplan_group_ongoing_dict = {}
+        for testplan_item in testplan_group_ongoing_list:
+            testplan_group_ongoing_dict[testplan_item] = get_progress_data_testplan(testplan_item) 
+
         # testplan group creator
         Testplan_group_creator_list = Testplan_Group.objects.filter(creator=current_user).order_by('status')
         Testplan_group_creator_list = Testplan_group_creator_list.filter(Q(status='1')|Q(status='2')|Q(status='3')|Q(status='4')).order_by('status')
@@ -134,7 +147,11 @@ class DashboardView(TemplateView):
         Testplan_assign_count = Testplan_assign_list.count()+Testplan_group_assign_list.count()
         # count testrun assign
         testrun_assign_count = len(testrun_assign_list)
+        # count testplan all ongoing
+        testplan_all_count = len(Testplan_ongoing_list)+len(testplan_group_ongoing_list)
         return {
+            'Testplan_ongoing_dict':Testplan_ongoing_dict,
+            'testplan_group_ongoing_dict':testplan_group_ongoing_dict,
             'Testplan_creator_list':Testplan_creator_list,
             'Testplan_creator_dict':Testplan_creator_dict,
             'Testplan_assign_list':Testplan_assign_list,
@@ -148,7 +165,8 @@ class DashboardView(TemplateView):
             'testplan_open_count':testplan_open_count,
             'testplan_close_count':testplan_close_count,
             'Testplan_assign_count':Testplan_assign_count,
-            'testrun_assign_count':testrun_assign_count
+            'testrun_assign_count':testrun_assign_count,
+            'testplan_all_count':testplan_all_count
         }
         
 

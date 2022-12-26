@@ -7,7 +7,7 @@
         width: 70% !important;
     }
 </style>
-<div class="col-md-3" id="first_box_info_1" >
+<div class="col-xl-4 col-lg-12" id="first_box_info_1" >
     <div id="info_savemode_left" class="info_savemode">
         <div class="info_border">
             <h1><span>項目名稱</span></h1>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <br>
-        <div class="info_border" style="height: 350px;">
+        <div class="info_border" style="height: 400px;">
             <h1><span>項目屬性</span></h1>
             <div class="info_show_left">
                 <p id="edit_class">類型: Testplan</p>
@@ -170,8 +170,8 @@
         
     </div>
 </div>
-<div class="col-md-2" id="first_box_info_2"></div>
-<div class="col-md-3">
+<div class="col-xl-1 col-lg-12" id="first_box_info_2"></div>
+<div class="col-xl-3 col-lg-12">
     <div id="info_savemode_right" class="info_savemode">
         <div class="info_border " >
             <h1><span>人員名單</span></h1>
@@ -239,7 +239,7 @@
     </div>
 </div>
 
-<div class="col-md-4" id="upload_testplan_div">
+<div class="col-xl-4 col-lg-12" id="upload_testplan_div">
     <div style="float:right">
         {% if testplan.status == '2' and current_user.username == testplan.assign.username %}
             <button type="button" class="btn btn-success" id="upload-testplan" onclick="return _Upload_testplan_method(this)">申報結案</button>

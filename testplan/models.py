@@ -7,13 +7,6 @@ from ckeditor.fields import RichTextField
 from simple_history.models import HistoricalRecords
 
 
-
-
-
-
-
-
-
 # testplan group
 class Testplan_Group(models.Model):
     '''
