@@ -63,8 +63,8 @@ conda activate <env_name>
 ```
 
 # Virtualenv
+
+- MacOS
 ```jsx
 source name_env/bin/activate
 ```
-- MacOS
-
