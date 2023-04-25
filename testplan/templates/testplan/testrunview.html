@@ -6,8 +6,10 @@
     <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
 {% endblock %}
 {% block contents %}       
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <script src="{% static 'cdn/ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'cdn/cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' %}" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> -->
     <link rel="stylesheet"  type="text/css" href="{% static 'testplan/css/status_color.css' %}">
     <link rel="stylesheet"  type="text/css" href="{% static 'testcase/css/info.css' %}">
     <link rel="stylesheet"  type="text/css" href="{% static 'testplan/css/testrun.css' %}">

@@ -22,7 +22,7 @@ DEBUG = True
 #                  "127.0.0.1"]
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1',
-                        'https://qisrabeta2.herokuapp.com/','https://d7ee-118-167-110-203.jp.ngrok.io']
+                        'https://qisrabeta2.herokuapp.com/']
 # root of url
 ROOT_URL = 'http://127.0.0.1:8000'
 # 
@@ -174,7 +174,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles20221226beta1')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles20230105')
 # STATIC_ROOT = "/static/"
 STATIC_URL = '/static/'
 

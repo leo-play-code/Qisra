@@ -10,20 +10,24 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Login</title>
     <!-- Boostrao css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cdn/cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' %}" />
     <!-- MDB icon -->
     <link rel="icon"href="{% static 'images/favicon.ico' %}">
     <!-- Font Awesome -->
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+    <!-- <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    /> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cdn/cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css' %}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'cdn/cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' %}" /> -->
     <!-- Google Fonts Roboto -->
     <style type="text/css">body {zoom:1.2;}</style>
-    <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
-    />
+    <!-- <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    /> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cdn/fonts.googleapis.com/robot.css' %}" />
     <!-- MDB -->
     <link rel="stylesheet" href="{% static 'register_model/css/mdb.css' %}" />
 </head>
@@ -206,9 +210,11 @@
    
 </form>
     <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
+    <script src="{% static 'cdn/cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' %}"></script>
     <!-- jquery js -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <script src="{% static 'cdn/ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' %}"></script>
     <!-- MDB -->
     <script type="text/javascript" src="{% static 'register_model/js/mdb.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'signup_app/js/login.js' %}"></script>
