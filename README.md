@@ -65,6 +65,11 @@ conda activate <env_name>
 # Virtualenv
 
 - MacOS
+
 ```jsx
 source name_env/bin/activate
 ```
+
+# Notice:
+
+### Github 下載下來的話需要自己建立`media/uploads` 在Qisra下面
